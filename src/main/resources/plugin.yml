@@ -1,0 +1,13 @@
+name: TreeboTeleport
+version: ${project.version}
+main: me.shakeforprotein.treeboteleport.TreeboTeleport
+api-version: 1.13
+authors: [ShakeforProtein]
+description: Teleport and Hub functions
+website: treebo.games
+
+commands:
+  hub:
+    description: 'Replaces existing hub command'
+    usage:
+    aliases: [TTHub]
