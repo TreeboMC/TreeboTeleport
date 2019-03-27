@@ -20,15 +20,16 @@ public class Hub implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            String w = player.getWorld().getName();
-            if (cmd.getName().equalsIgnoreCase("hub")) {
-                if (args.length == 0){
-                    openHubMenu.openHubMenu((Player) sender);
-                }
-                else{
-                    sender.sendMessage("The HUB command does not support additional arguments");
+        if (pl.getCD((Player) sender)) {
+            if (sender instanceof Player && sender.hasPermission("tbteleport.hub")) {
+                Player player = (Player) sender;
+                String w = player.getWorld().getName();
+                if (cmd.getName().equalsIgnoreCase("hub")) {
+                    if (args.length == 0) {
+                        openHubMenu.openHubMenu((Player) sender);
+                    } else {
+                        sender.sendMessage(pl.err + "The HUB command does not support additional arguments");
+                    }
                 }
             }
         }

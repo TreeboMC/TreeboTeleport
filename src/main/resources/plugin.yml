@@ -11,3 +11,173 @@ commands:
     description: 'Replaces existing hub command'
     usage:
     aliases: [TTHub]
+    permission: tbtteleport.hub
+    permission-message: 'Unknown Command'
+  concept:
+    description: 'Proof of concept'
+    usage: <command> <server> <world>
+    permission: tbteleport.concept
+    permission-message: 'Unknown Command'
+  wild:
+    description: 'Random Teleport in current world'
+    usage: <command>
+    permission: tbteleport.wild
+    permission-message: 'Unknown Command'
+  ttwild:
+    description: 'Random Teleport in current world'
+    usage: <command>
+    permission: tbteleport.wild
+    permission-message: 'Unknown Command'
+  gws:
+    description: 'returns current world spawn coordinates'
+    usage: <command>
+    permission: tbteleport.gws
+    permission-message: 'Unknown Command'
+  sws:
+    description: 'Sets world spawn to current location and bearing'
+    usage: <command>
+    permission: tbteleport.sws
+    permission-message: 'Unknown Command'
+  tp2player:
+    description: 'Force Teleports Yourself to Player'
+    usage: <command> <player>
+    permission: tbteleport.tp2player
+    permission-message: 'You lack the required permissions'
+  tp2me:
+    description: 'Force Teleports player to yourself'
+    usage: <command> <player>
+    permission: tbteleport.tp2me
+    permission-message: 'You lack the required permissions'
+  tp2pos:
+    description: 'Teleports command sender to x,z or x,y,z or x z, or x y z'
+    usage: <command> <x> <y> <z>
+    permission: tbteleport.tp2pos
+    permission-message: 'You lack the required permissions'
+  tp2worldat:
+    description: 'Teleports player to world at position'
+    usage: <command> <world> <x> <y> <z>
+    permission: tbteleport.tp2worldat
+    permission-message: 'You lack the required permissions'
+  tp2mepls:
+    description: 'Requests a player teleports to the sender'
+    usage: <command> <world> <x> <y> <z>
+    permission: tbteleport.tp2mepls
+    permission-message: 'You lack the required permissions'
+  mayitp:
+    description: 'Requests permission to teleport to another player'
+    usage: <command> <player>
+    permission: tbteleport.mayitp
+    permission-message: 'You lack the required permissions'
+  tpok:
+    description: 'Teleports player to world at position'
+    usage: <command>
+    permission: tbteleport.tpok
+    permission-message: 'You lack the required permissions'
+  givehubitem:
+    description: 'Gives command sender the hub item'
+    usage: <command>
+    permission: tbteleport.givehubitem
+    permission-message: 'You lack the required permissions'
+  showdisplayname:
+    description: 'Gives command sender the hub item'
+    usage: <command>
+  setwarp:
+    description: 'Allows a player to create a warp point'
+    usage: <command> <warp name>
+    permission: tbteleport.setwarp
+  deletewarp:
+    description: 'Allows a player to delete a warp point'
+    usage: <command> <warp name>
+    permission: tbteleport.deletewarp
+  warpto:
+    description: 'Teleports player to a warp point'
+    usage: <command> <warp name>
+    permission: tbteleport.warpto
+  sethome:
+    description: 'Allows a player to set a home'
+    usage: <command> <home name>
+    permission: tbteleport.sethome
+  delhome:
+    description: 'Allows a player to delete a home'
+    usage: <command> <home name>
+    permission: tbteleport.delhome
+  home:
+    description: 'Allows a player to set a home'
+    usage: <command> <home name>
+    permission: tbteleport.home
+  bed:
+    description: 'Allows a player to teleport to their bed location'
+    usage: <command>
+    permission: tbteleport.bed
+  spawn:
+    description: 'Allows a player to return to spawn'
+    usage: <command>
+    permission: tbteleport.spawn
+  sendspawn:
+    description: 'Allows a player to send other players to spawn'
+    usage: <command>
+    permission: tbteleport.sendspawn
+  setworldspawn:
+    description: 'Allows a player to set a worlds spawn location'
+    usage: <command>
+    permission: tbteleport.setspawn
+  ttelereload:
+    description: 'Allows a player to set a worlds spawn location'
+    usage: <command>
+    permission: tbteleport.setspawn
+
+permissions:
+  tbteleport.updatechecker:
+    default: op
+  tbteleport.reload:
+    default: op
+  tbteleport.hub:
+    default: true
+  tbteleport.wild:
+    default: true
+  tbteleport.concept:
+    default: op
+  tbteleport.gws:
+    default: op
+  tbteleport.sws:
+    default: op
+  tbteleport.tp2player:
+    default: op
+  tbteleport.tp2me:
+    default: op
+  tbteleport.tp2pos:
+    default: op
+  tbteleport.tp2worldat:
+    default: op
+  tbteleport.tp2mepls:
+    default: true
+  tbteleport.mayitp:
+    default: true
+  tbteleport.tpok:
+    default: true
+  tbteleport.givehubitem:
+    default: true
+  tbteleport.fasttravel:
+    default: op
+  tbteleport.setwarp:
+    default: op
+  tbteleport.deletewarp:
+    default: op
+  tbteleport.warpto:
+    default: true
+  tbteleport.home:
+    default: true
+  tbteleport.sethome:
+    default: true
+  tbteleport.delhome:
+    default: true
+  tbteleport.maxhomes.3:
+    default: true
+  tbteleport.bed:
+    default: true
+  tbteleport.spawn:
+    default: true
+  tbteleport.setspawn:
+    default: op
+  tbteleport.sendspawn:
+    default: op

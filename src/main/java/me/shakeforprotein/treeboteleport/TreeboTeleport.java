@@ -1,25 +1,49 @@
 package me.shakeforprotein.treeboteleport;
 
-import me.shakeforprotein.treeboteleport.Commands.Hub;
+import io.github.leonardosnt.bungeechannelapi.BungeeChannelApi;
+import me.shakeforprotein.treeboteleport.Commands.*;
+import me.shakeforprotein.treeboteleport.Listeners.*;
+import me.shakeforprotein.treeboteleport.Methods.Teleports.ToWorld;
 import me.shakeforprotein.treeboteleport.UpdateChecker.UpdateChecker;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class TreeboTeleport extends JavaPlugin {
 
+    private HubMenuInventoryListener hubMenuInventoryListener = new HubMenuInventoryListener(this);
+    private HubItemListener hubItemListener = new HubItemListener(this);
+    private ToWorld toWorld = new ToWorld(this);
 
-
+    public BungeeChannelApi bungeeApi = new BungeeChannelApi(this);
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        /*
+        getConfig().options().copyDefaults(true);
+        getConfig().set("version", this.getDescription().getVersion());
+        saveConfig();
+
         host = getConfig().getString("host");
         port = getConfig().getInt("port");
         database = getConfig().getString("database");
@@ -27,10 +51,10 @@ public final class TreeboTeleport extends JavaPlugin {
         password = getConfig().getString("password");
         table = getConfig().getString("transferTable");
 
-        createTable(table);
+        //createTable(table);
 
 
-        try {
+       /* try {
             openConnection();
             Statement statement = connection.createStatement();
         } catch (ClassNotFoundException e) {
@@ -42,9 +66,69 @@ public final class TreeboTeleport extends JavaPlugin {
         */
         //Set Command Executors
         this.getCommand("hub").setExecutor(new Hub(this));
+        this.getCommand("ttwild").setExecutor(new Wild(this));
+        this.getCommand("wild").setExecutor(new Wild(this));
+        this.getCommand("gws").setExecutor(new GetWorldSpawn(this));
+        this.getCommand("sws").setExecutor(new SetVanillaWorldSpawn(this));
+        this.getCommand("tp2player").setExecutor(new Tp2Player(this));
+        this.getCommand("tp2me").setExecutor(new Tp2Me(this));
+        this.getCommand("tp2pos").setExecutor(new Tp2Pos(this));
+        this.getCommand("tp2worldat").setExecutor(new Tp2WorldAt(this));
+        this.getCommand("tp2mepls").setExecutor(new Tp2MePls(this));
+        this.getCommand("mayitp").setExecutor(new MayITp(this));
+        this.getCommand("tpok").setExecutor(new TpOk(this));
+        this.getCommand("givehubitem").setExecutor(new GiveHubItem(this));
+        this.getCommand("setwarp").setExecutor(new SetWarp(this));
+        this.getCommand("deletewarp").setExecutor(new DeleteWarp(this));
+        this.getCommand("warpto").setExecutor(new WarpTo(this));
+        this.getCommand("sethome").setExecutor(new SetHome(this));
+        this.getCommand("delhome").setExecutor(new DeleteHome(this));
+        this.getCommand("home").setExecutor(new Home(this));
+        this.getCommand("bed").setExecutor(new Bed(this));
+        this.getCommand("setworldspawn").setExecutor(new SetWorldSpawn(this));
+        this.getCommand("spawn").setExecutor(new Spawn(this));
+        this.getCommand("sendspawn").setExecutor(new SendSpawn(this));
+        this.getCommand("ttelereload").setExecutor(new Reload(this));
 
-        getConfig().options().copyDefaults(true);
-        getConfig().set("Version", this.getDescription().getVersion());
+
+        File serverFile = new File(getDataFolder(), File.separator + "servers.yml");
+        FileConfiguration serverList = YamlConfiguration.loadConfiguration(serverFile);
+
+        if(!serverFile.exists()) {
+            try {
+                serverFile.createNewFile();
+                try {
+                    serverList.options().copyDefaults();
+                    serverList.save(serverFile);
+                } catch (FileNotFoundException e) {
+                    makeLog(e);
+                }
+            } catch (IOException e) {
+                makeLog(e);
+            }
+        }
+
+        for (String item : serverList.getConfigurationSection("servers").getKeys(false)) {
+            BukkitCommand item2 = new BukkitCommand(item) {
+                @Override
+                public boolean execute(CommandSender commandSender, String s, String[] strings) {
+                    Player p = (Player) commandSender;
+                    String serverTo = serverList.getString("servers." + item + ".server");
+                    String worldTo = serverList.getString("servers." + item + ".world");
+                    toWorld.toWorld(serverTo, worldTo, p);
+                    return false;
+                }
+            };
+            registerNewCommand(this.getDescription().getName(), item2);
+        }
+
+        getServer().getPluginManager().registerEvents(new HubItemListener(this), this);
+        getServer().getPluginManager().registerEvents(new HubMenuInventoryListener(this), this);
+        getServer().getPluginManager().registerEvents(new BedClickListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
+
+
         UpdateChecker uc = new UpdateChecker(this);
         uc.getCheckDownloadURL();
     }
@@ -53,16 +137,20 @@ public final class TreeboTeleport extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+
     /*
     try{
+
         connection.close();
     }
     catch(SQLException e){
         int doesNothing = 1;
         }
-        */
+    */
     }
 
+    public String badge = ChatColor.translateAlternateColorCodes('&', getConfig().getString("general.messages.badge") + " ");
+    public String err = badge + ChatColor.translateAlternateColorCodes('&', getConfig().getString("general.messages.error") + " ");
 
     public Connection connection;
     private String host, database, username, password;
@@ -117,6 +205,69 @@ public final class TreeboTeleport extends JavaPlugin {
             System.out.println("Error creating new log file for " + getDescription().getName() + " - " + getDescription().getVersion());
             System.out.println("Error was as follows");
             System.out.println(e.getMessage());
+        }
+    }
+
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean getCD(Player p){
+        if(getConfig().get("CommandCooldowns." + p.getName()) != null){
+            long now = System.currentTimeMillis();
+            long lastRun = getConfig().getInt("CommandCooldowns." + p.getName());
+            int timer = getConfig().getInt("CommandDelay") * 1000;
+
+            boolean cooldown = now > (lastRun + timer);
+
+            if(!cooldown){
+                p.sendMessage(badge + "That command is currently on cooldown.");
+            }
+
+            setCooldown(p);
+
+            return (cooldown);
+        }
+        else{
+            setCooldown(p);
+            return false;
+        }
+    }
+
+    public boolean setCooldown(Player p){
+        getConfig().set("CommandCooldowns." + p.getName(), System.currentTimeMillis());
+        return true;
+    }
+
+    public ItemStack getHubItem() {
+        File menuYml = new File(getDataFolder(), File.separator + "hubMenu.yml");
+        FileConfiguration hubMenu = YamlConfiguration.loadConfiguration(menuYml);
+
+        ItemStack configItem = new ItemStack(Material.getMaterial(hubMenu.getString("hubItem.item").trim()), 1);
+        ItemMeta confMeta = configItem.getItemMeta();
+        confMeta.setDisplayName(ChatColor.valueOf(hubMenu.getString("hubItem.colour").toUpperCase()) + hubMenu.getString("hubItem.name"));
+        List<String> confItemLore = new ArrayList<String>();
+        confItemLore.add(hubMenu.getString("hubItem.lore"));
+        confMeta.setLore(confItemLore);
+        configItem.setItemMeta(confMeta);
+        return configItem;
+    }
+
+    private void registerNewCommand(String fallback, BukkitCommand command) {
+        try {
+            Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            bukkitCommandMap.setAccessible(true);
+            CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
+            commandMap.register(fallback, command);
+        } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e) {
+            e.printStackTrace();
         }
     }
 }

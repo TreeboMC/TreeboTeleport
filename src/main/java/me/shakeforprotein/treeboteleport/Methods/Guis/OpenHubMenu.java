@@ -47,8 +47,13 @@ public class OpenHubMenu {
         try{
             Set menuItems = hubMenu.getConfigurationSection("hubmenu.menuItems").getKeys(false);
             String[] menuItemStrings = Arrays.copyOf(menuItems.toArray(), menuItems.size(), String[].class);
+            String menuName = "HubMenu";
+            if(hubMenu.get("menuName") != null){
+                menuName = hubMenu.getString("menuName");
+                menuName = ChatColor.translateAlternateColorCodes('&', menuName);
+            }
             int invSize = hubMenu.getInt("hubmenu.menuRows" + "") * 9;
-            Inventory HubMenu = Bukkit.createInventory(null, invSize, "HubMenu");
+            Inventory HubMenu = Bukkit.createInventory(null, invSize, menuName);
 
             for(String item : menuItemStrings){
                 Material icon = Material.getMaterial(hubMenu.getString("hubmenu.menuItems." + item + ".icon"));

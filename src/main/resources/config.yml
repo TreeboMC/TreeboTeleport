@@ -6,4 +6,25 @@ host: ''
 database: ''
 username: ''
 password: ''
-transferTable: ' '
+transferTable: 'treeboTeleport_serverTransfer'
+
+CommandDelay: 15
+
+CommandCooldowns:
+  ShakeforProtein: 0
+
+general:
+  messages:
+    badge: '&6[Treebo Teleport]&r'
+    error: '&4ERROR:&r'
+
+wild:
+  messages:
+    success: '&3&l[&3Treebo Teleport&3&l] &2Sending you to: &f{COORDS}'
+    failure: '&3&l[&3Treebo Teleport&3&l] &4Unable to locate safe spot. Please try again shortly'
+  minX: -50000
+  maxX: 50000
+  minY: 2
+  maxY: 90
+  minZ: -50000
+  maxZ: 50000

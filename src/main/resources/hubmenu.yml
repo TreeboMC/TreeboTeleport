@@ -1,0 +1,10 @@
+menuName: '&3&lTreebo Network - '
+
+hubItem:
+  item: 'COMPASS'
+  name: 'Tia Dalma''s Compass'
+  colour: 'GOLD'
+  lore: 'Always points to your hearts true desire'
+hubmenu:
+  menuRows: 2
+  menuItems:
