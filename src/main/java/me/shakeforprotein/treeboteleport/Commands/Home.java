@@ -47,40 +47,39 @@ public class Home implements CommandExecutor {
             FileConfiguration homes = YamlConfiguration.loadConfiguration(homesYml);
 
             if (args.length == 0) {
-                p.sendMessage(ChatColor.GOLD + "The following Homes are available for travel:");
-                for (String item : homes.getConfigurationSection("homes").getKeys(false)) {
-                    String command = "tellraw " + p.getName() + " {\"text\":\"[" + homes.getString("homes." + item + ".name") + "]\",\"color\":\"aqua\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/home " + item + "\"}}";
-                    pl.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
-                }
-                if (p.getBedSpawnLocation() != null) {
-                    String command = "tellraw " + p.getName() + " {\"text\":\"[BED]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/home bed\"}}";
-                }
-                p.sendMessage(ChatColor.RED + "[End of List]");
+                if (homes.get("defaultHome") != null) {
+                    String command = "home " + homes.getString("defaultHome");
+                    Bukkit.dispatchCommand(sender, command);
+                } else {
+                    p.sendMessage(ChatColor.GOLD + "The following Homes are available for travel:");
+                    for (String item : homes.getConfigurationSection("homes").getKeys(false)) {
+                        String command = "tellraw " + p.getName() + " {\"text\":\"[" + homes.getString("homes." + item + ".name") + "]\",\"color\":\"aqua\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/home " + item + "\"}}";
+                        pl.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+                    }
+                    if (p.getBedSpawnLocation() != null) {
+                        String command = "tellraw " + p.getName() + " {\"text\":\"[BED]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/home bed\"}}";
+                    }
+                    p.sendMessage(ChatColor.RED + "[End of List]");
 
-            } else if (args.length > 1) {
-                p.sendMessage(pl.err + "Too many arguments");
+                }
             } else {
                 args[0] = args[0].toLowerCase();
+
                 if (args[0].equalsIgnoreCase("bed")) {
-                    if (p.getBedSpawnLocation() != null) {
-                        p.teleport(p.getBedSpawnLocation());
-                    } else {
-                        p.sendMessage(pl.err + "Your home bed is missing.");
-                    }
+                    String command = "bed";
+                    Bukkit.dispatchCommand(sender, command);
+                } else if (homes.get("homes." + args[0] + ".x") != null) {
+                    String world = homes.getString("homes." + args[0] + ".world");
+                    double x = homes.getDouble("homes." + args[0] + ".x");
+                    double y = homes.getDouble("homes." + args[0] + ".y");
+                    double z = homes.getDouble("homes." + args[0] + ".z");
+                    float pitch = (float) homes.getDouble("homes." + args[0] + ".pitch");
+                    float yaw = (float) homes.getDouble("homes." + args[0] + ".yaw");
+                    Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+                    p.sendMessage(pl.badge + "Returning you to: " + ChatColor.GOLD + args[0]);
+                    p.teleport(loc);
                 } else {
-                    if (homes.get("homes." + args[0] + ".x") != null) {
-                        String world = homes.getString("homes." + args[0] + ".world");
-                        double x = homes.getDouble("homes." + args[0] + ".x");
-                        double y = homes.getDouble("homes." + args[0] + ".y");
-                        double z = homes.getDouble("homes." + args[0] + ".z");
-                        float pitch = (float) homes.getDouble("homes." + args[0] + ".pitch");
-                        float yaw = (float) homes.getDouble("homes." + args[0] + ".yaw");
-                        Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
-                        p.sendMessage(pl.badge + "Returning you to: " + ChatColor.GOLD + args[0]);
-                        p.teleport(loc);
-                    } else {
-                        p.sendMessage(pl.err + "No Home found with that name");
-                    }
+                    p.sendMessage(pl.err + "No Home found with that name");
                 }
             }
         }

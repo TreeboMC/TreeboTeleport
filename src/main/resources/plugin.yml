@@ -125,6 +125,14 @@ commands:
     description: 'Allows a player to set a worlds spawn location'
     usage: <command>
     permission: tbteleport.setspawn
+  mergeessdata:
+    description:
+    usage:
+    permission: tbteleport.mergeess
+  fixtthomes:
+    description:
+    usage:
+    permission: tbteleport.mergeess
 
 permissions:
   tbteleport.updatechecker:
@@ -180,4 +188,12 @@ permissions:
   tbteleport.setspawn:
     default: op
   tbteleport.sendspawn:
+    default: op
+  tbteleport.mergeess:
+    default: op
+  tbtteleport.hub:
+    default: true
+  tbteleport.otherhomes:
+    default: op
+  tbteleport.wildother:
     default: op

@@ -25,9 +25,9 @@ public class RespawnListener implements Listener {
     @EventHandler
     public boolean onRespawnEvent(PlayerRespawnEvent e){
         Player p = e.getPlayer();
-        if(p.getBedLocation() != null){
+        if(p.getBedSpawnLocation() != null){
             p.sendMessage(pl.badge + "Sending you to your bed");
-            p.teleport(p.getBedLocation());
+            p.teleport(p.getBedSpawnLocation());
         }
         else{
             File spawnsYml = new File(pl.getDataFolder(), File.separator + "spawns.yml");

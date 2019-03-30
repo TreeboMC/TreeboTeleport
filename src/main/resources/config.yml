@@ -10,6 +10,8 @@ transferTable: 'treeboTeleport_serverTransfer'
 
 CommandDelay: 15
 
+isHubServer: false
+
 CommandCooldowns:
   ShakeforProtein: 0
 

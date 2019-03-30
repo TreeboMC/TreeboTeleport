@@ -4,6 +4,7 @@ import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -44,9 +45,11 @@ public class WarpTo implements CommandExecutor {
                 }
             }
             FileConfiguration warps = YamlConfiguration.loadConfiguration(warpsYml);
-            Player p = (Player) sender;
 
+
+            Player p = (Player) sender;
             if (args.length == 0) {
+
                 p.sendMessage(pl.badge + "The following server warps are available for travel:");
                 for (String item : warps.getConfigurationSection("warps").getKeys(false)) {
                     String command = "tellraw " + p.getName() + " {\"text\":\"[" + warps.getString("warps." + item + ".name") + "]\",\"color\":\"aqua\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/warpto " + item + "\"}}";
@@ -59,7 +62,8 @@ public class WarpTo implements CommandExecutor {
 
             } else if (args.length > 1) {
                 p.sendMessage(pl.err + "Too many arguments");
-            } else {
+            }
+            else {
                 args[0] = args[0].toLowerCase();
                 if (warps.get("warps." + args[0] + ".x") != null) {
                     String world = warps.getString("warps." + args[0] + ".world");

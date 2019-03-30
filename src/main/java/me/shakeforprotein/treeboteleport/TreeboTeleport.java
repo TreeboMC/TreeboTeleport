@@ -89,7 +89,14 @@ public final class TreeboTeleport extends JavaPlugin {
         this.getCommand("spawn").setExecutor(new Spawn(this));
         this.getCommand("sendspawn").setExecutor(new SendSpawn(this));
         this.getCommand("ttelereload").setExecutor(new Reload(this));
+        this.getCommand("mergeessdata").setExecutor(new MergeEssentialsData(this));
+        this.getCommand("fixtthomes").setExecutor(new FixTTHomes(this));
 
+        getServer().getPluginManager().registerEvents(new HubItemListener(this), this);
+        getServer().getPluginManager().registerEvents(new HubMenuInventoryListener(this), this);
+        getServer().getPluginManager().registerEvents(new BedClickListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
 
         File serverFile = new File(getDataFolder(), File.separator + "servers.yml");
         FileConfiguration serverList = YamlConfiguration.loadConfiguration(serverFile);
@@ -121,13 +128,6 @@ public final class TreeboTeleport extends JavaPlugin {
             };
             registerNewCommand(this.getDescription().getName(), item2);
         }
-
-        getServer().getPluginManager().registerEvents(new HubItemListener(this), this);
-        getServer().getPluginManager().registerEvents(new HubMenuInventoryListener(this), this);
-        getServer().getPluginManager().registerEvents(new BedClickListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
-
 
         UpdateChecker uc = new UpdateChecker(this);
         uc.getCheckDownloadURL();
