@@ -26,23 +26,8 @@ public class DeleteWarp implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (pl.getCD((Player) sender)) {
             File warpsYml = new File(pl.getDataFolder(), File.separator + "warps.yml");
-            if (!warpsYml.exists()) {
-                sender.sendMessage(pl.err + "Warps Data not found. Attempting to Recover.");
-                try {
-                    warpsYml.createNewFile();
-                    FileConfiguration warps = YamlConfiguration.loadConfiguration(warpsYml);
-                    try {
-                        warps.options().copyDefaults();
-                        warps.save(warpsYml);
-                    } catch (FileNotFoundException e) {
-                        pl.makeLog(e);
-                    }
-                } catch (IOException e) {
-                    pl.makeLog(e);
-                    sender.sendMessage(pl.err + "Creating warps file failed");
-                }
-            }
-            FileConfiguration warps = YamlConfiguration.loadConfiguration(warpsYml);
+
+            YamlConfiguration warps = pl.getYaml("","warps.yml");
             Player p = (Player) sender;
 
             if (args.length == 0) {

@@ -105,6 +105,10 @@ commands:
     description: 'Allows a player to set a home'
     usage: <command> <home name>
     permission: tbteleport.home
+  homes:
+    description: 'Allows a player to list their home'
+    usage: <command> <home name>
+    permission: tbteleport.home
   bed:
     description: 'Allows a player to teleport to their bed location'
     usage: <command>
@@ -126,13 +130,28 @@ commands:
     usage: <command>
     permission: tbteleport.setspawn
   mergeessdata:
-    description:
-    usage:
+    description: ''
+    usage: <command>
     permission: tbteleport.mergeess
   fixtthomes:
-    description:
-    usage:
+    description: ''
+    usage: <command>
     permission: tbteleport.mergeess
+  configurehomes:
+    description: 'Allows a player to configure their homes gui'
+    usage: <command> <home name>
+    permission: tbteleport.home
+  configurewarps:
+    description: 'Allows a player to configure the warps gui'
+    usage: <command>
+    permission: tbteleport.setwarp
+  configurehub:
+    description: 'Allows a player to configure the hub gui'
+    usage: <command>
+    permission: tbteleport.setwarp
+  clearmychat:
+    description: ''
+    usage: ''
 
 permissions:
   tbteleport.updatechecker:

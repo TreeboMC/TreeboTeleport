@@ -1,8 +1,6 @@
 package me.shakeforprotein.treeboteleport.Listeners;
 
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -13,7 +11,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class BedClickListener implements Listener {
@@ -27,46 +24,31 @@ public class BedClickListener implements Listener {
     @EventHandler
     private void onBedInteract(PlayerInteractEvent e) {
         Player p = e.getPlayer();
+        File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId() + ".yml");
+        FileConfiguration homes = YamlConfiguration.loadConfiguration(homesYml);
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Material b = e.getClickedBlock().getType();
 
             if (b.toString().contains("_BED")) {
-
-                File bedYml = new File(pl.getDataFolder(), File.separator + "beds.yml");
-                if (!bedYml.exists()) {
-                    try {
-                        bedYml.createNewFile();
-                        FileConfiguration bed = YamlConfiguration.loadConfiguration(bedYml);
-                        try {
-                            bed.options().copyDefaults();
-                            bed.save(bedYml);
-                        } catch (FileNotFoundException err) {
-                            pl.makeLog(err);
-                        }
-                    } catch (IOException err) {
-                        pl.makeLog(err);
-                    }
-                }
-
-                FileConfiguration bed = YamlConfiguration.loadConfiguration(bedYml);
-                Location loc = e.getClickedBlock().getLocation();
-                String world = loc.getWorld().getName();
-                double x = loc.getX();
-                double y = loc.getY();
-                double z = loc.getZ();
-
-                bed.set("beds.UUID" + p.getUniqueId() + ".owner", p.getUniqueId());
-                bed.set("beds.UUID" + p.getUniqueId() + ".name", p.getName());
-                bed.set("beds.UUID" + p.getUniqueId() + ".world", world);
-                bed.set("beds.UUID" + p.getUniqueId() + ".x", x);
-                bed.set("beds.UUID" + p.getUniqueId() + ".y", y);
-                bed.set("beds.UUID" + p.getUniqueId() + ".z", z);
-                p.setBedSpawnLocation(loc, true);
+                p.setBedSpawnLocation(e.getClickedBlock().getLocation());
+                int x = p.getBedSpawnLocation().getBlockX();
+                int y = p.getBedSpawnLocation().getBlockY() + 1;
+                int z = p.getBedSpawnLocation().getBlockZ();
+                double pitch = p.getBedSpawnLocation().getPitch();
+                double yaw = p.getBedSpawnLocation().getYaw();
+                String world = p.getBedSpawnLocation().getWorld().getName();
+                homes.set("bed.x", x);
+                homes.set("bed.y", y);
+                homes.set("bed.z", z);
+                homes.set("bed.pitch", pitch);
+                homes.set("bed.yaw", yaw);
+                homes.set("bed.world", world);
                 try {
-                    bed.save(bedYml);
-                    p.sendMessage(pl.badge + ChatColor.GREEN + "Bed Point Set");
-                } catch (IOException err) {
-                    pl.makeLog(err);
+                    homes.save(homesYml);
+                    p.sendMessage(pl.badge + "Bed Location Set.");
+                }
+                catch (IOException err){
+                    p.sendMessage(pl.err + "Failed to save home");
                 }
             }
         }

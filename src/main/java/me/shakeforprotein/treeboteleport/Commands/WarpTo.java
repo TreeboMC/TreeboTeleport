@@ -1,5 +1,6 @@
 package me.shakeforprotein.treeboteleport.Commands;
 
+import me.shakeforprotein.treeboteleport.Methods.Guis.OpenWarpsMenu;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,17 +20,19 @@ import java.io.IOException;
 public class WarpTo implements CommandExecutor {
 
     private TreeboTeleport pl;
+    private OpenWarpsMenu openWarpsMenu;
 
     public WarpTo(TreeboTeleport main){
         this.pl = main;
+        openWarpsMenu = new OpenWarpsMenu(pl);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (pl.getCD((Player) sender)) {
-            File warpsYml = new File(pl.getDataFolder(), File.separator + "warps.yml");
+            File warpsYml = new File(pl.getDataFolder(), "warps.yml");
             if (!warpsYml.exists()) {
-                sender.sendMessage(pl.err + "Warps data not found. Attempting to recover");
+                System.out.println(pl.err + "Warps data not found. Attempting to recover");
                 try {
                     warpsYml.createNewFile();
                     FileConfiguration warps = YamlConfiguration.loadConfiguration(warpsYml);
@@ -41,7 +44,7 @@ public class WarpTo implements CommandExecutor {
                     }
                 } catch (IOException e) {
                     pl.makeLog(e);
-                    sender.sendMessage(pl.err + "Creating warps file failed");
+                    System.out.println(pl.err + "Creating warps file failed");
                 }
             }
             FileConfiguration warps = YamlConfiguration.loadConfiguration(warpsYml);
@@ -49,16 +52,7 @@ public class WarpTo implements CommandExecutor {
 
             Player p = (Player) sender;
             if (args.length == 0) {
-
-                p.sendMessage(pl.badge + "The following server warps are available for travel:");
-                for (String item : warps.getConfigurationSection("warps").getKeys(false)) {
-                    String command = "tellraw " + p.getName() + " {\"text\":\"[" + warps.getString("warps." + item + ".name") + "]\",\"color\":\"aqua\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/warpto " + item + "\"}}";
-                    pl.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
-                }
-                String command = "tellraw " + p.getName() + " {\"text\":\"[Spawn]\",\"color\":\"aqua\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/spawn\"}}";
-                pl.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
-
-                p.sendMessage(ChatColor.RED + "[End of List]");
+                openWarpsMenu.openWarpsMenu(p);
 
             } else if (args.length > 1) {
                 p.sendMessage(pl.err + "Too many arguments");

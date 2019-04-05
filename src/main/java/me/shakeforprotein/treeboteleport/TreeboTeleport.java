@@ -17,11 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.sql.*;
@@ -84,6 +80,7 @@ public final class TreeboTeleport extends JavaPlugin {
         this.getCommand("sethome").setExecutor(new SetHome(this));
         this.getCommand("delhome").setExecutor(new DeleteHome(this));
         this.getCommand("home").setExecutor(new Home(this));
+        this.getCommand("homes").setExecutor(new Homes(this));
         this.getCommand("bed").setExecutor(new Bed(this));
         this.getCommand("setworldspawn").setExecutor(new SetWorldSpawn(this));
         this.getCommand("spawn").setExecutor(new Spawn(this));
@@ -91,17 +88,34 @@ public final class TreeboTeleport extends JavaPlugin {
         this.getCommand("ttelereload").setExecutor(new Reload(this));
         this.getCommand("mergeessdata").setExecutor(new MergeEssentialsData(this));
         this.getCommand("fixtthomes").setExecutor(new FixTTHomes(this));
+        this.getCommand("configurehub").setExecutor(new ConfigureHubMenu(this));
+        this.getCommand("configurewarps").setExecutor(new ConfigureWarps(this));
+        this.getCommand("configurehomes").setExecutor(new ConfigureHomes(this));
+        this.getCommand("clearmychat").setExecutor(new ClearMyChat(this));
+
+
 
         getServer().getPluginManager().registerEvents(new HubItemListener(this), this);
         getServer().getPluginManager().registerEvents(new HubMenuInventoryListener(this), this);
+        getServer().getPluginManager().registerEvents(new HomeMenuInventoryListener(this), this);
+        getServer().getPluginManager().registerEvents(new WarpsMenuListener(this), this);
         getServer().getPluginManager().registerEvents(new BedClickListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
 
+
         File serverFile = new File(getDataFolder(), File.separator + "servers.yml");
         FileConfiguration serverList = YamlConfiguration.loadConfiguration(serverFile);
 
-        if(!serverFile.exists()) {
+
+        createDefaultFile("", "homes", true);
+        createDefaultFile("", "servers.yml", false);
+        createDefaultFile("", "spawns.yml", false);
+        createDefaultFile("", "hubMenu.yml", false);
+        createDefaultFile("", "warps.yml", false);
+
+
+        if (!serverFile.exists()) {
             try {
                 serverFile.createNewFile();
                 try {
@@ -158,7 +172,6 @@ public final class TreeboTeleport extends JavaPlugin {
     public String table = getConfig().getString("transferTable");
 
 
-
     public void openConnection() throws SQLException, ClassNotFoundException {
         if (connection != null && !connection.isClosed()) {
             return;
@@ -174,7 +187,7 @@ public final class TreeboTeleport extends JavaPlugin {
     }
 
 
-    public boolean createTable(String table){
+    public boolean createTable(String table) {
         System.out.println("Checking for InterServer Teleport Table");
         String teleportTableCreationQuery = "CREATE TABLE IF NOT EXISTS `" + table + "` (`ID` int(11) NOT NULL AUTO_INCREMENT,`UUID` text COLLATE utf8_bin NOT NULL,`IGNAME` text COLLATE utf8_bin NOT NULL,`PLAYTIME` bigint(20) NOT NULL DEFAULT '0',`TOTALKILLS` int(11) NOT NULL DEFAULT '0',`TOTALDEATHS` int(11) NOT NULL DEFAULT '0',`TOTALPLAYERDEATHS` int(11) NOT NULL DEFAULT '0',`TOTALMOBDEATHS` int(11) NOT NULL DEFAULT '0',`TOTALMOBKILLS` int(11) NOT NULL DEFAULT '0', `PASSIVEMOBKILLS` int(11) NOT NULL DEFAULT '0',`HOSTILEMOBKILLS` int(11) NOT NULL DEFAULT '0',`TOTALPLAYERKILLS` int(11) NOT NULL DEFAULT '0',`BATKILLS` int(11) NOT NULL DEFAULT '0',`CHICKENKILLS` int(11) NOT NULL DEFAULT '0',`CODKILLS` int(11) NOT NULL DEFAULT '0',`COWKILLS` int(11) NOT NULL DEFAULT '0',`DONKEYKILLS` int(11) NOT NULL DEFAULT '0',`HORSEKILLS` int(11) NOT NULL DEFAULT '0',`MUSHROOMCOWKILLS` int(11) NOT NULL DEFAULT '0',`MULEKILLS` int(11) NOT NULL DEFAULT '0',`OCELOTKILLS` int(11) NOT NULL DEFAULT '0',`PARROTKILLS` int(11) NOT NULL DEFAULT '0',`PIGKILLS` int(11) NOT NULL DEFAULT '0',`RABBITKILLS` int(11) NOT NULL DEFAULT '0',`SHEEPKILLS` int(11) NOT NULL DEFAULT '0',`SKELETONHORSEKILLS` int(11) NOT NULL DEFAULT '0',`SALMONKILLS` int(11) NOT NULL DEFAULT '0',`SQUIDKILLS` int(11) NOT NULL DEFAULT '0',`TURTLEKILLS` int(11) NOT NULL DEFAULT '0',`TROPICALFISHKILLS` int(11) NOT NULL DEFAULT '0',`VILLAGERKILLS` int(11) NOT NULL DEFAULT '0',`PUFFERFISHKILLS` int(11) NOT NULL DEFAULT '0',`DOLPHINKILLS` int(11) NOT NULL DEFAULT '0',`LLAMAKILLS` int(11) NOT NULL DEFAULT '0',`POLARBEARKILLS` int(11) NOT NULL DEFAULT '0',`WOLFKILLS` int(11) NOT NULL DEFAULT '0',`CAVESPIDERKILLS` int(11) NOT NULL DEFAULT '0',`ENDERMANKILLS` int(11) NOT NULL DEFAULT '0',`SPIDERKILLS` int(11) NOT NULL DEFAULT '0',`ZOMBIEPIGMANKILLS` int(11) NOT NULL DEFAULT '0',`CREEPERKILLS` int(11) NOT NULL DEFAULT '0',`ELDERGUARDIANKILLS` int(11) NOT NULL DEFAULT '0',`GUARDIANKILLS` int(11) NOT NULL DEFAULT '0',`PHANTOMKILLS` int(11) NOT NULL DEFAULT '0',`SILVERFISHKILLS` int(11) NOT NULL DEFAULT '0',`SLIMEKILLS` int(11) NOT NULL DEFAULT '0',`DROWNEDKILLS` int(11) NOT NULL DEFAULT '0',`HUSKKILLS` int(11) NOT NULL DEFAULT '0',`ZOMBIEKILLS` int(11) NOT NULL DEFAULT '0',`ZOMBIEVILLAGERKILLS` int(11) NOT NULL DEFAULT '0',`SKELETONKILLS` int(11) NOT NULL DEFAULT '0',`STRAYKILLS` int(11) NOT NULL DEFAULT '0',`WITHERSKELETONKILLS` int(11) NOT NULL DEFAULT '0',`BLAZEKILLS` int(11) NOT NULL DEFAULT '0',`GHASTKILLS` int(11) NOT NULL DEFAULT '0',`MAGMACUBEKILLS` int(11) NOT NULL DEFAULT '0',`ENDERMITEKILLS` int(11) NOT NULL DEFAULT '0',`SHULKERKILLS` int(11) NOT NULL DEFAULT '0',`EVOKERKILLS` int(11) NOT NULL DEFAULT '0',`VINDICATORKILLS` int(11) NOT NULL DEFAULT '0',`VEXKILLS` int(11) NOT NULL DEFAULT '0',`WITCHKILLS` int(11) NOT NULL DEFAULT '0',`IRONGOLEMKILLS` int(11) NOT NULL DEFAULT '0',`SNOWGOLEMKILLS` int(11) NOT NULL DEFAULT '0',`ENDERDRAGONKILLS` int(11) NOT NULL DEFAULT '0',`WITHERBOSSKILLS` int(11) NOT NULL DEFAULT '0',`CATKILLS` int(11) NOT NULL DEFAULT '0',`PANDAKILLS` int(11) NOT NULL DEFAULT '0',`PILLAGERKILLS` int(11) NOT NULL DEFAULT '0',`RAVAGERKILLS` int(11) NOT NULL DEFAULT '0',`TRADERLLAMAKILLS` int(11) NOT NULL DEFAULT '0',`WANDERINGTRADERKILLS` int(11) NOT NULL DEFAULT '0',`GIANTKILLS` int(11) NOT NULL DEFAULT '0',`ILLUSIONERKILLS` int(11) NOT NULL DEFAULT '0',`KILLERBUNNYKILLS` int(11) NOT NULL DEFAULT '0',`PUFFERFISHDEATHS` int(11) NOT NULL DEFAULT '0',`DOLPHINDEATHS` int(11) NOT NULL DEFAULT '0',`LLAMADEATHS` int(11) NOT NULL DEFAULT '0',`POLARBEARDEATHS` int(11) NOT NULL DEFAULT '0',`WOLFDEATHS` int(11) NOT NULL DEFAULT '0',`CAVESPIDERDEATHS` int(11) NOT NULL DEFAULT '0',`ENDERMANDEATHS` int(11) NOT NULL DEFAULT '0',`SPIDERDEATHS` int(11) NOT NULL DEFAULT '0',`ZOMBIEPIGMANDEATHS` int(11) NOT NULL DEFAULT '0',`CREEPERDEATHS` int(11) NOT NULL DEFAULT '0',`ELDERGUARDIANDEATHS` int(11) NOT NULL DEFAULT '0',`GUARDIANDEATHS` int(11) NOT NULL DEFAULT '0',`PHANTOMDEATHS` int(11) NOT NULL DEFAULT '0',`SILVERFISHDEATHS` int(11) NOT NULL DEFAULT '0',`SLIMEDEATHS` int(11) NOT NULL DEFAULT '0',`DROWNEDDEATHS` int(11) NOT NULL DEFAULT '0',`HUSKDEATHS` int(11) NOT NULL DEFAULT '0',`ZOMBIEDEATHS` int(11) NOT NULL DEFAULT '0',`ZOMBIEVILLAGERDEATHS` int(11) NOT NULL DEFAULT '0',`SKELETONDEATHS` int(11) NOT NULL DEFAULT '0',`STRAYDEATHS` int(11) NOT NULL DEFAULT '0',`WITHERSKELETONDEATHS` int(11) NOT NULL DEFAULT '0',`BLAZEDEATHS` int(11) NOT NULL DEFAULT '0',`GHASTDEATHS` int(11) NOT NULL DEFAULT '0',`MAGMACUBEDEATHS` int(11) NOT NULL DEFAULT '0',`ENDERMITEDEATHS` int(11) NOT NULL DEFAULT '0',`SHULKERDEATHS` int(11) NOT NULL DEFAULT '0',`EVOKERDEATHS` int(11) NOT NULL DEFAULT '0',`VINDICATORDEATHS` int(11) NOT NULL DEFAULT '0',`VEXDEATHS` int(11) NOT NULL DEFAULT '0',`WITCHDEATHS` int(11) NOT NULL DEFAULT '0',`IRONGOLEMDEATHS` int(11) NOT NULL DEFAULT '0',`SNOWGOLEMDEATHS` int(11) NOT NULL DEFAULT '0',`ENDERDARGONDEATHS` int(11) NOT NULL DEFAULT '0',`WITHERBOSSDEATHS` int(11) NOT NULL DEFAULT '0',`PILLAGERDEATHS` int(11) NOT NULL DEFAULT '0',`RAVAGERDEATHS` int(11) NOT NULL DEFAULT '0',`GIANTDEATHS` int(11) NOT NULL DEFAULT '0',`ILLUSIONERDEATHS` int(11) NOT NULL DEFAULT '0',`KILLERBUNNYDEATHS` int(11) NOT NULL DEFAULT '0',`ELYTRADEATHS` int(11) NOT NULL DEFAULT '0',`GRAVITYDEATHS` int(11) NOT NULL DEFAULT '0',`ENVIRONMENTDEATHS` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`ID`), UNIQUE KEY `ID` (`ID`)) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1";
 
@@ -193,7 +206,7 @@ public final class TreeboTeleport extends JavaPlugin {
 
     public void makeLog(Exception tr) {
         System.out.println("Creating new log folder - " + new File(this.getDataFolder() + File.separator + "logs").mkdir());
-        String dateTimeString = LocalDateTime.now().toString().replace(":", "_").replace("T","__");
+        String dateTimeString = LocalDateTime.now().toString().replace(":", "_").replace("T", "__");
         File file = new File(this.getDataFolder() + File.separator + "logs" + File.separator + dateTimeString + "-" + tr.getCause() + ".log");
         try {
             PrintStream ps = new PrintStream(file);
@@ -211,37 +224,36 @@ public final class TreeboTeleport extends JavaPlugin {
     public static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return false;
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             return false;
         }
         return true;
     }
 
-    public boolean getCD(Player p){
-        if(getConfig().get("CommandCooldowns." + p.getName()) != null){
+    public boolean getCD(Player p) {
+        if (getConfig().get("CommandCooldowns." + p.getName()) != null) {
             long now = System.currentTimeMillis();
             long lastRun = getConfig().getInt("CommandCooldowns." + p.getName());
             int timer = getConfig().getInt("CommandDelay") * 1000;
 
             boolean cooldown = now > (lastRun + timer);
 
-            if(!cooldown){
+            if (!cooldown) {
                 p.sendMessage(badge + "That command is currently on cooldown.");
             }
 
             setCooldown(p);
 
             return (cooldown);
-        }
-        else{
+        } else {
             setCooldown(p);
             return false;
         }
     }
 
-    public boolean setCooldown(Player p){
+    public boolean setCooldown(Player p) {
         getConfig().set("CommandCooldowns." + p.getName(), System.currentTimeMillis());
         return true;
     }
@@ -268,6 +280,48 @@ public final class TreeboTeleport extends JavaPlugin {
             commandMap.register(fallback, command);
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    public void createDefaultFile(String path, String file, boolean isFolder) {
+
+        if (isFolder) {
+            File folderToRegister = new File(path, File.separator + file);
+            if (!folderToRegister.exists()) {
+                folderToRegister.mkdir();
+            }
+        } else {
+            File fileToRegister = new File(path, File.separator + file);
+            System.out.println("Registering file " + path + File.separator + file);
+            if (!fileToRegister.exists()) {
+                System.out.println("File does not exist. Creating new file.");
+                saveResource(path + file, false);
+            }
+        }
+    }
+
+    public YamlConfiguration getYaml(String path, String file) {
+        file = File.separator + file;
+        File theYml = new File(path, file);
+
+        if (!theYml.exists()) {
+            try {
+                theYml.createNewFile();
+            } catch (IOException e) {
+                makeLog(e);
+            }
+        }
+        return YamlConfiguration.loadConfiguration(theYml);
+    }
+
+    public void saveFile(File file, FileConfiguration conf, CommandSender s){
+        try{
+            conf.save(file);
+        }
+        catch(IOException e){
+            makeLog(e);
+            s.sendMessage("Saving " + file + " failed.");
         }
     }
 }

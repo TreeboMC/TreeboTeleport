@@ -1,0 +1,4 @@
+servers:
+  lobby:
+    server: 'hub'
+    world: 'Hub'

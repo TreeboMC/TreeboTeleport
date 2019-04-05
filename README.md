@@ -4,7 +4,7 @@
 ```
   /hub - Open hub GUI
 
-  Movement:
+  Server Transfers: (Are entirely customizable in the servers.yml)
   /skyblock - Teleport you to Sky Server
   /skygrid - Teleport you to Sky Server
   /acisislands - Teleport you to Sky Server
