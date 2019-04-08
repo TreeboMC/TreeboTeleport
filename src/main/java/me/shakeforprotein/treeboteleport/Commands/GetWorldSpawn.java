@@ -17,14 +17,12 @@ public class GetWorldSpawn implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
-            if (sender instanceof Player && sender.hasPermission("tbteleport.gws")) {
+            if (sender instanceof Player) {
                 World w = ((Player) sender).getWorld();
                 System.out.println("Player has requested Spawn Location");
                 System.out.println(w.getSpawnLocation().toString());
                 sender.sendMessage(w.getSpawnLocation().toString());
             }
-        }
         return true;
     }
 }

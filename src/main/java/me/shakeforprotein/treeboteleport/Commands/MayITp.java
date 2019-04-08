@@ -20,7 +20,6 @@ public class MayITp implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
             if (args.length == 1) {
                 boolean foundPlayer = false;
                 for (Player p : Bukkit.getOnlinePlayers()) {
@@ -40,7 +39,6 @@ public class MayITp implements CommandExecutor {
             } else {
                 sender.sendMessage(pl.err + "Incorrect usage. This command requires a single player argument");
             }
-        }
         return true;
     }
 }

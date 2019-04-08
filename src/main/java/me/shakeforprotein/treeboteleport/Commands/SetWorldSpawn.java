@@ -25,7 +25,6 @@ public class SetWorldSpawn implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
             File spawnsYml = new File(pl.getDataFolder(), File.separator + "spawns.yml");
             if (!spawnsYml.exists()) {
                 sender.sendMessage("Spawns file not found");
@@ -72,7 +71,7 @@ public class SetWorldSpawn implements CommandExecutor {
             } else if (args.length > 0) {
                 p.sendMessage(pl.err + "Too many arguments");
             }
-        }
+
         return true;
     }
 }

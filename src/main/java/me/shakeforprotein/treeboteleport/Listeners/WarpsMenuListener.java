@@ -34,7 +34,7 @@ public class WarpsMenuListener implements Listener {
         if (name.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', warpsMenu.getString("menuName")))) {
             e.setCancelled(true);
             if (inv.getItem(slot) != null) {
-                Bukkit.dispatchCommand(p, "warpto " + inv.getItem(slot).getItemMeta().getLore().get(0).split(": ")[1]);
+                Bukkit.dispatchCommand(p, "warp " + inv.getItem(slot).getItemMeta().getLore().get(0).split(": ")[1]);
 
             }
         }

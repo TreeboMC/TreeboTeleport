@@ -25,7 +25,6 @@ public class Spawn implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
             File spawnsYml = new File(pl.getDataFolder(), File.separator + "spawns.yml");
             if (!spawnsYml.exists()) {
                 sender.sendMessage(pl.err + "Failed to load Spawns data. Attempting to recover");
@@ -60,7 +59,6 @@ public class Spawn implements CommandExecutor {
             } else {
                 p.sendMessage(pl.err + "No spawn found for this world");
             }
-        }
         return true;
     }
 }

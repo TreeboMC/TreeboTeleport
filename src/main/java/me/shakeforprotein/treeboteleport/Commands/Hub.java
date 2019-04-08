@@ -20,8 +20,7 @@ public class Hub implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
-            if (sender instanceof Player && sender.hasPermission("tbteleport.hub")) {
+            if (sender instanceof Player) {
                 Player player = (Player) sender;
                 String w = player.getWorld().getName();
                 if (cmd.getName().equalsIgnoreCase("hub")) {
@@ -32,7 +31,6 @@ public class Hub implements CommandExecutor {
                     }
                 }
             }
-        }
         return true;
     }
 }

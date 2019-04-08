@@ -59,7 +59,7 @@ public class ConfigureHomes implements CommandExecutor {
                         }
                     }
                     if(!found){
-
+                        sender.sendMessage(pl.err + "");
                     }
                 }
                 else {

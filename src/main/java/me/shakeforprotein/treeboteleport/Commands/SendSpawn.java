@@ -24,7 +24,6 @@ public class SendSpawn implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
             if (args.length != 0 && args.length < 3) {
                 if (Bukkit.getPlayer(args[0]) != null) {
                     Player p = Bukkit.getPlayer(args[0]);
@@ -70,7 +69,6 @@ public class SendSpawn implements CommandExecutor {
             } else if (args.length == 0) {
                 sender.sendMessage(pl.err + "Not enough arguments. Please specify a player and optionally which worlds spawn to send them to.");
             }
-        }
         return true;
     }
 }

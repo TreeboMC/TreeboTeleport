@@ -24,10 +24,9 @@ public class DeleteWarp implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
-            File warpsYml = new File(pl.getDataFolder(), File.separator + "warps.yml");
+            File warpsYml = new File(pl.getDataFolder(), "warps.yml");
+            YamlConfiguration warps = YamlConfiguration.loadConfiguration(warpsYml);
 
-            YamlConfiguration warps = pl.getYaml("","warps.yml");
             Player p = (Player) sender;
 
             if (args.length == 0) {
@@ -52,7 +51,6 @@ public class DeleteWarp implements CommandExecutor {
                     p.sendMessage(pl.err + "Saving Warps file unsuccessful");
                 }
             }
-        }
         return true;
     }
 }

@@ -19,10 +19,11 @@ public class TpOk implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
+
             if (args.length == 0) {
                 Player targetPlayer = null;
-                if (pl.getConfig().get("tpRequest." + sender.getName()) != null && pl.getConfig().getInt("tpRequest." + sender.getName() + ".requestTime") < System.currentTimeMillis() - 30000) {
+
+                if (pl.getConfig().get("tpRequest." + sender.getName()) != null && (System.currentTimeMillis() - 30000) < pl.getConfig().getLong("tpRequest." + sender.getName() + ".requestTime")) {
                     String type = pl.getConfig().getString("tpRequest." + sender.getName() + ".type");
                     String requester = pl.getConfig().getString("tpRequest." + sender.getName() + ".requester");
                     for (Player p : Bukkit.getOnlinePlayers()) {
@@ -47,7 +48,7 @@ public class TpOk implements CommandExecutor {
             } else {
                 sender.sendMessage(pl.err + "Incorrect usage. This command does not accept any arguments");
             }
-        }
+
         return true;
     }
 }

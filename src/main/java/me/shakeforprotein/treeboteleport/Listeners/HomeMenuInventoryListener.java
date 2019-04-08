@@ -27,6 +27,7 @@ public class HomeMenuInventoryListener implements Listener {
     public void invClickEvent(InventoryClickEvent e) {
         Inventory inv = e.getClickedInventory();
         Player p = (Player) e.getWhoClicked();
+
         String name = inv.getName();
         int slot = e.getSlot();
         File menuYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId().toString() + ".yml");

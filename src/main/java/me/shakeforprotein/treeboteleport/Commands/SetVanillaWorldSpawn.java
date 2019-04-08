@@ -18,15 +18,14 @@ public class SetVanillaWorldSpawn implements CommandExecutor {
 
         @Override
         public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-            if (pl.getCD((Player) sender)) {
-                if (sender instanceof Player && sender.hasPermission("tbteleport.sws")) {
+                if (sender instanceof Player) {
                     World w = ((Player) sender).getWorld();
                     sender.sendMessage(pl.badge + "Current Vanilla World Spawn: " + w.getSpawnLocation().toString());
                     Location pLoc = ((Player) sender).getLocation();
                     w.setSpawnLocation(pLoc);
                     sender.sendMessage(pl.badge + "Set Vanilla World Spawn to: " + w.getSpawnLocation().toString());
 
-                }
+
             }
             return true;
         }

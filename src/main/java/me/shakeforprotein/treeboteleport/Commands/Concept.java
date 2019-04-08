@@ -19,7 +19,7 @@ public class Concept implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (sender instanceof Player && sender.hasPermission("tbteleport.concept")) {
+        if (sender instanceof Player) {
             if (pl.getCD((Player) sender)) {
 
                 if (args.length != 2) {

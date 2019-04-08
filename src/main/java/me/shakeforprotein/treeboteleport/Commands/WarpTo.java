@@ -60,15 +60,20 @@ public class WarpTo implements CommandExecutor {
             else {
                 args[0] = args[0].toLowerCase();
                 if (warps.get("warps." + args[0] + ".x") != null) {
-                    String world = warps.getString("warps." + args[0] + ".world");
-                    double x = warps.getDouble("warps." + args[0] + ".x");
-                    double y = warps.getDouble("warps." + args[0] + ".y");
-                    double z = warps.getDouble("warps." + args[0] + ".z");
-                    float pitch = (float) warps.getDouble("warps." + args[0] + ".pitch");
-                    float yaw = (float) warps.getDouble("warps." + args[0] + ".yaw");
-                    Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
-                    p.sendMessage(pl.badge + "Warping you to: " + ChatColor.GOLD + args[0]);
-                    p.teleport(loc);
+                    if(warps.get("warps." + args[0] + ".permission") == null || sender.hasPermission(warps.getString("warps." + args[0] + ".permission"))) {
+                        String world = warps.getString("warps." + args[0] + ".world");
+                        double x = warps.getDouble("warps." + args[0] + ".x");
+                        double y = warps.getDouble("warps." + args[0] + ".y");
+                        double z = warps.getDouble("warps." + args[0] + ".z");
+                        float pitch = (float) warps.getDouble("warps." + args[0] + ".pitch");
+                        float yaw = (float) warps.getDouble("warps." + args[0] + ".yaw");
+                        Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+                        p.sendMessage(pl.badge + "Warping you to: " + ChatColor.GOLD + args[0]);
+                        p.teleport(loc);
+                    }
+                    else{
+                        p.sendMessage(pl.err + "You lack the permissions required to use that warp");
+                    }
                 } else {
                     p.sendMessage(pl.err + "No warp found with that name");
                 }

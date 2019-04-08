@@ -24,7 +24,7 @@ public class Wild implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (pl.getCD((Player) sender)) {
 
-            if (args.length == 1 && sender.hasPermission("tbteleport.wildother")) {
+            if (args.length == 1 && sender.hasPermission("tbteleport.staff.wild.other")) {
                 String command = "wild";
                 OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[0]);
                 if (targetPlayer instanceof Player) {
@@ -32,11 +32,10 @@ public class Wild implements CommandExecutor {
                 } else {
                     sender.sendMessage(pl.err + "Player not found");
                 }
-            } else if (sender instanceof Player && sender.hasPermission("tbteleport.wild")) {
+            } else if (sender instanceof Player) {
                 Player player = (Player) sender;
                 World w = player.getWorld();
                 if (args.length == 0) {
-
 
                     ((Player) sender).teleport((findSafeBlock(w, (Player) sender)));
 
@@ -128,8 +127,12 @@ public class Wild implements CommandExecutor {
         }
 
         Location landOn = w.getBlockAt(X, (Y + 2), Z).getLocation();
+        landOn.add(0.5,0,0.5);
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', pl.getConfig().getString("wild.messages.success")).replace("{COORDS}", X + "," + Y + "," + Z));
-
+        if(pl.getConfig().get("wild.cost") != null){
+            int cost = pl.getConfig().getInt("wild.cost");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "eco take " + sender.getName() + " " + cost);
+        }
         return landOn;
     }
 }

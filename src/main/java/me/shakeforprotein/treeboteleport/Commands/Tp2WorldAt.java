@@ -19,7 +19,6 @@ public class Tp2WorldAt implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
             try {
                 if (args.length == 2) {
                     if (args[1].split(",").length == 3) {
@@ -73,7 +72,6 @@ public class Tp2WorldAt implements CommandExecutor {
                 pl.makeLog(e);
                 sender.sendMessage(pl.err + "Could not achieve teleport. Is the world loaded?");
             }
-        }
         return true;
     }
 }

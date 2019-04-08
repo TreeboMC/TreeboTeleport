@@ -25,7 +25,6 @@ public class SetWarp implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
             File warpsYml = new File(pl.getDataFolder(), File.separator + "warps.yml");
             if (!warpsYml.exists()) {
                 sender.sendMessage(pl.err + "Warps data not found. Attempting to recover.");
@@ -54,7 +53,7 @@ public class SetWarp implements CommandExecutor {
             float yaw = loc.getYaw();
             if (args.length == 0) {
                 p.sendMessage(pl.err + "You must provide a name for your new warp");
-            } else if (args.length > 1) {
+            } else if (args.length > 2) {
                 p.sendMessage(pl.err + "Too many arguments");
             } else {
                 String name = args[0];
@@ -66,6 +65,9 @@ public class SetWarp implements CommandExecutor {
                 warps.set("warps." + args[0] + ".z", z);
                 warps.set("warps." + args[0] + ".pitch", pitch);
                 warps.set("warps." + args[0] + ".yaw", yaw);
+                if(args.length > 1){
+                    warps.set("warps." + args[1] + ".requiredPermission", args[1]);
+                }
 
                 try {
                     warps.save(warpsYml);
@@ -75,7 +77,6 @@ public class SetWarp implements CommandExecutor {
                     p.sendMessage(pl.err + "Saving warps file Unsuccessful");
                 }
             }
-        }
         return true;
     }
 }

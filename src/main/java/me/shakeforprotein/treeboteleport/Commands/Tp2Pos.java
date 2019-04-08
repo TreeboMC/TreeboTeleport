@@ -19,7 +19,6 @@ public class Tp2Pos implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
             if (args.length == 1) {
                 if (args[0].split(",").length == 3) {
                     String a1 = args[0].split(",")[0];
@@ -68,7 +67,6 @@ public class Tp2Pos implements CommandExecutor {
                     sender.sendMessage(pl.err + "Invalid coordinate format");
                 }
             }
-        }
         return true;
     }
 }

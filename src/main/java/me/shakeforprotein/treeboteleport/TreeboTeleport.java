@@ -2,6 +2,7 @@ package me.shakeforprotein.treeboteleport;
 
 import io.github.leonardosnt.bungeechannelapi.BungeeChannelApi;
 import me.shakeforprotein.treeboteleport.Commands.*;
+import me.shakeforprotein.treeboteleport.Commands.NameIt;
 import me.shakeforprotein.treeboteleport.Listeners.*;
 import me.shakeforprotein.treeboteleport.Methods.Teleports.ToWorld;
 import me.shakeforprotein.treeboteleport.UpdateChecker.UpdateChecker;
@@ -17,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import java.io.*;
 import java.lang.reflect.Field;
 import java.sql.SQLException;
@@ -60,23 +62,21 @@ public final class TreeboTeleport extends JavaPlugin {
             int doesNothing = 1;
         }
         */
-        //Set Command Executors
+        /*Set Command Executors*/
         this.getCommand("hub").setExecutor(new Hub(this));
-        this.getCommand("ttwild").setExecutor(new Wild(this));
         this.getCommand("wild").setExecutor(new Wild(this));
         this.getCommand("gws").setExecutor(new GetWorldSpawn(this));
         this.getCommand("sws").setExecutor(new SetVanillaWorldSpawn(this));
-        this.getCommand("tp2player").setExecutor(new Tp2Player(this));
-        this.getCommand("tp2me").setExecutor(new Tp2Me(this));
-        this.getCommand("tp2pos").setExecutor(new Tp2Pos(this));
-        this.getCommand("tp2worldat").setExecutor(new Tp2WorldAt(this));
-        this.getCommand("tp2mepls").setExecutor(new Tp2MePls(this));
-        this.getCommand("mayitp").setExecutor(new MayITp(this));
+        this.getCommand("tp").setExecutor(new Tp(this));
+        this.getCommand("tpahere").setExecutor(new Tp2MePls(this));
+        this.getCommand("tpa").setExecutor(new MayITp(this));
         this.getCommand("tpok").setExecutor(new TpOk(this));
+        this.getCommand("tpaccept").setExecutor(new TpOk(this));
+        this.getCommand("tpyes").setExecutor(new TpOk(this));
         this.getCommand("givehubitem").setExecutor(new GiveHubItem(this));
         this.getCommand("setwarp").setExecutor(new SetWarp(this));
         this.getCommand("deletewarp").setExecutor(new DeleteWarp(this));
-        this.getCommand("warpto").setExecutor(new WarpTo(this));
+        this.getCommand("warp").setExecutor(new WarpTo(this));
         this.getCommand("sethome").setExecutor(new SetHome(this));
         this.getCommand("delhome").setExecutor(new DeleteHome(this));
         this.getCommand("home").setExecutor(new Home(this));
@@ -86,14 +86,16 @@ public final class TreeboTeleport extends JavaPlugin {
         this.getCommand("spawn").setExecutor(new Spawn(this));
         this.getCommand("sendspawn").setExecutor(new SendSpawn(this));
         this.getCommand("ttelereload").setExecutor(new Reload(this));
-        this.getCommand("mergeessdata").setExecutor(new MergeEssentialsData(this));
-        this.getCommand("fixtthomes").setExecutor(new FixTTHomes(this));
         this.getCommand("configurehub").setExecutor(new ConfigureHubMenu(this));
         this.getCommand("configurewarps").setExecutor(new ConfigureWarps(this));
         this.getCommand("configurehomes").setExecutor(new ConfigureHomes(this));
         this.getCommand("clearmychat").setExecutor(new ClearMyChat(this));
-
-
+        this.getCommand("ttelesaveconfig").setExecutor(new SaveConfig(this));
+        this.getCommand("nameit").setExecutor(new NameIt(this));
+/*
+        this.getCommand("mergeessdata").setExecutor(new MergeEssentialsData(this));
+        this.getCommand("fixtthomes").setExecutor(new FixTTHomes(this));
+        */
 
         getServer().getPluginManager().registerEvents(new HubItemListener(this), this);
         getServer().getPluginManager().registerEvents(new HubMenuInventoryListener(this), this);
@@ -235,10 +237,9 @@ public final class TreeboTeleport extends JavaPlugin {
     public boolean getCD(Player p) {
         if (getConfig().get("CommandCooldowns." + p.getName()) != null) {
             long now = System.currentTimeMillis();
-            long lastRun = getConfig().getInt("CommandCooldowns." + p.getName());
+            long lastRun = getConfig().getLong("CommandCooldowns." + p.getName());
             int timer = getConfig().getInt("CommandDelay") * 1000;
-
-            boolean cooldown = now > (lastRun + timer);
+            boolean cooldown = (now - timer) > lastRun;
 
             if (!cooldown) {
                 p.sendMessage(badge + "That command is currently on cooldown.");
@@ -259,10 +260,10 @@ public final class TreeboTeleport extends JavaPlugin {
     }
 
     public ItemStack getHubItem() {
-        File menuYml = new File(getDataFolder(), File.separator + "hubMenu.yml");
+        File menuYml = new File(getDataFolder(), "hubMenu.yml");
         FileConfiguration hubMenu = YamlConfiguration.loadConfiguration(menuYml);
 
-        ItemStack configItem = new ItemStack(Material.getMaterial(hubMenu.getString("hubItem.item").trim()), 1);
+        ItemStack configItem = new ItemStack(Material.getMaterial(hubMenu.getString("hubItem.item")), 1);
         ItemMeta confMeta = configItem.getItemMeta();
         confMeta.setDisplayName(ChatColor.valueOf(hubMenu.getString("hubItem.colour").toUpperCase()) + hubMenu.getString("hubItem.name"));
         List<String> confItemLore = new ArrayList<String>();
@@ -315,11 +316,10 @@ public final class TreeboTeleport extends JavaPlugin {
         return YamlConfiguration.loadConfiguration(theYml);
     }
 
-    public void saveFile(File file, FileConfiguration conf, CommandSender s){
-        try{
+    public void saveFile(File file, FileConfiguration conf, CommandSender s) {
+        try {
             conf.save(file);
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             makeLog(e);
             s.sendMessage("Saving " + file + " failed.");
         }

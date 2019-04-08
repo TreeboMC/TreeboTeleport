@@ -16,10 +16,8 @@ public class Reload implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
             pl.reloadConfig();
             sender.sendMessage(pl.badge + "Config Reloaded");
-        }
         return true;
     }
 }

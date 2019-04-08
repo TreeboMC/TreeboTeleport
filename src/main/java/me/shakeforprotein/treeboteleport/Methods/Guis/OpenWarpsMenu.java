@@ -62,6 +62,7 @@ public class OpenWarpsMenu {
             String title = "";
             String icon = "ENDER_PEARL";
             String id = item;
+
             if(warpsMenu.getString("warps." + item + ".title") != null){
                 title = ChatColor.translateAlternateColorCodes('&',warpsMenu.getString("warps." + item + ".title"));
             }
@@ -92,7 +93,9 @@ public class OpenWarpsMenu {
 
             newItem.setItemMeta(iMeta);
 
-            WarpsMenu.addItem(newItem);
+            if(warpsMenu.get("warps." + item + ".requiredPermission") == null || p.hasPermission(warpsMenu.getString("warps." + item + ".permission"))){
+                WarpsMenu.addItem(newItem);
+            }
         }
         p.openInventory(WarpsMenu);
     }

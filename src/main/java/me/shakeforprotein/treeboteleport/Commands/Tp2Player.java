@@ -18,7 +18,6 @@ public class Tp2Player implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
             if (args.length == 0) {
                 sender.sendMessage(pl.err + "This command requires a player argument");
             } else if (args.length == 1) {
@@ -38,7 +37,6 @@ public class Tp2Player implements CommandExecutor {
             } else {
                 sender.sendMessage(pl.err + "This command only supports one argument");
             }
-        }
         return true;
     }
 }

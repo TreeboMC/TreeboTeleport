@@ -25,7 +25,6 @@ public class SetHome implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
             Player p = (Player) sender;
             File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId() + ".yml");
             if (!homesYml.exists()) {
@@ -87,7 +86,7 @@ public class SetHome implements CommandExecutor {
                     }
                 }
             }
-        }
+
         return true;
     }
 
