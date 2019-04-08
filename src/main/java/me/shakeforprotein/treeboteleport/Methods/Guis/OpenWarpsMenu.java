@@ -93,7 +93,11 @@ public class OpenWarpsMenu {
 
             newItem.setItemMeta(iMeta);
 
-            if(warpsMenu.get("warps." + item + ".requiredPermission") == null || p.hasPermission(warpsMenu.getString("warps." + item + ".permission"))){
+            if(warpsMenu.get("warps." + item + ".requiredPermission") == null){
+                WarpsMenu.addItem(newItem);
+            }
+
+            else if (p.hasPermission(warpsMenu.getString("warps." + item + ".requiredPermission"))){
                 WarpsMenu.addItem(newItem);
             }
         }

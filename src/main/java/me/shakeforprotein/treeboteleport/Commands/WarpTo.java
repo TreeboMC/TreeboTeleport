@@ -22,7 +22,7 @@ public class WarpTo implements CommandExecutor {
     private TreeboTeleport pl;
     private OpenWarpsMenu openWarpsMenu;
 
-    public WarpTo(TreeboTeleport main){
+    public WarpTo(TreeboTeleport main) {
         this.pl = main;
         openWarpsMenu = new OpenWarpsMenu(pl);
     }
@@ -56,22 +56,27 @@ public class WarpTo implements CommandExecutor {
 
             } else if (args.length > 1) {
                 p.sendMessage(pl.err + "Too many arguments");
-            }
-            else {
+            } else {
                 args[0] = args[0].toLowerCase();
                 if (warps.get("warps." + args[0] + ".x") != null) {
-                    if(warps.get("warps." + args[0] + ".permission") == null || sender.hasPermission(warps.getString("warps." + args[0] + ".permission"))) {
-                        String world = warps.getString("warps." + args[0] + ".world");
-                        double x = warps.getDouble("warps." + args[0] + ".x");
-                        double y = warps.getDouble("warps." + args[0] + ".y");
-                        double z = warps.getDouble("warps." + args[0] + ".z");
-                        float pitch = (float) warps.getDouble("warps." + args[0] + ".pitch");
-                        float yaw = (float) warps.getDouble("warps." + args[0] + ".yaw");
-                        Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
-                        p.sendMessage(pl.badge + "Warping you to: " + ChatColor.GOLD + args[0]);
-                        p.teleport(loc);
+                    boolean okWarp = false;
+                    if (warps.get("warps." + args[0] + ".requiredPermission") == null) {
+                        okWarp = true;
+                    } else if (sender.hasPermission(warps.getString("warps." + args[0] + ".requiredPermission"))) {
+                        okWarp = true;
                     }
-                    else{
+
+                    String world = warps.getString("warps." + args[0] + ".world");
+                    double x = warps.getDouble("warps." + args[0] + ".x");
+                    double y = warps.getDouble("warps." + args[0] + ".y");
+                    double z = warps.getDouble("warps." + args[0] + ".z");
+                    float pitch = (float) warps.getDouble("warps." + args[0] + ".pitch");
+                    float yaw = (float) warps.getDouble("warps." + args[0] + ".yaw");
+                    Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+                    p.sendMessage(pl.badge + "Warping you to: " + ChatColor.GOLD + args[0]);
+                    if (okWarp) {
+                        p.teleport(loc);
+                    } else {
                         p.sendMessage(pl.err + "You lack the permissions required to use that warp");
                     }
                 } else {

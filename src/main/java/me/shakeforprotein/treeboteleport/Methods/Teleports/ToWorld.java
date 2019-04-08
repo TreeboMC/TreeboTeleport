@@ -15,7 +15,7 @@ public class ToWorld {
 
 
     public void toWorld(String server, String toWorld, Player p) {
-        if (p.hasPermission("tbtickets.server." + server)) {
+        if (p.hasPermission("tbteleport.server." + server)) {
 
             if (!server.equalsIgnoreCase(pl.getConfig().getString("serverName"))) {
                 p.sendMessage("As you were on the wrong server, you will need to repeat the command.");

@@ -66,7 +66,7 @@ public class SetWarp implements CommandExecutor {
                 warps.set("warps." + args[0] + ".pitch", pitch);
                 warps.set("warps." + args[0] + ".yaw", yaw);
                 if(args.length > 1){
-                    warps.set("warps." + args[1] + ".requiredPermission", args[1]);
+                    warps.set("warps." + args[0] + ".requiredPermission", args[1]);
                 }
 
                 try {
