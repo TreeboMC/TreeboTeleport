@@ -71,7 +71,7 @@ commands:
   tpyes:
     description: 'Accepts Teleport Request'
     usage: <command>
-    permission: tbteleport.player.tpok
+    permission: tbteleport.player.tp
   tp:
     description: 'Multiple force teleport commands'
     usage: ''
@@ -109,7 +109,7 @@ commands:
     usage: <command>
     permission: tbteleport.admin
   ttelereload:
-    description: 'Allows a player to set a worlds spawn location'
+    description: 'Allows a player to reload the config'
     usage: <command>
     permission: tbteleport.admin
   gws:
