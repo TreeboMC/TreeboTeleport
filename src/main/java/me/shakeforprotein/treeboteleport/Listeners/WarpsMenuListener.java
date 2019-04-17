@@ -26,6 +26,7 @@ public class WarpsMenuListener implements Listener {
     public void invClickEvent(InventoryClickEvent e) {
         Inventory inv = e.getClickedInventory();
         Player p = (Player) e.getWhoClicked();
+
         String name = inv.getName();
         int slot = e.getSlot();
         File warpsYml = new File(pl.getDataFolder(), "warps.yml");

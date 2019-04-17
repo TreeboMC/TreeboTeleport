@@ -132,6 +132,10 @@ commands:
     description: 'Allows a player to reload the config'
     usage: <command>
     permission: tbteleport.admin
+  tteleversion:
+    description: 'Allows a player to Check the plugin version'
+    usage: <command>
+    permission: tbteleport.admin
   gws:
     description: 'returns current world spawn coordinates'
     usage: <command>
