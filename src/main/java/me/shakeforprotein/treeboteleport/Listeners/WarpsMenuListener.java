@@ -31,7 +31,13 @@ public class WarpsMenuListener implements Listener {
         File warpsYml = new File(pl.getDataFolder(), "warps.yml");
         FileConfiguration warpsMenu = YamlConfiguration.loadConfiguration(warpsYml);
 
-        if (name.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', warpsMenu.getString("menuName")))) {
+        String menuName = pl.badge + "Warps Menu";
+        if(warpsMenu.get("menuName") != null){
+            menuName = warpsMenu.getString("menuName");
+            menuName = ChatColor.translateAlternateColorCodes('&', menuName);
+        }
+
+        if (name.equalsIgnoreCase(menuName)) {
             e.setCancelled(true);
             if (inv.getItem(slot) != null) {
                 Bukkit.dispatchCommand(p, "warp " + inv.getItem(slot).getItemMeta().getLore().get(0).split(": ")[1]);

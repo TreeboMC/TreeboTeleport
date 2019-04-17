@@ -41,7 +41,7 @@ public class HubMenuInventoryListener implements Listener {
             menuName = ChatColor.translateAlternateColorCodes('&', menuName);
         }
 
-        if(inv.getName().equalsIgnoreCase(menuName)){
+        if(name.equalsIgnoreCase(menuName)){
 
             try{
                 Set menuItems = hubMenu.getConfigurationSection("hubmenu.menuItems").getKeys(false);

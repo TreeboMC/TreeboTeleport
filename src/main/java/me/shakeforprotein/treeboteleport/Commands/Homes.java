@@ -3,8 +3,6 @@ package me.shakeforprotein.treeboteleport.Commands;
 import me.shakeforprotein.treeboteleport.Methods.Guis.OpenHomesMenu;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,14 +27,15 @@ public class Homes implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        boolean found = false;
         Player p = (Player) sender;
         String tempUUID = "0";
         String tempName = "";
         File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId() + ".yml");
         if (args.length == 1 && !(args[0].equalsIgnoreCase("setDefault")) && sender.hasPermission("tbteleport.staff.homes.others")) {
-            boolean found = false;
             for (OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
                 if (offlinePlayer.getName().equalsIgnoreCase(args[0])) {
+                    found = true;
                     tempName = offlinePlayer.getName();
                     tempUUID = offlinePlayer.getUniqueId().toString();
                     File testFile = new File(pl.getDataFolder() + File.separator + "homes", File.separator + offlinePlayer.getUniqueId() + ".yml");
@@ -73,7 +72,7 @@ public class Homes implements CommandExecutor {
         if (args.length == 0) {
             openHomesMenu.openHomesMenu(p);
         } else if (args.length == 2 && args[0].equalsIgnoreCase("setDefault")) {
-            boolean found = false;
+            found = false;
             for (String home : homes.getConfigurationSection("homes").getKeys(false)) {
                 if (args[1].equalsIgnoreCase(home)) {
                     found = true;
@@ -90,8 +89,16 @@ public class Homes implements CommandExecutor {
             if (!found) {
                 sender.sendMessage(pl.err + "Could not find home with that name");
             }
-        } else if (args.length == 1 && sender.hasPermission("tbteleport.homes.others")) {
+        } else if (args.length == 1 && sender.hasPermission("tbteleport.staff.homes.others")) {
             openHomesMenu.openOthersHomes(p, tempUUID, tempName);
+        }
+        else if (!found && args.length == 1 && !args[0].equalsIgnoreCase("setdefault")){
+            if(sender.hasPermission("tbteleport.staff.homes.others")){
+                sender.sendMessage(pl.err + "Invalid usage. Try /homes setDefault <home>");
+            }
+            else{
+                sender.sendMessage(pl.err + "Invalid usage. Try /homes setDefault <home>");
+            }
         }
         return true;
     }

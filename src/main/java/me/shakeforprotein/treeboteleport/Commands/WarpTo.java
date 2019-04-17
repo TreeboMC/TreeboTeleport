@@ -29,59 +29,57 @@ public class WarpTo implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
-            File warpsYml = new File(pl.getDataFolder(), "warps.yml");
-            if (!warpsYml.exists()) {
-                System.out.println(pl.err + "Warps data not found. Attempting to recover");
+        File warpsYml = new File(pl.getDataFolder(), "warps.yml");
+        if (!warpsYml.exists()) {
+            System.out.println(pl.err + "Warps data not found. Attempting to recover");
+            try {
+                warpsYml.createNewFile();
+                FileConfiguration warps = YamlConfiguration.loadConfiguration(warpsYml);
                 try {
-                    warpsYml.createNewFile();
-                    FileConfiguration warps = YamlConfiguration.loadConfiguration(warpsYml);
-                    try {
-                        warps.options().copyDefaults();
-                        warps.save(warpsYml);
-                    } catch (FileNotFoundException e) {
-                        pl.makeLog(e);
-                    }
-                } catch (IOException e) {
+                    warps.options().copyDefaults();
+                    warps.save(warpsYml);
+                } catch (FileNotFoundException e) {
                     pl.makeLog(e);
-                    System.out.println(pl.err + "Creating warps file failed");
                 }
+            } catch (IOException e) {
+                pl.makeLog(e);
+                System.out.println(pl.err + "Creating warps file failed");
             }
-            FileConfiguration warps = YamlConfiguration.loadConfiguration(warpsYml);
+        }
+        FileConfiguration warps = YamlConfiguration.loadConfiguration(warpsYml);
 
 
-            Player p = (Player) sender;
-            if (args.length == 0) {
-                openWarpsMenu.openWarpsMenu(p);
+        Player p = (Player) sender;
+        if (args.length == 0) {
+            openWarpsMenu.openWarpsMenu(p);
 
-            } else if (args.length > 1) {
-                p.sendMessage(pl.err + "Too many arguments");
-            } else {
-                args[0] = args[0].toLowerCase();
-                if (warps.get("warps." + args[0] + ".x") != null) {
-                    boolean okWarp = false;
-                    if (warps.get("warps." + args[0] + ".requiredPermission") == null) {
-                        okWarp = true;
-                    } else if (sender.hasPermission(warps.getString("warps." + args[0] + ".requiredPermission"))) {
-                        okWarp = true;
-                    }
-
-                    String world = warps.getString("warps." + args[0] + ".world");
-                    double x = warps.getDouble("warps." + args[0] + ".x");
-                    double y = warps.getDouble("warps." + args[0] + ".y");
-                    double z = warps.getDouble("warps." + args[0] + ".z");
-                    float pitch = (float) warps.getDouble("warps." + args[0] + ".pitch");
-                    float yaw = (float) warps.getDouble("warps." + args[0] + ".yaw");
-                    Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
-                    p.sendMessage(pl.badge + "Warping you to: " + ChatColor.GOLD + args[0]);
-                    if (okWarp) {
-                        p.teleport(loc);
-                    } else {
-                        p.sendMessage(pl.err + "You lack the permissions required to use that warp");
-                    }
-                } else {
-                    p.sendMessage(pl.err + "No warp found with that name");
+        } else if (args.length > 1) {
+            p.sendMessage(pl.err + "Too many arguments");
+        } else {
+            args[0] = args[0].toLowerCase();
+            if (warps.get("warps." + args[0] + ".x") != null) {
+                boolean okWarp = false;
+                if (warps.get("warps." + args[0] + ".requiredPermission") == null) {
+                    okWarp = true;
+                } else if (sender.hasPermission(warps.getString("warps." + args[0] + ".requiredPermission"))) {
+                    okWarp = true;
                 }
+
+                String world = warps.getString("warps." + args[0] + ".world");
+                double x = warps.getDouble("warps." + args[0] + ".x");
+                double y = warps.getDouble("warps." + args[0] + ".y");
+                double z = warps.getDouble("warps." + args[0] + ".z");
+                float pitch = (float) warps.getDouble("warps." + args[0] + ".pitch");
+                float yaw = (float) warps.getDouble("warps." + args[0] + ".yaw");
+                Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+                p.sendMessage(pl.badge + "Warping you to: " + ChatColor.GOLD + args[0]);
+                if (okWarp) {
+                    p.teleport(loc);
+                } else {
+                    p.sendMessage(pl.err + "You lack the permissions required to use that warp");
+                }
+            } else {
+                p.sendMessage(pl.err + "No warp found with that name");
             }
         }
         return true;

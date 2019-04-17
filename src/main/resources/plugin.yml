@@ -27,6 +27,10 @@ commands:
     description: 'Teleports player to a warp point. Conditions defined in config.yml'
     usage: <command> <warp name>
     permission: tbteleport.player.warp
+  warps:
+    description: 'Teleports player to a warp point. Conditions defined in config.yml'
+    usage: <command> <warp name>
+    permission: tbteleport.player.warp
   home:
     description: 'Allows a player to return to a home'
     usage: <command> <home name>
@@ -63,6 +67,18 @@ commands:
     description: 'Accepts Teleport Request'
     usage: <command>
     permission: tbteleport.player.tp
+  tpno:
+    description: 'Denies Teleport Request'
+    usage: <command>
+    permission: tbteleport.player.tp
+  tpcancel:
+    description: 'Denies Teleport Request'
+    usage: <command>
+    permission: tbteleport.player.tp
+  tpdeny:
+    description: 'Denies Teleport Request'
+    usage: <command>
+    permission: tbteleport.player.tp
   tpaccept:
     description: 'Accepts Teleport Request'
     usage: <command>
@@ -79,15 +95,19 @@ commands:
   setwarp:
     description: 'Allows a player to create a warp point'
     usage: <command> <warp name> <(Optional) permission>
-    permission: tbteleport.staff.warps.setwarp
+    permission: tbteleport.admin.warps.setwarp
   deletewarp:
     description: 'Allows a player to delete a warp point'
     usage: <command> <warp name>
-    permission: tbteleport.staff.warps.deletewarp
+    permission: tbteleport.admin.warps.deletewarp
+  delwarp:
+    description: 'Allows a player to delete a warp point'
+    usage: <command> <warp name>
+    permission: tbteleport.admin.warps.deletewarp
   configurewarps:
     description: 'Allows a player to configure the warps gui'
     usage: <command>
-    permission: tbteleport.staff.warps.configure
+    permission: tbteleport.admin.warps.configure
   sendspawn:
     description: 'Allows a player to send other players to spawn'
     usage: <command>
@@ -95,7 +115,7 @@ commands:
   configurehub:
     description: 'Allows a player to configure the hub gui'
     usage: <command>
-    permission: tbteleport.staff.hub.configure
+    permission: tbteleport.admin.hub.configure
   clearmychat:
     description: 'Spams your chat with 30 blank lines'
     usage: <command>
@@ -103,7 +123,7 @@ commands:
   nameit:
     description: 'Sets display name of item in main hand (Accepts colour codes with &) '
     usage: <command> <new name>
-    permission: tbteleport.staff.nameit
+    permission: tbteleport.vip.nameit
   setworldspawn:
     description: 'Allows a player to set a worlds spawn location'
     usage: <command>
@@ -124,6 +144,14 @@ commands:
     description: 'Debug command to write current config back to config.yml file'
     usage: <command>
     permission: tbteleport.admin
+  tptoggle:
+    description: 'Toggles receiving teleport requests'
+    usage: <command>
+    permission: tbteleport.player.tptoggle
+  back:
+    description: 'Returns player to location prior to last teleport'
+    usage: <command>
+    permission: tbteleport.vipplus.back
   #Disabled
   #tp2player:
   #  description: 'Force Teleports Yourself to Player'
@@ -158,6 +186,8 @@ commands:
 
 #Permissions
 permissions:
+  tbteleport.player.tptoggle:
+    default: true
   tbteleport.player.hub:
     default: true
   tbteleport.player.wild:
@@ -182,13 +212,15 @@ permissions:
     default: true
   tbteleport.player.spawn:
     default: true
-  tbteleport.staff.nameit:
+  tbteleport.vip.nameit:
+    default: op
+  tbteleport.vipplus.back:
     default: op
   tbteleport.staff.clearmychat:
     default: op
-  tbteleport.staff.setwarp:
+  tbteleport.admin.warps.setwarp:
     default: op
-  tbteleport.staff.deletewarp:
+  tbteleport.admin.warps.deletewarp:
     default: op
   tbteleport.staff.sendspawn:
     default: op
@@ -199,6 +231,8 @@ permissions:
   tbteleport.updatechecker:
     default: op
   tbteleport.admin:
+    default: op
+  tbteleport.admin.hub.configure:
     default: op
 #Disabled
 #  tbteleport.concept:

@@ -34,8 +34,10 @@ public class TpOk implements CommandExecutor {
                     if (targetPlayer != null) {
                         if (type.equalsIgnoreCase("toPlayer")) {
                             targetPlayer.teleport((Player) sender);
+                            pl.getConfig().set("tpRequest." + sender.getName() + ".requestTime", 0);
                         } else if (type.equalsIgnoreCase("toSender")) {
                             ((Player) sender).teleport(targetPlayer);
+                            pl.getConfig().set("tpRequest." + sender.getName() + ".requestTime", 0);
                         } else {
                             sender.sendMessage(pl.err + "Invalid teleport Type");
                         }

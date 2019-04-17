@@ -23,7 +23,7 @@ public class Wild implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (pl.getCD((Player) sender)) {
-
+            sender.sendMessage(pl.badge + "Checking for safe location. This may take a moment.");
             if (args.length == 1 && sender.hasPermission("tbteleport.staff.wild.other")) {
                 String command = "wild";
                 OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[0]);
@@ -118,6 +118,7 @@ public class Wild implements CommandExecutor {
         while (!isSafe(w, X, Z, attempts)) {
             X = getCoords(1, ((int) maxX - (int) minX)) + (int) minX;
             Z = getCoords(1, ((int) maxZ - (int) minZ)) + (int) minZ;
+            if(attempts % 5 == 0){sender.sendMessage("Attempt " + maxAttempts + " of " + maxAttempts);}
             attempts++;
             if (attempts >= maxAttempts) {
                 String failMessage = ChatColor.translateAlternateColorCodes('&', pl.getConfig().getString("wild.messages.failure")).replace("{COORDS}", X + "," + Y + "," + Z);

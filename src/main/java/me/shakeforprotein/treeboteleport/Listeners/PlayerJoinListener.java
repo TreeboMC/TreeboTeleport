@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -84,6 +85,9 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public boolean onPlayerChangeWorld(PlayerChangedWorldEvent e) {
+        if(pl.getConfig().get("tptoggle." + e.getPlayer().getName()) == null){
+            pl.getConfig().set("tptoggle." + e.getPlayer().getName(), false);
+        }
         if(pl.getConfig().get(e.getPlayer().getWorld().getName() + ".forceSpawnOnJoin") == null){
             pl.getConfig().set(e.getPlayer().getWorld().getName() + ".forceSpawnOnJoin", false);
         }

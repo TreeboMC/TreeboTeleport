@@ -76,7 +76,9 @@ public final class TreeboTeleport extends JavaPlugin {
         this.getCommand("givehubitem").setExecutor(new GiveHubItem(this));
         this.getCommand("setwarp").setExecutor(new SetWarp(this));
         this.getCommand("deletewarp").setExecutor(new DeleteWarp(this));
+        this.getCommand("delwarp").setExecutor(new DeleteWarp(this));
         this.getCommand("warp").setExecutor(new WarpTo(this));
+        this.getCommand("warps").setExecutor(new WarpTo(this));
         this.getCommand("sethome").setExecutor(new SetHome(this));
         this.getCommand("delhome").setExecutor(new DeleteHome(this));
         this.getCommand("home").setExecutor(new Home(this));
@@ -92,6 +94,13 @@ public final class TreeboTeleport extends JavaPlugin {
         this.getCommand("clearmychat").setExecutor(new ClearMyChat(this));
         this.getCommand("ttelesaveconfig").setExecutor(new SaveConfig(this));
         this.getCommand("nameit").setExecutor(new NameIt(this));
+        this.getCommand("tptoggle").setExecutor(new TpToggle(this));
+        this.getCommand("tpno").setExecutor(new TpNo(this));
+        this.getCommand("tpdeny").setExecutor(new TpNo(this));
+        this.getCommand("tpcancel").setExecutor(new TpNo(this));
+        this.getCommand("back").setExecutor(new Back(this));
+
+/*
 /*
         this.getCommand("mergeessdata").setExecutor(new MergeEssentialsData(this));
         this.getCommand("fixtthomes").setExecutor(new FixTTHomes(this));
@@ -104,6 +113,7 @@ public final class TreeboTeleport extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BedClickListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerTeleportListener(this), this);
 
 
         File serverFile = new File(getDataFolder(), File.separator + "servers.yml");
@@ -115,6 +125,7 @@ public final class TreeboTeleport extends JavaPlugin {
         createDefaultFile("", "spawns.yml", false);
         createDefaultFile("", "hubMenu.yml", false);
         createDefaultFile("", "warps.yml", false);
+        createDefaultFile("", "lastLocation.yml", false);
 
 
         if (!serverFile.exists()) {
@@ -132,7 +143,7 @@ public final class TreeboTeleport extends JavaPlugin {
         }
 
         for (String item : serverList.getConfigurationSection("servers").getKeys(false)) {
-            BukkitCommand item2 = new BukkitCommand(item) {
+            BukkitCommand item2 = new BukkitCommand(item.toLowerCase()) {
                 @Override
                 public boolean execute(CommandSender commandSender, String s, String[] strings) {
                     Player p = (Player) commandSender;
@@ -143,6 +154,7 @@ public final class TreeboTeleport extends JavaPlugin {
                 }
             };
             registerNewCommand(this.getDescription().getName(), item2);
+            //this.getCommand(item.toLowerCase()).setPermission("tbteleport.servers." + item);
         }
 
         UpdateChecker uc = new UpdateChecker(this);
@@ -288,15 +300,15 @@ public final class TreeboTeleport extends JavaPlugin {
     public void createDefaultFile(String path, String file, boolean isFolder) {
 
         if (isFolder) {
-            File folderToRegister = new File(path, File.separator + file);
+            File folderToRegister = new File(path, file);
             if (!folderToRegister.exists()) {
                 folderToRegister.mkdir();
             }
         } else {
-            File fileToRegister = new File(path, File.separator + file);
-            System.out.println("Registering file " + path + File.separator + file);
+            File fileToRegister = new File(path, file);
+            //System.out.println("Registering file " + path + File.separator + file);
             if (!fileToRegister.exists()) {
-                System.out.println("File does not exist. Creating new file.");
+                //System.out.println("File does not exist. Creating new file.");
                 saveResource(path + file, false);
             }
         }
