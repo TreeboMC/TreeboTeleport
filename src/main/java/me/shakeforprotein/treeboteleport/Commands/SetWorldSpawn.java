@@ -25,7 +25,7 @@ public class SetWorldSpawn implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-            File spawnsYml = new File(pl.getDataFolder(), File.separator + "spawns.yml");
+            File spawnsYml = new File(pl.getDataFolder(), "spawns.yml");
             if (!spawnsYml.exists()) {
                 sender.sendMessage("Spawns file not found");
                 try {

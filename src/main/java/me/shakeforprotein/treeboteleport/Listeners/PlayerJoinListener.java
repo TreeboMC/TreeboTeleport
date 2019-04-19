@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
+
 
 public class PlayerJoinListener implements Listener {
 
@@ -32,30 +34,22 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public boolean onPlayerJoin(PlayerJoinEvent e) {
+        if (pl.getConfig().isSet("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".world")) {
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable() {
+                public void run() {
+                    System.out.println("Send to spawn triggered");
+                    String world = pl.getConfig().getString("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".world");
+                    int x = Math.toIntExact(pl.getConfig().getInt("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".x"));
+                    int y = Math.toIntExact(pl.getConfig().getInt("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".y"));
+                    int z = Math.toIntExact(pl.getConfig().getInt("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".z"));
+                    float pitch = Math.toIntExact(pl.getConfig().getInt("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".pitch"));
+                    float yaw = Math.toIntExact(pl.getConfig().getInt("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".yaw"));
+                    Location spawnLoc = new Location(Bukkit.getWorld(world), x, y, z, pitch, yaw);
+                    e.getPlayer().teleport(spawnLoc);
 
-        if(pl.getConfig().get(e.getPlayer().getWorld().getName() + ".forceSpawnOnJoin") == null){
-            pl.getConfig().set(e.getPlayer().getWorld().getName() + ".forceSpawnOnJoin", false);
+                }
+            }, 20L);
         }
-        if (pl.getConfig().getBoolean(e.getPlayer().getWorld().getName() + ".forceSpawnOnJoin")) {
-            File spawnsYml = new File(pl.getDataFolder(), File.separator + "spawns.yml");
-            FileConfiguration spawns = YamlConfiguration.loadConfiguration(spawnsYml);
-            Player p = e.getPlayer();
-            String world = p.getWorld().getName();
-
-            if (spawns.get("spawns." + world + ".x") != null) {
-                String confWorld = spawns.getString("spawns." + world + ".world");
-                double x = spawns.getDouble("spawns." + world + ".x");
-                double y = spawns.getDouble("spawns." + world + ".y");
-                double z = spawns.getDouble("spawns." + world + ".z");
-                float pitch = (float) spawns.getDouble("spawns." + world + ".pitch");
-                float yaw = (float) spawns.getDouble("spawns." + world + ".yaw");
-                Location loc = new Location(Bukkit.getWorld(confWorld), x, y, z, yaw, pitch);
-                p.teleport(loc);
-            } else {
-                System.out.println("Tried to send player: " + p.getName() + " : to spawn on world : " + world + " : but no spawn information was found in the spawn.yml");
-            }
-        }
-
         if (pl.getConfig().getBoolean("isHubServer")) {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable() {
                 public void run() {
@@ -85,27 +79,20 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public boolean onPlayerChangeWorld(PlayerChangedWorldEvent e) {
-        if(pl.getConfig().get("tptoggle." + e.getPlayer().getName()) == null){
-            pl.getConfig().set("tptoggle." + e.getPlayer().getName(), false);
+        if (pl.getConfig().get("tptoggle." + e.getPlayer().getName()) == null) {
+            pl.getConfig().set("tptoggle." + e.getPlayer().getName(), 0);
         }
-        if(pl.getConfig().get(e.getPlayer().getWorld().getName() + ".forceSpawnOnJoin") == null){
+        if (pl.getConfig().get(e.getPlayer().getWorld().getName() + ".forceSpawnOnJoin") == null) {
             pl.getConfig().set(e.getPlayer().getWorld().getName() + ".forceSpawnOnJoin", false);
         }
-        if (pl.getConfig().getBoolean(e.getPlayer().getWorld().getName() + ".forceSpawnOnJoin")) {
+        if (pl.getConfig().getString(e.getPlayer().getWorld().getName() + ".forceSpawnOnJoin").equalsIgnoreCase("true")) {
             File spawnsYml = new File(pl.getDataFolder(), File.separator + "spawns.yml");
             FileConfiguration spawns = YamlConfiguration.loadConfiguration(spawnsYml);
             Player p = e.getPlayer();
             String world = p.getWorld().getName();
 
             if (spawns.get("spawns." + world + ".x") != null) {
-                String confWorld = spawns.getString("spawns." + world + ".world");
-                double x = spawns.getDouble("spawns." + world + ".x");
-                double y = spawns.getDouble("spawns." + world + ".y");
-                double z = spawns.getDouble("spawns." + world + ".z");
-                float pitch = (float) spawns.getDouble("spawns." + world + ".pitch");
-                float yaw = (float) spawns.getDouble("spawns." + world + ".yaw");
-                Location loc = new Location(Bukkit.getWorld(confWorld), x, y, z, yaw, pitch);
-                p.teleport(loc);
+                Bukkit.dispatchCommand(e.getPlayer(), "spawn");
             } else {
                 System.out.println("Tried to send player: " + p.getName() + " : to spawn on world : " + world + " : but no spawn information was found in the spawn.yml");
             }
