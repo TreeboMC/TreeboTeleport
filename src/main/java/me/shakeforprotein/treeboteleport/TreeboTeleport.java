@@ -15,6 +15,7 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,6 +26,7 @@ import java.sql.SQLException;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public final class TreeboTeleport extends JavaPlugin {
@@ -32,8 +34,8 @@ public final class TreeboTeleport extends JavaPlugin {
     private HubMenuInventoryListener hubMenuInventoryListener = new HubMenuInventoryListener(this);
     private HubItemListener hubItemListener = new HubItemListener(this);
     private ToWorld toWorld = new ToWorld(this);
-
     public BungeeChannelApi bungeeApi = new BungeeChannelApi(this);
+    public HashMap openInvHash = new HashMap<String, Inventory>();
 
     @Override
     public void onEnable() {

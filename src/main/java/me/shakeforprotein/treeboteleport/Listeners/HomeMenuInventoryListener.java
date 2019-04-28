@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 
 import java.io.File;
 
@@ -27,35 +28,38 @@ public class HomeMenuInventoryListener implements Listener {
     public void invClickEvent(InventoryClickEvent e) {
         Inventory inv = e.getClickedInventory();
         Player p = (Player) e.getWhoClicked();
+        InventoryView invView = e.getView();
+        try {
+            String name = invView.getTitle();
+            int slot = e.getSlot();
+            File menuYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId().toString() + ".yml");
+            FileConfiguration homesMenu = YamlConfiguration.loadConfiguration(menuYml);
 
-        String name = inv.getName();
-        int slot = e.getSlot();
-        File menuYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId().toString() + ".yml");
-        FileConfiguration homesMenu = YamlConfiguration.loadConfiguration(menuYml);
+            String menuName = "Homes - " + p.getName();
 
-        String menuName = "Homes - " + p.getName();
+            if (invView.getTitle().equalsIgnoreCase(menuName)) {
 
-        if (name.equalsIgnoreCase(menuName)) {
-
-            try {
-                if (inv.getItem(slot) != null && inv.getItem(slot).hasItemMeta()) {
-                    if (ChatColor.stripColor(inv.getItem(slot).getItemMeta().getDisplayName()).equalsIgnoreCase("Venture into the unknown")) {
-                        Bukkit.dispatchCommand(p, "wild");
-                    } else if (ChatColor.stripColor(inv.getItem(slot).getItemMeta().getDisplayName()).equalsIgnoreCase("Your Bed")) {
-                        Bukkit.dispatchCommand(p, "bed");
-                    } else {
-                        for (String item : homesMenu.getConfigurationSection("homes").getKeys(false)) {
-                            if (ChatColor.stripColor(inv.getItem(slot).getItemMeta().getDisplayName()).equalsIgnoreCase(homesMenu.getString("homes." + item + ".name"))) {
-                                Bukkit.dispatchCommand(p, "home " + ChatColor.stripColor(inv.getItem(slot).getItemMeta().getDisplayName()));
+                try {
+                    if (inv.getItem(slot) != null && inv.getItem(slot).hasItemMeta()) {
+                        if (ChatColor.stripColor(inv.getItem(slot).getItemMeta().getDisplayName()).equalsIgnoreCase("Venture into the unknown")) {
+                            Bukkit.dispatchCommand(p, "wild");
+                        } else if (ChatColor.stripColor(inv.getItem(slot).getItemMeta().getDisplayName()).equalsIgnoreCase("Your Bed")) {
+                            Bukkit.dispatchCommand(p, "bed");
+                        } else {
+                            for (String item : homesMenu.getConfigurationSection("homes").getKeys(false)) {
+                                if (ChatColor.stripColor(inv.getItem(slot).getItemMeta().getDisplayName()).equalsIgnoreCase(homesMenu.getString("homes." + item + ".name"))) {
+                                    Bukkit.dispatchCommand(p, "home " + ChatColor.stripColor(inv.getItem(slot).getItemMeta().getDisplayName()));
+                                }
                             }
                         }
                     }
+                } catch (Exception err) {
+                    pl.makeLog(err);
                 }
-            } catch (Exception err) {
-                pl.makeLog(err);
+                e.setCancelled(true);
             }
-            e.setCancelled(true);
+        } catch (IllegalStateException err) {
+            String error = err.getMessage();
         }
-
     }
 }

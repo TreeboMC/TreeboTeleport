@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 
 import java.io.File;
 import java.util.Arrays;
@@ -27,58 +28,58 @@ public class HubMenuInventoryListener implements Listener {
     @EventHandler
     public void invClickEvent(InventoryClickEvent e) {
         Inventory inv = e.getInventory();
+        InventoryView inventoryView = e.getView();
         Player p = (Player) e.getWhoClicked();
-        String name = inv.getName();
-        String clickedButton = "";
-        int slot = e.getSlot();
+        try {
+            String name = inventoryView.getTitle();
+            String clickedButton = "";
+            int slot = e.getSlot();
 
-        File menuYml = new File(pl.getDataFolder(), File.separator + "hubMenu.yml");
-        FileConfiguration hubMenu = YamlConfiguration.loadConfiguration(menuYml);
+            File menuYml = new File(pl.getDataFolder(), File.separator + "hubMenu.yml");
+            FileConfiguration hubMenu = YamlConfiguration.loadConfiguration(menuYml);
 
-        String menuName = "HubMenu";
-        if(hubMenu.get("menuName") != null){
-            menuName = hubMenu.getString("menuName");
-            menuName = ChatColor.translateAlternateColorCodes('&', menuName);
-        }
-
-        if(name.equalsIgnoreCase(menuName)){
-
-            try{
-                Set menuItems = hubMenu.getConfigurationSection("hubmenu.menuItems").getKeys(false);
-                String[] menuItemStrings = Arrays.copyOf(menuItems.toArray(), menuItems.size(), String[].class);
-
-                for(String item : menuItemStrings) {
-                    int position = hubMenu.getInt("hubmenu.menuItems." + item + ".position");
-                    if (slot == position) {
-                        clickedButton = item;
-                        break;
-                    }
-                }
-
-                if(!clickedButton.equals("")){
-                    String command;
-                    String executor;
-                    command = hubMenu.getString("hubmenu.menuItems." + clickedButton + ".command");
-                    executor = hubMenu.getString("hubmenu.menuItems." + clickedButton + ".executor");
-                    if(command.startsWith("SERVER")){
-                        pl.bungeeApi.connectOther(e.getWhoClicked().getName(), command.split(" ")[1]);
-                    }
-                    else if(command.startsWith("WORLD")){
-                        e.getWhoClicked().teleport(Bukkit.getWorld(command.split(" ")[1]).getSpawnLocation());
-                    }
-                    else if(executor.equals("console")){
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-                    }
-                    else{
-                        Bukkit.dispatchCommand(e.getWhoClicked(), command);
-                    }
-                }
+            String menuName = "HubMenu";
+            if (hubMenu.get("menuName") != null) {
+                menuName = hubMenu.getString("menuName");
+                menuName = ChatColor.translateAlternateColorCodes('&', menuName);
             }
-            catch (Exception err){
-                pl.makeLog(err);
-            }
-            e.setCancelled(true);
-        }
 
+            if (name.equalsIgnoreCase(menuName)) {
+
+                try {
+                    Set menuItems = hubMenu.getConfigurationSection("hubmenu.menuItems").getKeys(false);
+                    String[] menuItemStrings = Arrays.copyOf(menuItems.toArray(), menuItems.size(), String[].class);
+
+                    for (String item : menuItemStrings) {
+                        int position = hubMenu.getInt("hubmenu.menuItems." + item + ".position");
+                        if (slot == position) {
+                            clickedButton = item;
+                            break;
+                        }
+                    }
+
+                    if (!clickedButton.equals("")) {
+                        String command;
+                        String executor;
+                        command = hubMenu.getString("hubmenu.menuItems." + clickedButton + ".command");
+                        executor = hubMenu.getString("hubmenu.menuItems." + clickedButton + ".executor");
+                        if (command.startsWith("SERVER")) {
+                            pl.bungeeApi.connectOther(e.getWhoClicked().getName(), command.split(" ")[1]);
+                        } else if (command.startsWith("WORLD")) {
+                            e.getWhoClicked().teleport(Bukkit.getWorld(command.split(" ")[1]).getSpawnLocation());
+                        } else if (executor.equals("console")) {
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+                        } else {
+                            Bukkit.dispatchCommand(e.getWhoClicked(), command);
+                        }
+                    }
+                } catch (Exception err) {
+                    pl.makeLog(err);
+                }
+                e.setCancelled(true);
+            }
+        } catch (IllegalStateException err) {
+            String error = err.getMessage();
+        }
     }
 }

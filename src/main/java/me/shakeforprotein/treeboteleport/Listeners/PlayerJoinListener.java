@@ -48,7 +48,7 @@ public class PlayerJoinListener implements Listener {
                     e.getPlayer().teleport(spawnLoc);
 
                 }
-            }, 20L);
+            }, 40L);
         }
         if (pl.getConfig().getBoolean("isHubServer")) {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable() {

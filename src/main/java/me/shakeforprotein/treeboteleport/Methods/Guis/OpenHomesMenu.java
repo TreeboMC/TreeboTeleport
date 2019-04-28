@@ -100,6 +100,7 @@ public class OpenHomesMenu {
                         HomesMenu.addItem(bedItem);
                     }
                 }
+
                 p.openInventory(HomesMenu);
             }
             else{p.sendMessage(pl.err + "No homes found");}

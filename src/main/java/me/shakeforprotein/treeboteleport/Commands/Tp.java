@@ -68,7 +68,7 @@ public class Tp implements CommandExecutor {
                 if (found2) {
                     sender.sendMessage(pl.badge + "Sending " + p1.getName() + " to " + p2.getName());
                     p1.sendMessage(pl.badge + "Summoned to " + p2.getName() + " by " + sender.getName());
-                    p2.sendMessage(pl.badge + p1.getName() + " has been summoned to your location  by " + sender.getName());
+                    p2.sendMessage(pl.badge + p1.getName() + " has been summoned to your location by " + sender.getName());
                     p1.teleport(p2);
                 } else {
                     sender.sendMessage(pl.err + "Player '" + args[1] + "' not found on this server.");
