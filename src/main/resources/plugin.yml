@@ -63,6 +63,10 @@ commands:
     description: 'Requests permission to teleport to another player'
     usage: <command> <player>
     permission: tbteleport.player.tp
+  tpask:
+    description: 'Requests permission to teleport to another player'
+    usage: <command> <player>
+    permission: tbteleport.player.tp
   tpok:
     description: 'Accepts Teleport Request'
     usage: <command>

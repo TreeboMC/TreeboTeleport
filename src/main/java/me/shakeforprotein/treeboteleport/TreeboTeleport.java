@@ -75,6 +75,7 @@ public final class TreeboTeleport extends JavaPlugin {
         this.getCommand("tp").setExecutor(new Tp(this));
         this.getCommand("tpahere").setExecutor(new Tp2MePls(this));
         this.getCommand("tpa").setExecutor(new MayITp(this));
+        this.getCommand("tpask").setExecutor(new MayITp(this));
         this.getCommand("tpok").setExecutor(new TpOk(this));
         this.getCommand("tpaccept").setExecutor(new TpOk(this));
         this.getCommand("tpyes").setExecutor(new TpOk(this));
