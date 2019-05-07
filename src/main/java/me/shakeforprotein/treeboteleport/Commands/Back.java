@@ -29,7 +29,7 @@ public class Back implements CommandExecutor {
 
         if(lastLocConf.isSet(pUUID + ".location")){
             p.sendMessage(pl.badge + "Sending you to your previous location");
-            p.teleport((Location) lastLocConf.get(pUUID + ".location"));
+            pl.shakeTP(p, ((Location) lastLocConf.get(pUUID + ".location")));
         }
         else{
             p.sendMessage(pl.err + "Could not find previous location");

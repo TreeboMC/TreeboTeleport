@@ -37,7 +37,7 @@ public class Wild implements CommandExecutor {
                 World w = player.getWorld();
                 if (args.length == 0) {
 
-                    ((Player) sender).teleport((findSafeBlock(w, (Player) sender)));
+                    pl.shakeTP(((Player) sender), (findSafeBlock(w, (Player) sender)));
 
                 } else {
                     sender.sendMessage(pl.err + "This command does not support additional arguments.");

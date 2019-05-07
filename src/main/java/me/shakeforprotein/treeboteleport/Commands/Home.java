@@ -12,8 +12,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class Home implements CommandExecutor {
 
@@ -55,7 +53,7 @@ public class Home implements CommandExecutor {
                         sender.sendMessage(pl.badge + "Default home not set");
                     }
                 } else if (args[0].equalsIgnoreCase("bed")) {
-                    p.teleport(p.getBedSpawnLocation());
+                    pl.shakeTP(p, p.getBedSpawnLocation());
                 } else {
                     boolean found = false;
                     for (String home : homes.getConfigurationSection("homes").getKeys(false)) {
@@ -68,7 +66,7 @@ public class Home implements CommandExecutor {
                             String world = homes.getString("homes." + home + ".world");
                             Location tpLoc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
                             p.sendMessage(pl.badge + "Returning you to " + home);
-                            p.teleport(tpLoc);
+                            pl.shakeTP(p, tpLoc);
 
                             found = true;
                         }

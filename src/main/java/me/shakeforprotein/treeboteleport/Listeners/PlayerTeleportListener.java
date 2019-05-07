@@ -18,12 +18,12 @@ public class PlayerTeleportListener implements Listener {
 
     private TreeboTeleport pl;
 
-    public PlayerTeleportListener(TreeboTeleport main){
+    public PlayerTeleportListener(TreeboTeleport main) {
         this.pl = main;
     }
 
     @EventHandler
-    public void playerTeleport(PlayerTeleportEvent e){
+    public void playerTeleport(PlayerTeleportEvent e) {
         Location from = e.getFrom();
         Player p = e.getPlayer();
         String pUUID = "player_" + p.getUniqueId();
@@ -32,8 +32,9 @@ public class PlayerTeleportListener implements Listener {
         lastLocConf.set(pUUID + ".name", p.getName());
         lastLocConf.set(pUUID + ".uuid", p.getUniqueId().toString());
         lastLocConf.set(pUUID + ".location", from);
-        try{lastLocConf.save(lastLocFile);}
-        catch (IOException err){
+        try {
+            lastLocConf.save(lastLocFile);
+        } catch (IOException err) {
             System.out.println("Failed to save previous teleport location for user " + p.getUniqueId() + " (" + p.getName() + ")");
             pl.makeLog(err);
         }

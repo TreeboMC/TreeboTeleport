@@ -74,7 +74,7 @@ public class WarpTo implements CommandExecutor {
                 Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
                 p.sendMessage(pl.badge + "Warping you to: " + ChatColor.GOLD + args[0]);
                 if (okWarp) {
-                    p.teleport(loc);
+                    pl.shakeTP(p, loc);
                 } else {
                     p.sendMessage(pl.err + "You lack the permissions required to use that warp");
                 }

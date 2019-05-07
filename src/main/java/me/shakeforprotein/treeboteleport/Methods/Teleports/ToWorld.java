@@ -21,7 +21,7 @@ public class ToWorld {
         else {
             if (Bukkit.getWorld(toWorld) != null) {
                 if (Bukkit.getWorld(toWorld).getSpawnLocation() != null) {
-                    p.teleport(Bukkit.getWorld(toWorld).getSpawnLocation());
+                    pl.shakeTP(p, Bukkit.getWorld(toWorld).getSpawnLocation());
                 }
             }
         }

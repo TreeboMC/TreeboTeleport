@@ -66,7 +66,7 @@ public class HubMenuInventoryListener implements Listener {
                         if (command.startsWith("SERVER")) {
                             pl.bungeeApi.connectOther(e.getWhoClicked().getName(), command.split(" ")[1]);
                         } else if (command.startsWith("WORLD")) {
-                            e.getWhoClicked().teleport(Bukkit.getWorld(command.split(" ")[1]).getSpawnLocation());
+                            pl.shakeTP((Player) e.getWhoClicked(), Bukkit.getWorld(command.split(" ")[1]).getSpawnLocation());
                         } else if (executor.equals("console")) {
                             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
                         } else {

@@ -33,7 +33,7 @@ public class Tp implements CommandExecutor {
                 int i2 = Integer.parseInt(a2);
                 int i3 = Integer.parseInt(a3);
                 Location tpLoc = ((Player) sender).getWorld().getBlockAt(i1, i2, i3).getLocation().add(0, 1, 0);
-                ((Player) sender).teleport(tpLoc);
+                pl.shakeTP(((Player) sender), tpLoc);
 
         } else if (args.length == 4 && (pl.isInteger(args[1]) && pl.isInteger(args[2]) && pl.isInteger(args[3]))) {
             if (Bukkit.getWorld(args[0]) != null) {
@@ -44,7 +44,7 @@ public class Tp implements CommandExecutor {
                 int i2 = Integer.parseInt(a2);
                 int i3 = Integer.parseInt(a3);
                 Location tpLoc = ((Player) sender).getWorld().getBlockAt(i1, i2, i3).getLocation().add(0, 1, 0);
-                ((Player) sender).teleport(tpLoc);
+                pl.shakeTP(((Player) sender), tpLoc);
             } else {
                 sender.sendMessage(pl.err + "No world found with name '" + args[0] + "'");
             }

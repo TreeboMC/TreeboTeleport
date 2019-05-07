@@ -30,7 +30,7 @@ public class Tp2WorldAt implements CommandExecutor {
                             int i2 = Integer.parseInt(a2);
                             int i3 = Integer.parseInt(a3);
                             Location tpLoc = Bukkit.getWorld(args[0]).getBlockAt(i1, i2, i3).getLocation().add(0, 1, 0);
-                            ((Player) sender).teleport(tpLoc);
+                            pl.shakeTP(((Player) sender), tpLoc);
                         } else {
                             sender.sendMessage(pl.err + "Invalid coordinate format or world name");
                         }
@@ -42,7 +42,7 @@ public class Tp2WorldAt implements CommandExecutor {
                             int i3 = Integer.parseInt(a3);
                             int i2 = Bukkit.getWorld(args[0]).getHighestBlockYAt(i1, i3);
                             Location tpLoc = Bukkit.getWorld(args[0]).getBlockAt(i1, i2, i3).getLocation().add(0, 1, 0);
-                            ((Player) sender).teleport(tpLoc);
+                            pl.shakeTP(((Player) sender), tpLoc);
                         } else {
                             sender.sendMessage(pl.err + "Invalid coordinate format or world name");
                         }
@@ -53,7 +53,7 @@ public class Tp2WorldAt implements CommandExecutor {
                         int i3 = Integer.parseInt(args[2]);
                         int i2 = Bukkit.getWorld(args[0]).getHighestBlockYAt(i1, i3);
                         Location tpLoc = Bukkit.getWorld(args[0]).getBlockAt(i1, i2, i3).getLocation().add(0, 1, 0);
-                        ((Player) sender).teleport(tpLoc);
+                        pl.shakeTP((Player) sender, tpLoc);
                     } else {
                         sender.sendMessage(pl.err + " Invalid Coordinate format or world name");
                     }
@@ -63,7 +63,7 @@ public class Tp2WorldAt implements CommandExecutor {
                         int i2 = Integer.parseInt(args[2]);
                         int i3 = Integer.parseInt(args[3]);
                         Location tpLoc = Bukkit.getWorld(args[0]).getBlockAt(i1, i2, i3).getLocation().add(0, 1, 0);
-                        ((Player) sender).teleport(tpLoc);
+                        pl.shakeTP((Player) sender, tpLoc);
                     } else {
                         sender.sendMessage(pl.err + " Invalid coordinate format or world name");
                     }

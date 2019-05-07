@@ -8,6 +8,7 @@ import me.shakeforprotein.treeboteleport.Methods.Teleports.ToWorld;
 import me.shakeforprotein.treeboteleport.UpdateChecker.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
@@ -28,6 +29,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public final class TreeboTeleport extends JavaPlugin {
 
@@ -36,6 +38,7 @@ public final class TreeboTeleport extends JavaPlugin {
     private ToWorld toWorld = new ToWorld(this);
     public BungeeChannelApi bungeeApi = new BungeeChannelApi(this);
     public HashMap openInvHash = new HashMap<String, Inventory>();
+    public HashMap lockMove = new HashMap<UUID, String>();
 
     @Override
     public void onEnable() {
@@ -117,6 +120,7 @@ public final class TreeboTeleport extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerTeleportListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
 
 
         File serverFile = new File(getDataFolder(), File.separator + "servers.yml");
@@ -338,6 +342,21 @@ public final class TreeboTeleport extends JavaPlugin {
             makeLog(e);
             s.sendMessage("Saving " + file + " failed.");
         }
+    }
+
+    public void shakeTP(Player p, Location loc) {
+        loc.getWorld().loadChunk(loc.getChunk().getX(), loc.getChunk().getZ());
+        lockMove.putIfAbsent(p.getUniqueId(), p.getName());
+        p.setInvulnerable(true);
+        p.teleport(loc);
+        p.sendMessage(badge + "As a safety feature you have been locked in place for 3 seconds.");
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+            public void run() {
+                p.setInvulnerable(false);
+                lockMove.remove(p.getUniqueId());
+            }
+        }, 60L);
     }
 }
 

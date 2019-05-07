@@ -55,7 +55,7 @@ public class Spawn implements CommandExecutor {
                 float yaw = (float) spawns.getDouble("spawns." + world + ".yaw");
                 Location loc = new Location(Bukkit.getWorld(confWorld), x, y, z, yaw, pitch);
                 p.sendMessage(pl.badge + "Returning you to Spawn");
-                p.teleport(loc);
+                pl.shakeTP(p, loc);
             } else {
                 p.sendMessage(pl.err + "No spawn found for this world");
             }
