@@ -106,6 +106,7 @@ public final class TreeboTeleport extends JavaPlugin {
         this.getCommand("tpdeny").setExecutor(new TpNo(this));
         this.getCommand("tpcancel").setExecutor(new TpNo(this));
         this.getCommand("back").setExecutor(new Back(this));
+        this.getCommand("addmaxhomes").setExecutor(new AddMaxHomes(this));
 
 /*
 /*
@@ -269,7 +270,6 @@ public final class TreeboTeleport extends JavaPlugin {
 
             return (cooldown);
         } else {
-            setCooldown(p);
             return false;
         }
     }
@@ -347,10 +347,10 @@ public final class TreeboTeleport extends JavaPlugin {
 
     public void shakeTP(Player p, Location loc) {
         loc.getWorld().loadChunk(loc.getChunk().getX(), loc.getChunk().getZ());
-        lockMove.putIfAbsent(p.getUniqueId(), p.getName());
+        //lockMove.putIfAbsent(p.getUniqueId(), p.getName());
         p.setInvulnerable(true);
         p.teleport(loc);
-        p.sendMessage(badge + "As a safety feature you have been locked in place for 3 seconds.");
+        //p.sendMessage(badge + "As a safety feature you have been locked in place for 3 seconds.");
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             public void run() {

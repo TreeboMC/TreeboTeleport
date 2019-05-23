@@ -11,15 +11,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 
 
 public class PlayerJoinListener implements Listener {

@@ -68,7 +68,7 @@ public class Wild implements CommandExecutor {
                 Block aBlock = block.getRelative(0, 2, 0);
                 block = block.getRelative(0, 1, 0);
                 //Bukkit.broadcastMessage(X + "," + highBlock + "," + Z);
-                if (uBlock.getType() == Material.GRASS_BLOCK) {
+                if (uBlock.getType() == Material.GRASS_BLOCK || uBlock.getType() == Material.END_STONE) {
                     if (block.getType() == Material.AIR) {
                         if (aBlock.getType() == Material.AIR) {
                             Y = highBlock;
@@ -129,6 +129,7 @@ public class Wild implements CommandExecutor {
 
         Location landOn = w.getBlockAt(X, (Y + 2), Z).getLocation();
         landOn.add(0.5,0,0.5);
+        pl.setCooldown((Player) sender);
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', pl.getConfig().getString("wild.messages.success")).replace("{COORDS}", X + "," + Y + "," + Z));
         if(pl.getConfig().get("wild.cost") != null){
             int cost = pl.getConfig().getInt("wild.cost");

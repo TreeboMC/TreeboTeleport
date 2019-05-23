@@ -7,11 +7,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import sun.reflect.generics.tree.Tree;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class PlayerTeleportListener implements Listener {
@@ -26,6 +25,25 @@ public class PlayerTeleportListener implements Listener {
     public void playerTeleport(PlayerTeleportEvent e) {
         Location from = e.getFrom();
         Player p = e.getPlayer();
+
+        String pUUID = "player_" + p.getUniqueId();
+        File lastLocFile = new File(pl.getDataFolder(), "lastLocation.yml");
+        FileConfiguration lastLocConf = YamlConfiguration.loadConfiguration(lastLocFile);
+        lastLocConf.set(pUUID + ".name", p.getName());
+        lastLocConf.set(pUUID + ".uuid", p.getUniqueId().toString());
+        lastLocConf.set(pUUID + ".location", from);
+        try {
+            lastLocConf.save(lastLocFile);
+        } catch (IOException err) {
+            System.out.println("Failed to save previous teleport location for user " + p.getUniqueId() + " (" + p.getName() + ")");
+            pl.makeLog(err);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent e){
+        Location from = e.getEntity().getLocation();
+        Player p = e.getEntity();
         String pUUID = "player_" + p.getUniqueId();
         File lastLocFile = new File(pl.getDataFolder(), "lastLocation.yml");
         FileConfiguration lastLocConf = YamlConfiguration.loadConfiguration(lastLocFile);

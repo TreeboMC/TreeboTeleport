@@ -160,6 +160,10 @@ commands:
     description: 'Returns player to location prior to last teleport'
     usage: <command>
     permission: tbteleport.vipplus.back
+  addmaxhomes:
+    description: 'pex adds permission for <amount> more homes to <player>'
+    usage: <command> <player> <amount>
+    permission: tbteleport.admin.setMaxHomes
   #Disabled
   #tp2player:
   #  description: 'Force Teleports Yourself to Player'
@@ -242,6 +246,8 @@ permissions:
     default: op
   tbteleport.admin.hub.configure:
     default: op
+  tbteleport.admin.setMaxHomes:
+    default false
 #Disabled
 #  tbteleport.concept:
 #    default: op
