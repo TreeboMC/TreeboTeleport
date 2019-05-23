@@ -103,6 +103,9 @@ Admin:
   /ttelereload - Reloads TreeboTeleport config.yml
   /ttelesaveconfig - Writes current config back to config.yml file
     permission: tbteleport.admin
+  
+  /addmaxhomes <player> <amount> - increases <player> max homes by <amount>
+    permission: tbteleport.admin.setMaxHomes
 ```
 
 ##Permissions:
@@ -135,4 +138,6 @@ Admin:
   tbteleport.updatechecker: Notifies player of plugin updates.
   tbteleport.admin: Use /sws, /gws, /setworldspawn, tteleReload, tteleSaveConfig
     default: op
+  tbteleport.admin.setMaxHomes: Use /addmaxhomes <player> <amount>
+    default: false
 ```
