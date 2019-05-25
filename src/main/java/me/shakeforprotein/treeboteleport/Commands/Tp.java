@@ -49,8 +49,8 @@ public class Tp implements CommandExecutor {
                 sender.sendMessage(pl.err + "No world found with name '" + args[0] + "'");
             }
         } else if (args.length == 2) {
-            Player p1 = (Player) sender;
-            Player p2 = (Player) sender;
+            Player p1 = null;
+            Player p2 = null;
             boolean found1 = false;
             boolean found2 = false;
 

@@ -61,6 +61,13 @@ public class SetWorldSpawn implements CommandExecutor {
                 spawns.set("spawns." + name + ".pitch", pitch);
                 spawns.set("spawns." + name + ".yaw", yaw);
 
+                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".world", world);
+                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".x", x);
+                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".y", y);
+                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".z", z);
+                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".pitch", pitch);
+                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".yaw", yaw);
+
                 try {
                     spawns.save(spawnsYml);
                     p.sendMessage(pl.badge + "World spawn saved for world: " + ChatColor.YELLOW + "[" + ChatColor.GOLD + name + ChatColor.YELLOW + " + ]");

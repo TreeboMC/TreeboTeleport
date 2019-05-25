@@ -107,7 +107,9 @@ public final class TreeboTeleport extends JavaPlugin {
         this.getCommand("tpcancel").setExecutor(new TpNo(this));
         this.getCommand("back").setExecutor(new Back(this));
         this.getCommand("addmaxhomes").setExecutor(new AddMaxHomes(this));
-
+        this.getCommand("shop").setExecutor(new Shop(this));
+        this.getCommand("setshop").setExecutor(new SetShop(this));
+        this.getCommand("setttelecooldown").setExecutor(new SetTTeleCooldown(this));
 /*
 /*
         this.getCommand("mergeessdata").setExecutor(new MergeEssentialsData(this));

@@ -164,6 +164,17 @@ commands:
     description: 'pex adds permission for <amount> more homes to <player>'
     usage: <command> <player> <amount>
     permission: tbteleport.admin.setMaxHomes
+  shop:
+    description: 'Sends player to shop for their current world'
+    usage: <command>
+    permission: tbteleport.player.shop
+  setshop:
+    description: 'Allows a player to set world shop tp their current location'
+    usage: <command>
+    permission: tbteleport.admin.setshop
+  setttelecooldown:
+    usage: <command> <true|false|integer>
+    permission: tbteleport.admin.cooldowns
   #Disabled
   #tp2player:
   #  description: 'Force Teleports Yourself to Player'
@@ -247,7 +258,13 @@ permissions:
   tbteleport.admin.hub.configure:
     default: op
   tbteleport.admin.setMaxHomes:
-    default false
+    default: false
+  tbteleport.player.shop:
+    default: true;
+  tbteleport.admin.setshop:
+    default: op;
+  tbteleport.admin.cooldowns:
+    default: op
 #Disabled
 #  tbteleport.concept:
 #    default: op
