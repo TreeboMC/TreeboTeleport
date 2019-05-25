@@ -129,7 +129,9 @@ public class Wild implements CommandExecutor {
 
         Location landOn = w.getBlockAt(X, (Y + 2), Z).getLocation();
         landOn.add(0.5,0,0.5);
-        pl.setCooldown((Player) sender);
+        if(pl.getConfig().getBoolean("useCooldown")) {
+            pl.setCooldown((Player) sender);
+        }
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', pl.getConfig().getString("wild.messages.success")).replace("{COORDS}", X + "," + Y + "," + Z));
         if(pl.getConfig().get("wild.cost") != null){
             int cost = pl.getConfig().getInt("wild.cost");

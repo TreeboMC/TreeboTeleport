@@ -35,13 +35,8 @@ public class PlayerJoinListener implements Listener {
                 public void run() {
                     System.out.println("Send to spawn triggered");
                     String world = pl.getConfig().getString("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".world");
-                    int x = Math.toIntExact(pl.getConfig().getInt("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".x"));
-                    int y = Math.toIntExact(pl.getConfig().getInt("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".y"));
-                    int z = Math.toIntExact(pl.getConfig().getInt("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".z"));
-                    float pitch = Math.toIntExact(pl.getConfig().getInt("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".pitch"));
-                    float yaw = Math.toIntExact(pl.getConfig().getInt("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".yaw"));
-                    Location spawnLoc = new Location(Bukkit.getWorld(world), x, y, z, pitch, yaw);
-                    e.getPlayer().teleport(spawnLoc);
+                    Location spawnLoc = (Location) pl.getConfig().get("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".location");
+                    pl.shakeTP(e.getPlayer(), spawnLoc);
 
                 }
             }, 40L);

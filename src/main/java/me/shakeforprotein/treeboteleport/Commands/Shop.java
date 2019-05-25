@@ -24,14 +24,8 @@ public class Shop implements CommandExecutor {
             Player p = (Player) sender;
 
             if (pl.getConfig().isSet("shop." + p.getWorld().getName() + ".world")) {
-                String world = pl.getConfig().getString("shop." + p.getWorld().getName() + ".world");
-                int x = Math.toIntExact(pl.getConfig().getInt("shop." + p.getWorld().getName() + ".x"));
-                int y = Math.toIntExact(pl.getConfig().getInt("shop." + p.getWorld().getName() + ".y"));
-                int z = Math.toIntExact(pl.getConfig().getInt("shop." + p.getWorld().getName() + ".z"));
-                float pitch = Math.toIntExact(pl.getConfig().getInt("shop." + p.getWorld().getName() + ".pitch"));
-                float yaw = Math.toIntExact(pl.getConfig().getInt("shop." + p.getWorld().getName() + ".yaw"));
-                Location shopLoc = new Location(Bukkit.getWorld(world), x, y, z, pitch, yaw);
-                p.teleport(shopLoc);
+                Location shopLoc = (Location) pl.getConfig().get("shop." + p.getWorld().getName() + ".location");
+                pl.shakeTP(p, shopLoc);
             }
         } else {
             sender.sendMessage(pl.err + "This command can only be run by a player.");

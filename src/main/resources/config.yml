@@ -9,6 +9,7 @@ password: ''
 transferTable: 'treeboTeleport_serverTransfer'
 
 CommandDelay: 15
+useCooldown: false
 
 isHubServer: false
 
