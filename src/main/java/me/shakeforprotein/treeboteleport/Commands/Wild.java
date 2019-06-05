@@ -22,19 +22,22 @@ public class Wild implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (pl.getCD((Player) sender)) {
-            sender.sendMessage(pl.badge + "Checking for safe location. This may take a moment.");
-            if (args.length == 1 && sender.hasPermission("tbteleport.staff.wild.other")) {
-                String command = "wild";
-                OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[0]);
-                if (targetPlayer instanceof Player) {
-                    Bukkit.dispatchCommand((Player) targetPlayer, command);
-                } else {
-                    sender.sendMessage(pl.err + "Player not found");
-                }
-            } else if (sender instanceof Player) {
+
+        if (args.length == 1 && sender.hasPermission("tbteleport.staff.wild.other")) {
+            OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[0]);
+            World w = ((Player) targetPlayer).getWorld();
+            if (targetPlayer instanceof Player) {
+                pl.shakeTP(((Player)targetPlayer), (findSafeBlock(w, ((Player) targetPlayer))));
+            } else {
+                sender.sendMessage(pl.err + "Player not found");
+            }
+        }
+        else if (sender instanceof Player) {
+            if (!pl.getCD((Player) sender)) {
+                sender.sendMessage(pl.badge + "Checking for safe location. This may take a moment.");
                 Player player = (Player) sender;
                 World w = player.getWorld();
+
                 if (args.length == 0) {
 
                     pl.shakeTP(((Player) sender), (findSafeBlock(w, (Player) sender)));

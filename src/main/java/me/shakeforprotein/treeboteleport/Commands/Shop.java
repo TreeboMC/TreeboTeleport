@@ -24,7 +24,13 @@ public class Shop implements CommandExecutor {
             Player p = (Player) sender;
 
             if (pl.getConfig().isSet("shop." + p.getWorld().getName() + ".world")) {
-                Location shopLoc = (Location) pl.getConfig().get("shop." + p.getWorld().getName() + ".location");
+                String world = pl.getConfig().getString("shop." + p.getWorld().getName() + ".world");
+                double x = pl.getConfig().getDouble("shop." + p.getWorld().getName() + ".x");
+                double y = pl.getConfig().getDouble("shop." + p.getWorld().getName() + ".y");
+                double z = pl.getConfig().getDouble("shop." + p.getWorld().getName() + ".z");
+                float pitch = (float) pl.getConfig().getDouble("shop." + p.getWorld().getName() + ".pitch");
+                float yaw = (float) pl.getConfig().getDouble("shop." + p.getWorld().getName() + ".yaw");
+                Location shopLoc = new Location(Bukkit.getWorld(world), x, y, z, pitch, yaw);
                 pl.shakeTP(p, shopLoc);
             }
         } else {

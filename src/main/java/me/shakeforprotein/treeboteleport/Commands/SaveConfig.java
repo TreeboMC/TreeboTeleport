@@ -17,7 +17,7 @@ public class SaveConfig implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         pl.saveConfig();
-        sender.sendMessage("Saved Config");
+        sender.sendMessage(pl.badge + "Saved Config");
         return true;
     }
 }

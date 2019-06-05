@@ -4,6 +4,7 @@ import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import me.shakeforprotein.treeboteleport.UpdateChecker.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -17,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 
 
-
 public class PlayerJoinListener implements Listener {
 
     private TreeboTeleport pl;
@@ -25,7 +25,7 @@ public class PlayerJoinListener implements Listener {
 
     public PlayerJoinListener(TreeboTeleport main) {
         this.pl = main;
-        this.uc = new UpdateChecker(main);
+        //    this.uc = new UpdateChecker(main);
     }
 
     @EventHandler
@@ -35,7 +35,12 @@ public class PlayerJoinListener implements Listener {
                 public void run() {
                     System.out.println("Send to spawn triggered");
                     String world = pl.getConfig().getString("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".world");
-                    Location spawnLoc = (Location) pl.getConfig().get("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".location");
+                    double x = pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".x");
+                    double y = pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".y");
+                    double z = pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".z");
+                    float pitch = (float) pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".pitch");
+                    float yaw = (float) pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".yaw");
+                    Location spawnLoc = new Location(Bukkit.getWorld(world), x, y, z, pitch, yaw);
                     pl.shakeTP(e.getPlayer(), spawnLoc);
 
                 }
@@ -52,15 +57,11 @@ public class PlayerJoinListener implements Listener {
                     }
                 }
             }, 30L);
-
             if (e.getPlayer().hasPermission(uc.requiredPermission)) {
-                uc.getCheckDownloadURL(e.getPlayer());
-                pl.getConfig().set(e.getPlayer().getName(), "true");
-                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable() {
-                    public void run() {
-                        pl.getConfig().set(e.getPlayer().getName(), "false");
-                    }
-                }, 75L);
+                if (!uc.updateNotified.containsKey(e.getPlayer())) {
+                    uc.checkUpdates(e.getPlayer());
+                    uc.updateNotified.putIfAbsent(e.getPlayer(), true);
+                }
             }
         }
 
@@ -73,20 +74,21 @@ public class PlayerJoinListener implements Listener {
         if (pl.getConfig().get("tptoggle." + e.getPlayer().getName()) == null) {
             pl.getConfig().set("tptoggle." + e.getPlayer().getName(), 0);
         }
-        if (pl.getConfig().get(e.getPlayer().getWorld().getName() + ".forceSpawnOnJoin") == null) {
-            pl.getConfig().set(e.getPlayer().getWorld().getName() + ".forceSpawnOnJoin", false);
-        }
-        if (pl.getConfig().getString(e.getPlayer().getWorld().getName() + ".forceSpawnOnJoin").equalsIgnoreCase("true")) {
-            File spawnsYml = new File(pl.getDataFolder(), File.separator + "spawns.yml");
-            FileConfiguration spawns = YamlConfiguration.loadConfiguration(spawnsYml);
-            Player p = e.getPlayer();
-            String world = p.getWorld().getName();
+        if (pl.getConfig().isSet("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".world")) {
 
-            if (spawns.get("spawns." + world + ".x") != null) {
-                Bukkit.dispatchCommand(e.getPlayer(), "spawn");
-            } else {
-                System.out.println("Tried to send player: " + p.getName() + " : to spawn on world : " + world + " : but no spawn information was found in the spawn.yml");
-            }
+            System.out.println("Send to spawn triggered");
+            String world = pl.getConfig().getString("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".world");
+            double x = pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".x");
+            double y = pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".y");
+            double z = pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".z");
+            float pitch = (float) pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".pitch");
+            float yaw = (float) pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".yaw");
+            Location spawnLoc = new Location(Bukkit.getWorld(world), x, y, z, pitch, yaw);
+            pl.shakeTP(e.getPlayer(), spawnLoc);
+
+        } else {
+            String world = e.getPlayer().getWorld().getName();
+            System.out.println("Tried to send player: " + e.getPlayer().getName() + " : to spawn on world : " + world + " : but no spawn information was found in the config.yml");
         }
         return true;
     }

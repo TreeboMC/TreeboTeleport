@@ -8,13 +8,14 @@ username: ''
 password: ''
 transferTable: 'treeboTeleport_serverTransfer'
 
+tpProtection: 3
 CommandDelay: 15
 useCooldown: false
 
 isHubServer: false
 
-CommandCooldowns:
-  ShakeforProtein: 0
+KillZombies: false
+ReplacePhantomsWithPissedOffWolves: true
 
 general:
   messages:

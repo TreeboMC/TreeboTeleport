@@ -13,6 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 
 import java.io.File;
+import java.util.ConcurrentModificationException;
 
 
 public class HomeMenuInventoryListener implements Listener {
@@ -48,7 +49,7 @@ public class HomeMenuInventoryListener implements Listener {
                         } else {
                             for (String item : homesMenu.getConfigurationSection("homes").getKeys(false)) {
                                 if (ChatColor.stripColor(inv.getItem(slot).getItemMeta().getDisplayName()).equalsIgnoreCase(homesMenu.getString("homes." + item + ".name"))) {
-                                    Bukkit.dispatchCommand(p, "home " + ChatColor.stripColor(inv.getItem(slot).getItemMeta().getDisplayName()));
+                                    Bukkit.dispatchCommand(p, "home " + inv.getItem(slot).getItemMeta().getDisplayName());
                                 }
                             }
                         }
