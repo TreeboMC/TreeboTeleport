@@ -30,8 +30,8 @@ public class Shop implements CommandExecutor {
                 double z = pl.getConfig().getDouble("shop." + p.getWorld().getName() + ".z");
                 float pitch = (float) pl.getConfig().getDouble("shop." + p.getWorld().getName() + ".pitch");
                 float yaw = (float) pl.getConfig().getDouble("shop." + p.getWorld().getName() + ".yaw");
-                Location shopLoc = new Location(Bukkit.getWorld(world), x, y, z, pitch, yaw);
-                pl.shakeTP(p, shopLoc);
+                Location shopLoc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+                p.teleport(shopLoc);
             }
         } else {
             sender.sendMessage(pl.err + "This command can only be run by a player.");

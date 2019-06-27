@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 
+
 public class KillZombies implements Listener {
 
     private TreeboTeleport pl;
@@ -29,7 +30,7 @@ public class KillZombies implements Listener {
             }
         }
         if (pl.getConfig().getBoolean("ReplacePhantomsWithPissedOffWolves")) {
-            if (e.getEntity() instanceof Phantom) {
+            if (e.getEntity() instanceof Phantom || e.getEntity() instanceof Fox) {
                 e.setCancelled(true);
             }
         }
@@ -37,9 +38,13 @@ public class KillZombies implements Listener {
 
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent e) {
-        for (Entity ent : e.getChunk().getEntities()) {
-            if ((ent instanceof Zombie) || (ent instanceof Spider) || (ent instanceof Bat) || (ent instanceof Skeleton) || (ent instanceof Enderman) || (ent instanceof Illager) || ((ent instanceof Fish) && !(ent instanceof PufferFish)) || (ent instanceof Silverfish) || (ent instanceof Slime) || (ent instanceof Blaze) || (ent instanceof Guardian) || (ent instanceof Ghast) || (ent instanceof Vex) || (ent instanceof Phantom) || (ent instanceof SkeletonHorse) || (ent instanceof Rabbit) || (ent instanceof Squid)){
-                ent.remove();
+
+        Entity[] entities = e.getChunk().getEntities().clone();
+        for (Entity ent : entities) {
+            if ((ent instanceof Zombie) || (ent instanceof Spider) || (ent instanceof Bat) || (ent instanceof Skeleton) || (ent instanceof Enderman) || (ent instanceof Illager) || ((ent instanceof Fish) && !(ent instanceof PufferFish)) || (ent instanceof Silverfish) || (ent instanceof Slime) || (ent instanceof Blaze) || (ent instanceof Guardian) || (ent instanceof Ghast) || (ent instanceof Vex) || (ent instanceof Phantom) || (ent instanceof SkeletonHorse) || (ent instanceof Rabbit) || (ent instanceof Squid)  || (ent instanceof Fox)){
+                if(ent.getCustomName() != null) {
+                    ent.getWorld().getEntities().remove(ent);
+                }
             }
         }
     }

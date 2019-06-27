@@ -81,7 +81,7 @@ public class OpenHomesMenu {
                     HomesMenu.addItem(newItem);
                 }
 
-                if (homesMenu.getConfigurationSection("bed") != null) {
+                /*if (homesMenu.getConfigurationSection("bed") != null) {
                     if (p.getBedSpawnLocation() != null) {
 
                         int bedX = homesMenu.getInt("bed.x");
@@ -100,6 +100,8 @@ public class OpenHomesMenu {
                         HomesMenu.addItem(bedItem);
                     }
                 }
+
+                 */
 
                 p.openInventory(HomesMenu);
             }
@@ -157,7 +159,7 @@ public class OpenHomesMenu {
                 itemMeta.setDisplayName(displayName);
                 List<String> itemLore = new ArrayList<String>();
 
-                itemLore.add("X:" + Math.floor(x) + "  Y: " + y + "  Z: " + z);
+                itemLore.add("X:" + Math.floor(x) + "  Y: " + y + "  Z: " + Math.floor(z));
                 itemLore.add("World: " + world);
                 itemMeta.setLore(itemLore);
                 newItem.setItemMeta(itemMeta);
@@ -165,7 +167,7 @@ public class OpenHomesMenu {
                 HomesMenu.addItem(newItem);
             }
 
-            if (homesMenu.getConfigurationSection("bed") != null) {
+            /*if (homesMenu.getConfigurationSection("bed") != null) {
                 if (p.getBedSpawnLocation() != null) {
 
                     int bedX = homesMenu.getInt("bed.x");
@@ -184,6 +186,8 @@ public class OpenHomesMenu {
                     HomesMenu.addItem(bedItem);
                 }
             }
+
+             */
             p.openInventory(HomesMenu);
         } catch (NullPointerException e) {
             pl.makeLog(e);

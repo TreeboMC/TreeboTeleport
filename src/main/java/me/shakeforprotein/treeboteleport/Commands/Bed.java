@@ -20,7 +20,7 @@ public class Bed implements CommandExecutor {
         Player p = (Player) sender;
             if (p.getBedSpawnLocation() != null) {
                 p.sendMessage(pl.badge + "Sending you to your bed");
-                pl.shakeTP(p, p.getBedSpawnLocation());
+                p.teleport(p.getBedSpawnLocation());
             } else {
                 p.sendMessage(pl.err + "Bed Missing");
             }

@@ -1,7 +1,6 @@
 package me.shakeforprotein.treeboteleport.UpdateChecker;
 
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -17,15 +16,14 @@ public class UpdateChecker {
 
     private TreeboTeleport pl;
 
-    public String requiredPermission = "tbteleport.admin.updatechecker";
-    public HashMap runningVersion = new HashMap<Integer, Integer>();
-    public HashMap currentVersion = new HashMap<Integer, Integer>();
-    public HashMap updateNotified = new HashMap<Player, Boolean>();
-
     public UpdateChecker(TreeboTeleport main) {
         this.pl = main;
     }
 
+    public String requiredPermission = "tbteleport.admin.updatechecker";
+    public HashMap runningVersion = new HashMap<Integer, Integer>();
+    public HashMap currentVersion = new HashMap<Integer, Integer>();
+    public HashMap updateNotified = new HashMap<Player, Boolean>();
     public boolean isOutOfDate = false;
     public String newVersion = "";
 
@@ -34,6 +32,7 @@ public class UpdateChecker {
         // Adjustments by ShakeforProtein
         if (pl.getConfig().getString("checkUpdates").equalsIgnoreCase("true")) {
             try {
+                System.out.println(pl.badge + "Checking for updates");
                 URL url = new URL(pl.getConfig().getString("apiLink"));
                 URLConnection conn = url.openConnection();
                 conn.setRequestProperty("User-Agent", "Mozilla/1.0");
@@ -42,38 +41,44 @@ public class UpdateChecker {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String inputLine = in.readLine();
                 String gitVersion = "";
+
                 Boolean getLinkNow = false;
-
+                System.out.println(pl.badge + "Checking for Git Data");
                 while (inputLine != null) {
-
+                    System.out.println(pl.badge + "Git Data Found");
                     JSONParser parser = new JSONParser();
                     JSONObject json = (JSONObject) parser.parse(inputLine);
                     gitVersion = json.get("tag_name").toString();
                     String fullGitVersion = gitVersion;
+                    System.out.println(pl.badge + "Found Git Version - " + fullGitVersion);
                     gitVersion = gitVersion.split(" ")[0].split("-")[0];
                     currentVersion.put(0, Integer.parseInt(gitVersion.split("\\.")[0]));
                     currentVersion.put(1, Integer.parseInt(gitVersion.split("\\.")[1]));
                     currentVersion.put(2, Integer.parseInt(gitVersion.split("\\.")[2]));
-
                     String thisVersion = pl.getDescription().getVersion();
                     thisVersion = thisVersion.split(" ")[0].split("-")[0];
                     runningVersion.put(0, Integer.parseInt(thisVersion.split("\\.")[0]));
                     runningVersion.put(1, Integer.parseInt(thisVersion.split("\\.")[1]));
                     runningVersion.put(2, Integer.parseInt(thisVersion.split("\\.")[2]));
-
-                    if ((int) currentVersion.get(0) > (int) runningVersion.get(0)) {
+                    int cv0 = (int) currentVersion.get(0);
+                    int cv1 = (int) currentVersion.get(1);
+                    int cv2 = (int) currentVersion.get(2);
+                    int rv0 = (int) runningVersion.get(0);
+                    int rv1 = (int) runningVersion.get(1);
+                    int rv2 = (int) runningVersion.get(2);
+                    if (cv0 > rv0) {
                         isOutOfDate = true;
-                    } else if ((int) currentVersion.get(0) == (int) runningVersion.get(0) && (int) currentVersion.get(1) > (int) runningVersion.get(1)) {
+                    } else if (cv0 == rv0 && cv1 > rv1) {
                         isOutOfDate = true;
-                    } else if ((int) currentVersion.get(0) == (int) runningVersion.get(0) && (int) currentVersion.get(1) == (int) runningVersion.get(1) && (int) currentVersion.get(2) > (int) currentVersion.get(2)) {
+                    } else if (cv0 == rv0 && cv1 == rv1 && cv2 > rv2) {
                         isOutOfDate = true;
                     }
 
                     if (isOutOfDate) {
-                        newVersion = pl.badge + " is out of date. Please update to version " + fullGitVersion;
-                        Bukkit.getConsoleSender().sendMessage("Latest " + pl.getDescription().getName() + " Version is " + gitVersion);
-                        Bukkit.getConsoleSender().sendMessage("Your " + pl.getDescription().getName() + " Version is " + pl.getDescription().getVersion());
-                        Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "Please consider updating " + pl.getDescription().getName() + " with version at " + pl.getConfig().getString("releasePage"));
+                        newVersion = pl.badge + ChatColor.RED + "is out of date. Please update to version " + fullGitVersion + " from " + pl.getConfig().getString("releasePage");
+                        System.out.println(newVersion);}
+                    else{
+                        System.out.println(pl.badge +  "is up to date");
                     }
                     break;
                 }
@@ -81,6 +86,7 @@ public class UpdateChecker {
 
                 return true;
             } catch (Exception e) {
+                e.printStackTrace();
                 pl.getServer().getLogger().warning("Something went wrong while downloading an update.");
                 pl.getServer().getLogger().info("Please check the plugin's release page to see if there are any updates available.");
                 pl.getServer().getLogger().info("" + pl.getConfig().getString("releasePage"));
@@ -93,7 +99,10 @@ public class UpdateChecker {
 
     public void checkUpdates(Player p) {
         if (isOutOfDate) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + p.getName() + " [\"\",{\"text\":\"" + pl.badge + "is out of date. Please update with version \"},{\"text\":\"XXX\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + pl.getConfig().getString("releasePage") + "\"}}]");
+            newVersion = pl.badge + ChatColor.RED + "is out of date. Please update to version at " + pl.getConfig().getString("releasePage");
+            System.out.println(newVersion);}
+        else{
+            System.out.println(pl.badge +  "is up to date");
         }
     }
 

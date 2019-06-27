@@ -5,11 +5,8 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 
 public class Back implements CommandExecutor {
 
@@ -23,13 +20,12 @@ public class Back implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player p = (Player) sender;
         String pUUID = "player_" + p.getUniqueId();
+        // File lastLocFile = new File(pl.getDataFolder(), "lastLocation.yml");
+        // FileConfiguration lastLocConf = YamlConfiguration.loadConfiguration(lastLocFile);
 
-        File lastLocFile = new File(pl.getDataFolder(), "lastLocation.yml");
-        FileConfiguration lastLocConf = YamlConfiguration.loadConfiguration(lastLocFile);
-
-        if(lastLocConf.isSet(pUUID + ".location")){
+        if(pl.lastLocConf.containsKey(pUUID)){
             p.sendMessage(pl.badge + "Sending you to your previous location");
-            pl.shakeTP(p, ((Location) lastLocConf.get(pUUID + ".location")));
+            p.teleport((Location) pl.lastLocConf.get(pUUID));
         }
         else{
             p.sendMessage(pl.err + "Could not find previous location");

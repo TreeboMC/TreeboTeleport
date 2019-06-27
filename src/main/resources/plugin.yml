@@ -1,7 +1,7 @@
 name: TreeboTeleport
 version: ${project.version}
 main: me.shakeforprotein.treeboteleport.TreeboTeleport
-api-version: 1.13
+api-version: 1.14
 authors: [ShakeforProtein]
 description: Teleport and Hub functions
 website: treebo.games
@@ -164,6 +164,10 @@ commands:
     description: 'pex adds permission for <amount> more homes to <player>'
     usage: <command> <player> <amount>
     permission: tbteleport.admin.setMaxHomes
+  showmaxhomes:
+    description: 'Shows how many homes a player is entitled to'
+    usage: <command> <player>
+    permission: tbteleport.admin.setMaxHomes
   shop:
     description: 'Sends player to shop for their current world'
     usage: <command>
@@ -175,6 +179,9 @@ commands:
   setttelecooldown:
     usage: <command> <true|false|integer>
     permission: tbteleport.admin.cooldowns
+  fixskygridhomes:
+    usage: <command>
+    permission: tbteleport.admin
   #Disabled
   #tp2player:
   #  description: 'Force Teleports Yourself to Player'
@@ -251,7 +258,7 @@ permissions:
     default: op
   tbteleport.staff.wild.other:
     default: op
-  tbteleport.updatechecker:
+  tbteleport.admin.updatechecker:
     default: op
   tbteleport.admin:
     default: op

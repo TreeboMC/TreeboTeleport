@@ -25,7 +25,7 @@ public class PlayerJoinListener implements Listener {
 
     public PlayerJoinListener(TreeboTeleport main) {
         this.pl = main;
-        //    this.uc = new UpdateChecker(main);
+        this.uc = new UpdateChecker(main);
     }
 
     @EventHandler
@@ -40,8 +40,8 @@ public class PlayerJoinListener implements Listener {
                     double z = pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".z");
                     float pitch = (float) pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".pitch");
                     float yaw = (float) pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".yaw");
-                    Location spawnLoc = new Location(Bukkit.getWorld(world), x, y, z, pitch, yaw);
-                    pl.shakeTP(e.getPlayer(), spawnLoc);
+                    Location spawnLoc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+                    e.getPlayer().teleport(spawnLoc);
 
                 }
             }, 40L);
@@ -57,15 +57,19 @@ public class PlayerJoinListener implements Listener {
                     }
                 }
             }, 30L);
-            if (e.getPlayer().hasPermission(uc.requiredPermission)) {
-                if (!uc.updateNotified.containsKey(e.getPlayer())) {
-                    uc.checkUpdates(e.getPlayer());
-                    uc.updateNotified.putIfAbsent(e.getPlayer(), true);
-                }
-            }
         }
 
+        if (e.getPlayer().hasPermission(uc.requiredPermission)) {
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable() {
+                public void run() {
 
+                    if (!uc.updateNotified.containsKey(e.getPlayer())) {
+                        uc.checkUpdates(e.getPlayer());
+                        uc.updateNotified.putIfAbsent(e.getPlayer(), true);
+                    }
+                }
+            }, 30L);
+        }
         return true;
     }
 
@@ -83,8 +87,8 @@ public class PlayerJoinListener implements Listener {
             double z = pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".z");
             float pitch = (float) pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".pitch");
             float yaw = (float) pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".yaw");
-            Location spawnLoc = new Location(Bukkit.getWorld(world), x, y, z, pitch, yaw);
-            pl.shakeTP(e.getPlayer(), spawnLoc);
+            Location spawnLoc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+            e.getPlayer().teleport(spawnLoc);
 
         } else {
             String world = e.getPlayer().getWorld().getName();

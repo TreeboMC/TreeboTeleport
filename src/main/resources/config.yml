@@ -8,7 +8,7 @@ username: ''
 password: ''
 transferTable: 'treeboTeleport_serverTransfer'
 
-tpProtection: 3
+teleportProtection: 3
 CommandDelay: 15
 useCooldown: false
 
@@ -26,9 +26,9 @@ wild:
   messages:
     success: '&3&l[&3Treebo Teleport&3&l] &2Sending you to: &f{COORDS}'
     failure: '&3&l[&3Treebo Teleport&3&l] &4Unable to locate safe spot. Please try again shortly'
-  minX: -50000
-  maxX: 50000
-  minY: 2
-  maxY: 90
-  minZ: -50000
-  maxZ: 50000
+  minX: -500000
+  maxX: 500000
+  minY: 30
+  maxY: 150
+  minZ: -500000
+  maxZ: 500000

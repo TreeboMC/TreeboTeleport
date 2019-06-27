@@ -8,6 +8,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Iterator;
+
 public class Tp2Player implements CommandExecutor {
 
     private TreeboTeleport pl;
@@ -22,7 +24,9 @@ public class Tp2Player implements CommandExecutor {
                 sender.sendMessage(pl.err + "This command requires a player argument");
             } else if (args.length == 1) {
                 Player targetPlayer = null;
-                for (Player p : Bukkit.getOnlinePlayers()) {
+                Iterator iter = Bukkit.getOnlinePlayers().iterator();
+                while (iter.hasNext()) {
+                    Player p = (Player) iter.next();
                     if (p.getName().equalsIgnoreCase(args[0])) {
                         targetPlayer = p;
                         break;

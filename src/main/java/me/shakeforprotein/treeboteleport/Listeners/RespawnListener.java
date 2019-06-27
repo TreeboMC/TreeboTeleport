@@ -27,7 +27,7 @@ public class RespawnListener implements Listener {
         Player p = e.getPlayer();
         if(p.getBedSpawnLocation() != null){
             p.sendMessage(pl.badge + "Sending you to your bed");
-            pl.shakeTP(p, p.getBedSpawnLocation());
+            p.teleport(p.getBedSpawnLocation());
         }
         else{
             File spawnsYml = new File(pl.getDataFolder(), File.separator + "spawns.yml");
@@ -57,7 +57,7 @@ public class RespawnListener implements Listener {
                 float yaw = (float) spawns.getDouble("spawns." + world + ".yaw");
                 Location loc = new Location(Bukkit.getWorld(confWorld),x,y,z,yaw,pitch);
                 p.sendMessage(pl.badge + "Returning you to Spawn");
-                pl.shakeTP(p,loc);
+                p.teleport(loc);
             }
 
         }

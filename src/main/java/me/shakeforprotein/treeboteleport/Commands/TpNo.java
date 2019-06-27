@@ -24,6 +24,7 @@ public class TpNo implements CommandExecutor {
         pl.getConfig().set("tpRequest." + p.getName() + ".requestTime", 0);
         pl.getConfig().set("tpRequest." + p.getName() + ".requester", sender.getName());
         sender.sendMessage("Teleport request has been denied.");
+
         for(OfflinePlayer offPlayer : Bukkit.getOfflinePlayers()){
             if(offPlayer.getName().equalsIgnoreCase(pl.getConfig().getString("tpRequest." + p.getName() + ".requester"))){
                 if(offPlayer instanceof Player){

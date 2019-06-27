@@ -8,6 +8,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Iterator;
+
 
 public class TpOk implements CommandExecutor {
 
@@ -26,7 +28,9 @@ public class TpOk implements CommandExecutor {
                 if (pl.getConfig().get("tpRequest." + sender.getName()) != null && (System.currentTimeMillis() - 30000) < pl.getConfig().getLong("tpRequest." + sender.getName() + ".requestTime")) {
                     String type = pl.getConfig().getString("tpRequest." + sender.getName() + ".type");
                     String requester = pl.getConfig().getString("tpRequest." + sender.getName() + ".requester");
-                    for (Player p : Bukkit.getOnlinePlayers()) {
+                    Iterator iter = Bukkit.getOnlinePlayers().iterator();
+                    while (iter.hasNext()) {
+                        Player p = (Player) iter.next();
                         if (p.getName().equalsIgnoreCase(requester)) {
                             targetPlayer = p;
                         }

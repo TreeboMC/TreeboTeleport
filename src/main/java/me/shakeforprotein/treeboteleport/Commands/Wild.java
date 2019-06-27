@@ -27,7 +27,7 @@ public class Wild implements CommandExecutor {
             OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[0]);
             World w = ((Player) targetPlayer).getWorld();
             if (targetPlayer instanceof Player) {
-                pl.shakeTP(((Player)targetPlayer), (findSafeBlock(w, ((Player) targetPlayer))));
+                ((Player)targetPlayer).teleport(findSafeBlock(w, ((Player) targetPlayer)));
             } else {
                 sender.sendMessage(pl.err + "Player not found");
             }
@@ -40,7 +40,7 @@ public class Wild implements CommandExecutor {
 
                 if (args.length == 0) {
 
-                    pl.shakeTP(((Player) sender), (findSafeBlock(w, (Player) sender)));
+                    ((Player) sender).teleport (findSafeBlock(w, (Player) sender));
 
                 } else {
                     sender.sendMessage(pl.err + "This command does not support additional arguments.");

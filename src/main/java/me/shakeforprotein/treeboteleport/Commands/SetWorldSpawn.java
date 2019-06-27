@@ -51,7 +51,7 @@ public class SetWorldSpawn implements CommandExecutor {
             double z = loc.getZ();
             float pitch = loc.getPitch();
             float yaw = loc.getYaw();
-            if (args.length == 0) {
+            if (args.length < 2) {
                 String name = world;
                 spawns.set("spawns." + name + ".name", name);
                 spawns.set("spawns." + name + ".world", world);
@@ -60,16 +60,17 @@ public class SetWorldSpawn implements CommandExecutor {
                 spawns.set("spawns." + name + ".z", z);
                 spawns.set("spawns." + name + ".pitch", pitch);
                 spawns.set("spawns." + name + ".yaw", yaw);
-
-                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".world", world);
-                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".x", x);
-                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".y", y);
-                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".z", z);
-                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".pitch", pitch);
-                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".yaw", yaw);
-
+                sender.sendMessage(pl.badge + "Spawn location set");
+                if(args.length == 1 && args[0].equalsIgnoreCase("true")) {
+                    pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".world", world);
+                    pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".x", x);
+                    pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".y", y);
+                    pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".z", z);
+                    pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".pitch", pitch);
+                    pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".yaw", yaw);
+                    sender.sendMessage(pl.badge + "Enabled on join spawn for this world");
+                }
                 pl.saveConfig();
-                sender.sendMessage(pl.badge + "onJoinSpawn set successfully");
 
 
                 try {
@@ -79,7 +80,7 @@ public class SetWorldSpawn implements CommandExecutor {
                     pl.makeLog(e);
                     p.sendMessage(pl.err + "Saving spawns file Unsuccessful");
                 }
-            } else if (args.length > 0) {
+            } else if (args.length > 1) {
                 p.sendMessage(pl.err + "Too many arguments");
             }
 

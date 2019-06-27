@@ -10,6 +10,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.time.Instant;
+import java.util.Iterator;
 
 public class Tp2MePls implements CommandExecutor {
 
@@ -23,7 +24,9 @@ public class Tp2MePls implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
             boolean foundPlayer = false;
-            for (Player p : Bukkit.getOnlinePlayers()) {
+            Iterator iter = Bukkit.getOnlinePlayers().iterator();
+            while (iter.hasNext()) {
+                Player p = (Player) iter.next();
                 if (p.getName().equalsIgnoreCase(args[0])) {
                     foundPlayer = true;
                     String command = "";

@@ -38,8 +38,9 @@ public final class TreeboTeleport extends JavaPlugin {
     private ToWorld toWorld = new ToWorld(this);
     public BungeeChannelApi bungeeApi = new BungeeChannelApi(this);
     public HashMap openInvHash = new HashMap<String, Inventory>();
-    public HashMap lockMove = new HashMap<UUID, String>();
+    public HashMap lockMove = new HashMap<UUID, Long>();
     public HashMap commCooldown = new HashMap<Player, Long>();
+    public HashMap lastLocConf = new HashMap<UUID, Location>();
 
     @Override
     public void onEnable() {
@@ -108,10 +109,11 @@ public final class TreeboTeleport extends JavaPlugin {
         this.getCommand("tpcancel").setExecutor(new TpNo(this));
         this.getCommand("back").setExecutor(new Back(this));
         this.getCommand("addmaxhomes").setExecutor(new AddMaxHomes(this));
+        this.getCommand("showmaxhomes").setExecutor(new ShowMaxHomes(this));
         this.getCommand("shop").setExecutor(new Shop(this));
         this.getCommand("setshop").setExecutor(new SetShop(this));
         this.getCommand("setttelecooldown").setExecutor(new SetTTeleCooldown(this));
-/*
+        this.getCommand("fixskygridhomes").setExecutor(new FixSkyGridHomes(this));
 /*
         this.getCommand("mergeessdata").setExecutor(new MergeEssentialsData(this));
         this.getCommand("fixtthomes").setExecutor(new FixTTHomes(this));
@@ -126,19 +128,22 @@ public final class TreeboTeleport extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerTeleportListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
-        //getServer().getPluginManager().registerEvents(new KillZombies(this), this);
-
+        /*
+        if (Double.parseDouble(Bukkit.getVersion().split(" ")[2].split("\\.")[1].replace(")", "")) > 13) {
+            getServer().getPluginManager().registerEvents(new KillZombies(this), this);
+        }
+        */
 
         File serverFile = new File(getDataFolder(), File.separator + "servers.yml");
         FileConfiguration serverList = YamlConfiguration.loadConfiguration(serverFile);
 
 
-        createDefaultFile("", "homes", true);
-        createDefaultFile("", "servers.yml", false);
-        createDefaultFile("", "spawns.yml", false);
-        createDefaultFile("", "hubMenu.yml", false);
-        createDefaultFile("", "warps.yml", false);
-        createDefaultFile("", "lastLocation.yml", false);
+        //createDefaultFile("", "homes", true);
+        //createDefaultFile("", "servers.yml", false);
+        //createDefaultFile("", "spawns.yml", false);
+        //createDefaultFile("", "hubMenu.yml", false);
+        //createDefaultFile("", "warps.yml", false);
+        //createDefaultFile("", "lastLocation.yml", false);
 
 
         if (!serverFile.exists()) {
@@ -170,8 +175,8 @@ public final class TreeboTeleport extends JavaPlugin {
             //this.getCommand(item.toLowerCase()).setPermission("tbteleport.servers." + item);
         }
 
-        //UpdateChecker uc = new UpdateChecker(this);
-        //uc.getCheckDownloadURL();
+        UpdateChecker uc = new UpdateChecker(this);
+        uc.getCheckDownloadURL();
     }
 
 
@@ -179,7 +184,7 @@ public final class TreeboTeleport extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
 
-    /*
+/*
     try{
 
         connection.close();
@@ -187,7 +192,7 @@ public final class TreeboTeleport extends JavaPlugin {
     catch(SQLException e){
         int doesNothing = 1;
         }
-    */
+*/
     }
 
     public String badge = ChatColor.translateAlternateColorCodes('&', getConfig().getString("general.messages.badge") + " ");
@@ -253,8 +258,7 @@ public final class TreeboTeleport extends JavaPlugin {
             } else {
                 return true;
             }
-        }
-        else {
+        } else {
             setCooldown(p);
             return false;
         }
@@ -334,21 +338,23 @@ public final class TreeboTeleport extends JavaPlugin {
 
     public void shakeTP(Player p, Location loc) {
         //loc.getWorld().loadChunk(loc.getChunk().getX(), loc.getChunk().getZ());
-
-        if(getConfig().get("teleportProtection") != null && getConfig().getInt("teleportProtection") > 0 ) {
+/*
+        if (getConfig().get("teleportProtection") != null && getConfig().getInt("teleportProtection") > 0) {
             int tpProtection = getConfig().getInt("teleportProtection") * 20;
             lockMove.putIfAbsent(p.getUniqueId(), p.getName());
             p.setInvulnerable(true);
-            Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+            Bukkit.getScheduler().runTaskLater(this, new Runnable() {
                 public void run() {
                     p.setInvulnerable(false);
-                    lockMove.remove(p.getUniqueId());
+                    if (lockMove.containsKey(p.getUniqueId())) {
+                        lockMove.remove(p.getUniqueId());
+                    }
                 }
             }, tpProtection);
-        }
-        loc = loc.add(0.5,0.5,0.5);
+            p.sendMessage(badge + "As a safety feature you have been locked in place for " + getConfig().getInt("teleportProtection") + " seconds.");
+        }*/
+        //loc = loc.add(0,0.5,0);
         p.teleport(loc);
-        //p.sendMessage(badge + "As a safety feature you have been locked in place for 3 seconds.");
     }
 }
 

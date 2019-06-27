@@ -53,7 +53,7 @@ public class Home implements CommandExecutor {
                         sender.sendMessage(pl.badge + "Default home not set");
                     }
                 } else if (args[0].equalsIgnoreCase("bed")) {
-                    pl.shakeTP(p, p.getBedSpawnLocation());
+                    Bukkit.dispatchCommand(p, "bed");
                 } else {
                     boolean found = false;
                     for (String home : homes.getConfigurationSection("homes").getKeys(false)) {
@@ -66,7 +66,7 @@ public class Home implements CommandExecutor {
                             String world = homes.getString("homes." + home + ".world");
                             Location tpLoc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
                             p.sendMessage(pl.badge + "Returning you to " + home);
-                            pl.shakeTP(p, tpLoc);
+                            p.teleport(tpLoc);
 
                             found = true;
                         }

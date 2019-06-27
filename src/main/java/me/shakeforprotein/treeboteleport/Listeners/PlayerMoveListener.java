@@ -16,7 +16,7 @@ public class PlayerMoveListener implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e){
         if(pl.lockMove.containsKey(e.getPlayer().getUniqueId())){
-            e.setCancelled(true);
+            e.setTo(e.getFrom());
         }
     }
 }
