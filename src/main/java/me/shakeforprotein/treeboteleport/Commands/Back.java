@@ -18,17 +18,17 @@ public class Back implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        Player p = (Player) sender;
-        String pUUID = "player_" + p.getUniqueId();
-        // File lastLocFile = new File(pl.getDataFolder(), "lastLocation.yml");
-        // FileConfiguration lastLocConf = YamlConfiguration.loadConfiguration(lastLocFile);
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
 
-        if(pl.lastLocConf.containsKey(pUUID)){
-            p.sendMessage(pl.badge + "Sending you to your previous location");
-            p.teleport((Location) pl.lastLocConf.get(pUUID));
-        }
-        else{
-            p.sendMessage(pl.err + "Could not find previous location");
+            if (pl.lastLocConf.containsKey(p.getUniqueId())) {
+                p.sendMessage(pl.badge + "Sending you to your previous location");
+                p.teleport((Location) pl.lastLocConf.get(p.getUniqueId()));
+            } else {
+                p.sendMessage(pl.err + "Could not find previous location");
+            }
+        } else {
+            sender.sendMessage(pl.badge + "This command can only be run by a player");
         }
         return true;
     }

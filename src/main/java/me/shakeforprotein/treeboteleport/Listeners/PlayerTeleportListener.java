@@ -2,16 +2,12 @@ package me.shakeforprotein.treeboteleport.Listeners;
 
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-import java.io.File;
-import java.io.IOException;
 
 public class PlayerTeleportListener implements Listener {
 
@@ -23,40 +19,26 @@ public class PlayerTeleportListener implements Listener {
 
     @EventHandler
     public void playerTeleport(PlayerTeleportEvent e) {
-        if(e.getCause().name().equalsIgnoreCase("PLUGIN")) {
-            Location from = e.getFrom();
+        //e.getPlayer().sendMessage(e.getCause().name());
+        if (e.getCause().name().equalsIgnoreCase("PLUGIN")) {
             Player p = e.getPlayer();
 
-            String pUUID = "player_" + p.getUniqueId();
-            File lastLocFile = new File(pl.getDataFolder(), "lastLocation.yml");
-            FileConfiguration lastLocConf = YamlConfiguration.loadConfiguration(lastLocFile);
-            lastLocConf.set(pUUID + ".name", p.getName());
-            lastLocConf.set(pUUID + ".uuid", p.getUniqueId().toString());
-            lastLocConf.set(pUUID + ".location", from);
-            try {
-                lastLocConf.save(lastLocFile);
-            } catch (IOException err) {
-                System.out.println("Failed to save previous teleport location for user " + p.getUniqueId() + " (" + p.getName() + ")");
-                pl.makeLog(err);
+            pl.lastLocConf.putIfAbsent(p.getUniqueId(), e.getFrom());
+            pl.lastLocConf.replace(p.getUniqueId(), e.getFrom());
+            if (e.getPlayer().hasPermission("tbteleport.vipplus.back")) {
+                p.sendMessage(pl.badge + "Return point set to " + Math.floor(e.getFrom().getX()) + " " + Math.floor(e.getFrom().getY()) + " " + Math.floor(e.getFrom().getZ()));
             }
         }
     }
 
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent e){
+    public void onPlayerDeath(PlayerDeathEvent e) {
         Location from = e.getEntity().getLocation();
         Player p = e.getEntity();
-        String pUUID = "player_" + p.getUniqueId();
-        File lastLocFile = new File(pl.getDataFolder(), "lastLocation.yml");
-        FileConfiguration lastLocConf = YamlConfiguration.loadConfiguration(lastLocFile);
-        lastLocConf.set(pUUID + ".name", p.getName());
-        lastLocConf.set(pUUID + ".uuid", p.getUniqueId().toString());
-        lastLocConf.set(pUUID + ".location", from);
-        try {
-            lastLocConf.save(lastLocFile);
-        } catch (IOException err) {
-            System.out.println("Failed to save previous teleport location for user " + p.getUniqueId() + " (" + p.getName() + ")");
-            pl.makeLog(err);
-        }
+        p.sendMessage(pl.badge + "Death Location: " + Math.floor(from.getX()) + " " + Math.floor(from.getY()) + " " + Math.floor(from.getZ()));
+
+        pl.lastLocConf.putIfAbsent(p.getUniqueId(), from);
+        pl.lastLocConf.replace(p.getUniqueId(), from);
+
     }
 }

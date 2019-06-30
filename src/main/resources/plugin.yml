@@ -1,7 +1,7 @@
 name: TreeboTeleport
 version: ${project.version}
 main: me.shakeforprotein.treeboteleport.TreeboTeleport
-api-version: 1.14
+api-version: 1.13
 authors: [ShakeforProtein]
 description: Teleport and Hub functions
 website: treebo.games
@@ -163,11 +163,11 @@ commands:
   addmaxhomes:
     description: 'pex adds permission for <amount> more homes to <player>'
     usage: <command> <player> <amount>
-    permission: tbteleport.admin.setMaxHomes
+    permission: tbteleport.setmaxhomes
   showmaxhomes:
     description: 'Shows how many homes a player is entitled to'
     usage: <command> <player>
-    permission: tbteleport.admin.setMaxHomes
+    permission: tbteleport.setmaxhomes
   shop:
     description: 'Sends player to shop for their current world'
     usage: <command>
@@ -177,7 +177,7 @@ commands:
     usage: <command>
     permission: tbteleport.admin.setshop
   setttelecooldown:
-    usage: <command> <true|false|integer>
+    usage: <command> <true|op|integer>
     permission: tbteleport.admin.cooldowns
   fixskygridhomes:
     usage: <command>
@@ -264,26 +264,11 @@ permissions:
     default: op
   tbteleport.admin.hub.configure:
     default: op
-  tbteleport.admin.setMaxHomes:
-    default: false
+  tbteleport.setmaxhomes:
+    default: op
   tbteleport.player.shop:
-    default: true;
+    default: true
   tbteleport.admin.setshop:
-    default: op;
+    default: op
   tbteleport.admin.cooldowns:
     default: op
-#Disabled
-#  tbteleport.concept:
-#    default: op
-#  tbteleport.tp2player:
-#    default: op
-#  tbteleport.tp2me:
-#    default: op
-#  tbteleport.tp2pos:
-#    default: op
-#  tbteleport.tp2worldat:
-#    default: op
-#  tbteleport.fasttravel:
-#    default: op
-#  tbteleport.mergeess:
-#    default: op

@@ -20,13 +20,9 @@ public class ShowMaxHomes implements CommandExecutor {
         if (args.length != 1) {
             sender.sendMessage(pl.err + "Incorrect usage. Correct usage is /showmaxhomes <player name>");
         } else {
-            if (pl.isInteger(args[0])) {
                 Player p = Bukkit.getOfflinePlayer(args[0]).getPlayer();
                 int currentMaxHomes = getHomes(p);
                 sender.sendMessage("Player: " + p + " has a maximum of " + currentMaxHomes + "Homes");
-            } else {
-                sender.sendMessage(pl.err + "Second argument must be a number");
-            }
         }
         return true;
     }
@@ -35,7 +31,7 @@ public class ShowMaxHomes implements CommandExecutor {
         int i = 100;
         int maxHomes = 1;
         while (i > 0) {
-            System.out.println("Maxhomes " + i);
+            //System.out.println("Maxhomes " + i);
             i--;
             if (p.hasPermission("tbteleport.maxhomes." + i)) {
                 maxHomes = i;
