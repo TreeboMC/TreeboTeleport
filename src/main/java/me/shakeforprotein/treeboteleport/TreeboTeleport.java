@@ -41,6 +41,7 @@ public final class TreeboTeleport extends JavaPlugin {
     public HashMap lockMove = new HashMap<UUID, Long>();
     public HashMap commCooldown = new HashMap<Player, Long>();
     public HashMap lastLocConf = new HashMap<UUID, Location>();
+    public HashMap tpSafetyOff = new HashMap<UUID, String>();
 
     @Override
     public void onEnable() {
@@ -104,6 +105,7 @@ public final class TreeboTeleport extends JavaPlugin {
         this.getCommand("tteleversion").setExecutor(new Version(this));
         this.getCommand("nameit").setExecutor(new NameIt(this));
         this.getCommand("tptoggle").setExecutor(new TpToggle(this));
+        this.getCommand("disabletpsafety").setExecutor(new DisableTpSafety(this));
         this.getCommand("tpno").setExecutor(new TpNo(this));
         this.getCommand("tpdeny").setExecutor(new TpNo(this));
         this.getCommand("tpcancel").setExecutor(new TpNo(this));

@@ -46,6 +46,9 @@ public class Wild implements CommandExecutor {
                     sender.sendMessage(pl.err + "This command does not support additional arguments.");
                 }
             }
+            else{
+                sender.sendMessage(pl.err + "This command is on cooldown and can only be run once every " + pl.getConfig().getString("CommandDelay") + " seconds");
+            }
         }
         return true;
     }

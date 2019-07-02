@@ -156,6 +156,10 @@ commands:
     description: 'Toggles receiving teleport requests'
     usage: <command>
     permission: tbteleport.player.tptoggle
+  disabletpsafety:
+    description: 'Allows a player to disable their teleport safety'
+    usage: <command>
+    permission: tbteleport.player.tptoggle
   back:
     description: 'Returns player to location prior to last teleport'
     usage: <command>
