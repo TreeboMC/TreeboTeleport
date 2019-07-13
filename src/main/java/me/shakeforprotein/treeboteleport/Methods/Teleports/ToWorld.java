@@ -2,6 +2,7 @@ package me.shakeforprotein.treeboteleport.Methods.Teleports;
 
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class ToWorld {
@@ -13,17 +14,22 @@ public class ToWorld {
     }
 
     public void toWorld(String server, String toWorld, Player p) {
-        if (!server.equalsIgnoreCase(Bukkit.getServer().getName())) {
-            p.sendMessage("As you were on the wrong server, you will need to repeat the command.");
-            p.sendMessage("Changing your server for you now.");
-            pl.bungeeApi.connectOther(p.getName(), server);
-        }
-        else {
-            if (Bukkit.getWorld(toWorld) != null) {
+        String world = p.getWorld().getName();
+        String thisServer = pl.getConfig().getString("general.serverName");
+
+        if (server.equalsIgnoreCase(thisServer)) {
+            if (!p.getWorld().getName().equalsIgnoreCase(world)) {
                 if (Bukkit.getWorld(toWorld).getSpawnLocation() != null) {
                     p.teleport(Bukkit.getWorld(toWorld).getSpawnLocation());
+                    p.sendMessage(pl.badge + "Sending you to world '" + toWorld + "' on server '" + server + "'.");
+                } else {
+                    p.sendMessage(pl.badge + "Unable to locate spawn coordinates for world '" + toWorld + "'. Please report this issue via /ticket");
                 }
+            } else {
+                p.sendMessage(pl.badge + "You are already connected to this server and gamemode.");
             }
+        } else {
+            p.sendMessage(pl.badge + "Wrong server detected. Relocating you to the correct server.");
         }
     }
 }

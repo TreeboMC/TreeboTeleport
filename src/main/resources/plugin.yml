@@ -186,6 +186,9 @@ commands:
   fixskygridhomes:
     usage: <command>
     permission: tbteleport.admin
+  restoreplayerinventory:
+    usage: <command>
+    permission: tbteleport.admin.restoreinventory
   #Disabled
   #tp2player:
   #  description: 'Force Teleports Yourself to Player'
@@ -262,6 +265,8 @@ permissions:
     default: op
   tbteleport.staff.wild.other:
     default: op
+  tbteleport.staff.tp:
+    default: op
   tbteleport.admin.updatechecker:
     default: op
   tbteleport.admin:
@@ -275,4 +280,6 @@ permissions:
   tbteleport.admin.setshop:
     default: op
   tbteleport.admin.cooldowns:
+    default: op
+  tbteleport.admin.restoreinventory:
     default: op

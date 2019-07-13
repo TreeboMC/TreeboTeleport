@@ -18,6 +18,8 @@ KillZombies: false
 ReplacePhantomsWithPissedOffWolves: true
 
 general:
+  serverName: 'Test'
+  disableTPSafety: false
   messages:
     badge: '&6[Treebo Teleport]&r'
     error: '&4ERROR:&r'

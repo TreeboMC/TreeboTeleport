@@ -116,6 +116,8 @@ public final class TreeboTeleport extends JavaPlugin {
         this.getCommand("setshop").setExecutor(new SetShop(this));
         this.getCommand("setttelecooldown").setExecutor(new SetTTeleCooldown(this));
         this.getCommand("fixskygridhomes").setExecutor(new FixSkyGridHomes(this));
+        this.getCommand("restoreplayerinventory").setExecutor(new RestorePlayerInventory(this));
+
 /*
         this.getCommand("mergeessdata").setExecutor(new MergeEssentialsData(this));
         this.getCommand("fixtthomes").setExecutor(new FixTTHomes(this));
