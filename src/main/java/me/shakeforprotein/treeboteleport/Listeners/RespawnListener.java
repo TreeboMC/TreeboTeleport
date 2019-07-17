@@ -106,17 +106,19 @@ public class RespawnListener implements Listener {
     @EventHandler
     public boolean onRespawnEvent(PlayerRespawnEvent e) {
         Player p = e.getPlayer();
-
         if (docketMap.containsKey(p.getUniqueId().toString())) {
-            if (pl.getConfig().get("deathDocketToggle." + p.getUniqueId()) == null || pl.getConfig().get("deathDocketToggle." + p.getUniqueId()).equals("false")) {
+            if (pl.getConfig().get("deathDocketToggle." + p.getUniqueId()) == null || pl.getConfig().get("deathDocketToggle." + p.getUniqueId().toString()).equals("false")) {
 
                 p.getInventory().setItemInOffHand(docketMap.get(p.getUniqueId().toString()));
                 p.sendMessage(pl.badge + "You been issued a death docket. You can disable this feature at any time with /toggledeathdocket, but in doing so, staff will be unable to assist with item recovery");
             }
+            else{
+                p.sendMessage(pl.badge + "You have Death Dockets disabled. Re-enable with /toggledeathdocket");
+            }
         }
 
         if (p.getBedSpawnLocation() != null) {
-            p.sendMessage(pl.badge + "Sending you to your bed");
+            //p.sendMessage(pl.badge + "Sending you to your bed");
             p.teleport(p.getBedSpawnLocation());
         } else {
             File spawnsYml = new File(pl.getDataFolder(), File.separator + "spawns.yml");

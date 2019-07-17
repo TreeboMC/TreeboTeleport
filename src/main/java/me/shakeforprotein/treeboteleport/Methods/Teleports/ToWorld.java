@@ -30,6 +30,7 @@ public class ToWorld {
             }
         } else {
             p.sendMessage(pl.badge + "Wrong server detected. Relocating you to the correct server.");
+            pl.bungeeApi.connect(p, server);
         }
     }
 }

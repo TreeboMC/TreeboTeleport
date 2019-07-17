@@ -25,7 +25,7 @@ public class MayITp implements CommandExecutor {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p.getName().equalsIgnoreCase(args[0])) {
                     foundPlayer = true;
-                    if (pl.getConfig().get("tpRequest." + sender.getName()) != null && (System.currentTimeMillis() - 30000) < pl.getConfig().getLong("tpRequest." + sender.getName() + ".requestTime")) {
+                    if (pl.getConfig().get("tpRequest." + sender.getName()) == null || (System.currentTimeMillis() - 30000) > pl.getConfig().getLong("tpRequest." + sender.getName() + ".requestTime")) {
 
                         if (pl.getConfig().get("tptoggle." + p.getName()) == null || pl.getConfig().getInt("tptoggle." + p.getName()) == 0) {
                             sender.sendMessage(pl.badge + "Request to teleport to " + p.getName() + "'s location has been sent.");
