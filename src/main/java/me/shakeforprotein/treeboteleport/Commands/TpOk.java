@@ -21,7 +21,7 @@ public class TpOk implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
+        //TODO: Rewrite TPA Functionality to use Hashmap instead of File.
             if (args.length == 0) {
                 Player targetPlayer = null;
 

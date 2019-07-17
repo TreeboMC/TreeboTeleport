@@ -108,7 +108,11 @@ public class RespawnListener implements Listener {
         Player p = e.getPlayer();
 
         if (docketMap.containsKey(p.getUniqueId().toString())) {
-            p.getInventory().setItemInOffHand(docketMap.get(p.getUniqueId().toString()));
+            if (pl.getConfig().get("deathDocketToggle." + p.getUniqueId()) == null || pl.getConfig().get("deathDocketToggle." + p.getUniqueId()).equals("false")) {
+
+                p.getInventory().setItemInOffHand(docketMap.get(p.getUniqueId().toString()));
+                p.sendMessage(pl.badge + "You been issued a death docket. You can disable this feature at any time with /toggledeathdocket, but in doing so, staff will be unable to assist with item recovery");
+            }
         }
 
         if (p.getBedSpawnLocation() != null) {

@@ -24,13 +24,16 @@ public class Tp2MePls implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
             boolean foundPlayer = false;
+
             Iterator iter = Bukkit.getOnlinePlayers().iterator();
             while (iter.hasNext()) {
                 Player p = (Player) iter.next();
                 if (p.getName().equalsIgnoreCase(args[0])) {
                     foundPlayer = true;
                     String command = "";
-                    if (pl.getConfig().get("tptoggle." + p.getName()) == null || pl.getConfig().getInt("tptoggle." + p.getName()) == 0) {
+                    if (pl.getConfig().get("tpRequest." + sender.getName()) != null && (System.currentTimeMillis() - 30000) < pl.getConfig().getLong("tpRequest." + sender.getName() + ".requestTime")) {
+
+                        if (pl.getConfig().get("tptoggle." + p.getName()) == null || pl.getConfig().getInt("tptoggle." + p.getName()) == 0) {
                         sender.sendMessage(pl.badge + "Request to teleport " + p.getName() + " to your location sent.");
                         if(!sender.getName().equalsIgnoreCase("Joeynator")) {
                             p.sendMessage("Player " + ChatColor.GOLD + sender.getName() + ChatColor.RESET + " would like you to teleport " + ChatColor.GOLD + "TO THEM");
@@ -49,6 +52,9 @@ public class Tp2MePls implements CommandExecutor {
                     } else {
                         sender.sendMessage(pl.err + p.getName() + " has disabled incomming teleport requests");
                     }
+                }}
+                else{
+                    sender.sendMessage(pl.err + "You already have a pending teleport request.");
                 }
             }
             if (!foundPlayer) {

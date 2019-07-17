@@ -189,6 +189,8 @@ commands:
   restoreplayerinventory:
     usage: <command>
     permission: tbteleport.admin.restoreinventory
+  toggledeathdocket:
+    usage: <command>
   #Disabled
   #tp2player:
   #  description: 'Force Teleports Yourself to Player'
