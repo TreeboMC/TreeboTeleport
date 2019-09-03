@@ -19,11 +19,16 @@ public class GiveHubItem implements CommandExecutor {
 
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        Player p = (Player) sender;
-        Inventory inv = p.getInventory();
-        ItemStack hubItem = pl.getHubItem();
-        if (!inv.contains(hubItem)) {
-            inv.addItem(hubItem);
+        if (!pl.getConfig().getBoolean("disabledCommands.givehubitem")) {
+            Player p = (Player) sender;
+            Inventory inv = p.getInventory();
+            ItemStack hubItem = pl.getHubItem();
+            if (!inv.contains(hubItem)) {
+                inv.addItem(hubItem);
+            }
+        }
+        else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
         }
         return true;
     }

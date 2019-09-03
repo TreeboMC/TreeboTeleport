@@ -95,7 +95,7 @@ commands:
   tp:
     description: 'Multiple force teleport commands'
     usage: ''
-    permission: tbtelerport.staff.tp
+    permission: tbteleport.staff.tp
   setwarp:
     description: 'Allows a player to create a warp point'
     usage: <command> <warp name> <(Optional) permission>

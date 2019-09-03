@@ -25,6 +25,7 @@ public class SetWorldSpawn implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!pl.getConfig().getBoolean("disabledCommands.setworldspawn")) {
             File spawnsYml = new File(pl.getDataFolder(), "spawns.yml");
             if (!spawnsYml.exists()) {
                 sender.sendMessage("Spawns file not found");
@@ -61,7 +62,7 @@ public class SetWorldSpawn implements CommandExecutor {
                 spawns.set("spawns." + name + ".pitch", pitch);
                 spawns.set("spawns." + name + ".yaw", yaw);
                 sender.sendMessage(pl.badge + "Spawn location set");
-                if(args.length == 1 && args[0].equalsIgnoreCase("true")) {
+                if (args.length == 1 && args[0].equalsIgnoreCase("true")) {
                     pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".world", world);
                     pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".x", x);
                     pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".y", y);
@@ -83,6 +84,10 @@ public class SetWorldSpawn implements CommandExecutor {
             } else if (args.length > 1) {
                 p.sendMessage(pl.err + "Too many arguments");
             }
+        }
+        else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+        }
 
         return true;
     }

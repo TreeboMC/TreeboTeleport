@@ -18,7 +18,7 @@ public class ToWorld {
         String thisServer = pl.getConfig().getString("general.serverName");
 
         if (server.equalsIgnoreCase(thisServer)) {
-            if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+            if (world.equalsIgnoreCase(toWorld)) { //If world player is on has different name to world player wants
                 if (Bukkit.getWorld(toWorld).getSpawnLocation() != null) {
                     p.teleport(Bukkit.getWorld(toWorld).getSpawnLocation());
                     p.sendMessage(pl.badge + "Sending you to world '" + toWorld + "' on server '" + server + "'.");

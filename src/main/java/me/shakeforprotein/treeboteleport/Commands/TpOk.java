@@ -22,6 +22,9 @@ public class TpOk implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         //TODO: Rewrite TPA Functionality to use Hashmap instead of File.
+        if ((label.equalsIgnoreCase("tpok") && !pl.getConfig().getBoolean("disabledCommands.tpok")) ||
+                (label.equalsIgnoreCase("tpaccept") && !pl.getConfig().getBoolean("disabledCommands.tpaccept")) ||
+                (label.equalsIgnoreCase("tpyes") && !pl.getConfig().getBoolean("disabledCommands.tpyes"))) {
             if (args.length == 0) {
                 Player targetPlayer = null;
 
@@ -54,7 +57,9 @@ public class TpOk implements CommandExecutor {
             } else {
                 sender.sendMessage(pl.err + "Incorrect usage. This command does not accept any arguments");
             }
-
+        } else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+        }
         return true;
     }
 }

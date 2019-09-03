@@ -17,23 +17,27 @@ public class SetShop implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
+        if (!pl.getConfig().getBoolean("disabledCommands.setshop")) {
 
-            String world = p.getWorld().getName();
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
 
-            Location pLoc = p.getLocation();
-            pl.getConfig().set("shop." + p.getWorld().getName() + ".world", world);
-            pl.getConfig().set("shop." + p.getWorld().getName() + ".x", pLoc.getX());
-            pl.getConfig().set("shop." + p.getWorld().getName() + ".y", pLoc.getY());
-            pl.getConfig().set("shop." + p.getWorld().getName() + ".z", pLoc.getZ());
-            pl.getConfig().set("shop." + p.getWorld().getName() + ".pitch", pLoc.getPitch());
-            pl.getConfig().set("shop." + p.getWorld().getName() + ".yaw", pLoc.getYaw());
+                String world = p.getWorld().getName();
 
-            sender.sendMessage(pl.badge + p.getWorld().getName() + "Shop set successfully, don't forget to run /ttelesaveconfig");
-        }
-        else{
-            sender.sendMessage(pl.err + "This command can only be run as a player");
+                Location pLoc = p.getLocation();
+                pl.getConfig().set("shop." + p.getWorld().getName() + ".world", world);
+                pl.getConfig().set("shop." + p.getWorld().getName() + ".x", pLoc.getX());
+                pl.getConfig().set("shop." + p.getWorld().getName() + ".y", pLoc.getY());
+                pl.getConfig().set("shop." + p.getWorld().getName() + ".z", pLoc.getZ());
+                pl.getConfig().set("shop." + p.getWorld().getName() + ".pitch", pLoc.getPitch());
+                pl.getConfig().set("shop." + p.getWorld().getName() + ".yaw", pLoc.getYaw());
+
+                sender.sendMessage(pl.badge + p.getWorld().getName() + "Shop set successfully, don't forget to run /ttelesaveconfig");
+            } else {
+                sender.sendMessage(pl.err + "This command can only be run as a player");
+            }
+        }else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
         }
         return true;
     }

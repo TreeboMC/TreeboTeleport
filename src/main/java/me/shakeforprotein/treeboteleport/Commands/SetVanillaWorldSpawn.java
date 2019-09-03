@@ -18,14 +18,16 @@ public class SetVanillaWorldSpawn implements CommandExecutor {
 
         @Override
         public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+            if (!pl.getConfig().getBoolean("disabledCommands.sws")) {
                 if (sender instanceof Player) {
                     World w = ((Player) sender).getWorld();
                     sender.sendMessage(pl.badge + "Current Vanilla World Spawn: " + w.getSpawnLocation().toString());
                     Location pLoc = ((Player) sender).getLocation();
                     w.setSpawnLocation(pLoc);
                     sender.sendMessage(pl.badge + "Set Vanilla World Spawn to: " + w.getSpawnLocation().toString());
-
-
+                }
+            }else {
+                sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
             }
             return true;
         }

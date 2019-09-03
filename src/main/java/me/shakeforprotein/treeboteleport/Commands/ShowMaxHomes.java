@@ -17,12 +17,17 @@ public class ShowMaxHomes implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (args.length != 1) {
-            sender.sendMessage(pl.err + "Incorrect usage. Correct usage is /showmaxhomes <player name>");
-        } else {
+        if (!pl.getConfig().getBoolean("disabledCommands.showmaxhomes")) {
+
+            if (args.length != 1) {
+                sender.sendMessage(pl.err + "Incorrect usage. Correct usage is /showmaxhomes <player name>");
+            } else {
                 Player p = Bukkit.getOfflinePlayer(args[0]).getPlayer();
                 int currentMaxHomes = getHomes(p);
                 sender.sendMessage("Player: " + p + " has a maximum of " + currentMaxHomes + "Homes");
+            }
+        }else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
         }
         return true;
     }

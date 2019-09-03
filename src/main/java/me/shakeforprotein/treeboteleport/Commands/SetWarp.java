@@ -25,6 +25,7 @@ public class SetWarp implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!pl.getConfig().getBoolean("disabledCommands.setwarp")) {
             File warpsYml = new File(pl.getDataFolder(), File.separator + "warps.yml");
             if (!warpsYml.exists()) {
                 sender.sendMessage(pl.err + "Warps data not found. Attempting to recover.");
@@ -65,7 +66,7 @@ public class SetWarp implements CommandExecutor {
                 warps.set("warps." + args[0] + ".z", z);
                 warps.set("warps." + args[0] + ".pitch", pitch);
                 warps.set("warps." + args[0] + ".yaw", yaw);
-                if(args.length > 1){
+                if (args.length > 1) {
                     warps.set("warps." + args[0] + ".requiredPermission", args[1]);
                 }
 
@@ -77,6 +78,10 @@ public class SetWarp implements CommandExecutor {
                     p.sendMessage(pl.err + "Saving warps file Unsuccessful");
                 }
             }
+        }
+        else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+        }
         return true;
     }
 }

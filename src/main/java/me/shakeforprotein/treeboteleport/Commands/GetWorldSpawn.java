@@ -17,12 +17,17 @@ public class GetWorldSpawn implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!pl.getConfig().getBoolean("disabledCommands.gws")) {
             if (sender instanceof Player) {
                 World w = ((Player) sender).getWorld();
                 System.out.println("Player has requested Spawn Location");
                 System.out.println(w.getSpawnLocation().toString());
                 sender.sendMessage(w.getSpawnLocation().toString());
             }
+        }
+        else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+        }
         return true;
     }
 }

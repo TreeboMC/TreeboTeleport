@@ -24,6 +24,7 @@ public class SendSpawn implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!pl.getConfig().getBoolean("disabledCommands.sendspawn")) {
             if (args.length != 0 && args.length < 3) {
                 if (Bukkit.getPlayer(args[0]) != null) {
                     Player p = Bukkit.getPlayer(args[0]);
@@ -69,6 +70,9 @@ public class SendSpawn implements CommandExecutor {
             } else if (args.length == 0) {
                 sender.sendMessage(pl.err + "Not enough arguments. Please specify a player and optionally which worlds spawn to send them to.");
             }
+        }else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+        }
         return true;
     }
 }

@@ -16,8 +16,12 @@ public class SaveConfig implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        pl.saveConfig();
-        sender.sendMessage(pl.badge + "Saved Config");
+        if (!pl.getConfig().getBoolean("disabledCommands.ttelesaveconfig")) {
+            pl.saveConfig();
+            sender.sendMessage(pl.badge + "Saved Config");
+        }else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+        }
         return true;
     }
 }

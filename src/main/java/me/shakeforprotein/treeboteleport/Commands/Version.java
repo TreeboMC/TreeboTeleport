@@ -16,7 +16,12 @@ public class Version implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        sender.sendMessage(pl.badge + "Version - " + pl.getDescription().getVersion());
+        if (!pl.getConfig().getBoolean("disabledCommands.tteleversion")) {
+
+            sender.sendMessage(pl.badge + "Version - " + pl.getDescription().getVersion());
+        }else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+        }
         return true;
     }
 }

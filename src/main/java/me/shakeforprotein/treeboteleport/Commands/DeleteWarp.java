@@ -24,6 +24,8 @@ public class DeleteWarp implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+
+        if ((label.equalsIgnoreCase("deletewarp") && !pl.getConfig().getBoolean("disabledCommands.deletewarp")) || (label.equalsIgnoreCase("delwarp") && !pl.getConfig().getBoolean("disabledCommands.delwarp"))) {
             File warpsYml = new File(pl.getDataFolder(), "warps.yml");
             YamlConfiguration warps = YamlConfiguration.loadConfiguration(warpsYml);
 
@@ -51,6 +53,10 @@ public class DeleteWarp implements CommandExecutor {
                     p.sendMessage(pl.err + "Saving Warps file unsuccessful");
                 }
             }
+        }
+        else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+        }
         return true;
     }
 }

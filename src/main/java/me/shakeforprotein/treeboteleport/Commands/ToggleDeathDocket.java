@@ -17,17 +17,21 @@ public class ToggleDeathDocket implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if(sender instanceof Player){
+        if (!pl.getConfig().getBoolean("disabledCommands.toggledeathdocket")) {
+
+            if(sender instanceof Player){
             Player p = (Player) sender;
-            if (pl.getConfig().get("deathDocketToggle." + p.getUniqueId()) == null || pl.getConfig().get("deathDocketToggle." + p.getUniqueId()).equals("false")){
-                pl.getConfig().set("deathDocketToggle." + p.getUniqueId(), "true");
+            if (pl.getConfig().get("deathDocket.toggle." + p.getUniqueId()) == null || pl.getConfig().get("deathDocket.toggle." + p.getUniqueId()).equals("false")){
+                pl.getConfig().set("deathDocket.toggle." + p.getUniqueId(), "true");
             }
             else{
-                pl.getConfig().set("deathDocketToggle." + p.getUniqueId(), "false");
+                pl.getConfig().set("deathDocket.toggle." + p.getUniqueId(), "false");
             }
         }
         else{
             sender.sendMessage(pl.err + "Only players can run this command");
+        }}else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
         }
         return true;
     }

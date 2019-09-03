@@ -15,18 +15,21 @@ public class TpToggle implements CommandExecutor{
 
         @Override
         public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if(pl.getConfig().get("tptoggle." + pl.getName()) == null){
-            pl.getConfig().set("tptoggle." + pl.getName(), 1);
-            sender.sendMessage(pl.badge + "Teleport requests have been toggled OFF");
-        }
-        else if(pl.getConfig().getInt("tptoggle." + sender.getName()) == 1){
-            pl.getConfig().set("tptoggle." + sender.getName(), 0);
-            sender.sendMessage(pl.badge + "Teleport requests have been toggled ON");
-        }
-        else if(pl.getConfig().getInt("tptoggle." + sender.getName()) == 0){
-            pl.getConfig().set("tptoggle." + sender.getName(), 1);
-            sender.sendMessage(pl.badge + "Teleport requests have been toggled OFF");
-        }
+            if (!pl.getConfig().getBoolean("disabledCommands.tptoggle")) {
+
+                if (pl.getConfig().get("tptoggle." + pl.getName()) == null) {
+                    pl.getConfig().set("tptoggle." + pl.getName(), 1);
+                    sender.sendMessage(pl.badge + "Teleport requests have been toggled OFF");
+                } else if (pl.getConfig().getInt("tptoggle." + sender.getName()) == 1) {
+                    pl.getConfig().set("tptoggle." + sender.getName(), 0);
+                    sender.sendMessage(pl.badge + "Teleport requests have been toggled ON");
+                } else if (pl.getConfig().getInt("tptoggle." + sender.getName()) == 0) {
+                    pl.getConfig().set("tptoggle." + sender.getName(), 1);
+                    sender.sendMessage(pl.badge + "Teleport requests have been toggled OFF");
+                }
+            }else {
+                sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+            }
         return true;
 
     }

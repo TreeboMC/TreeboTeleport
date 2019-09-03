@@ -15,10 +15,13 @@ public class ClearMyChat implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
-        int i;
-        for(i=0; i<30; i++) {
-            sender.sendMessage("");
+        if (!pl.getConfig().getBoolean("disabledCommands.clearmychat")) {
+            int i;
+            for (i = 0; i < 30; i++) {
+                sender.sendMessage("");
+            }
+        }else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
         }
         return true;
     }

@@ -22,7 +22,7 @@ public class Wild implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
+        if (!pl.getConfig().getBoolean("disabledCommands.wild")) {
         if (args.length == 1 && sender.hasPermission("tbteleport.staff.wild.other")) {
             OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[0]);
             World w = ((Player) targetPlayer).getWorld();
@@ -49,6 +49,9 @@ public class Wild implements CommandExecutor {
             else{
                 sender.sendMessage(pl.err + "This command is on cooldown and can only be run once every " + pl.getConfig().getString("CommandDelay") + " seconds");
             }
+        }}
+        else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
         }
         return true;
     }

@@ -24,57 +24,56 @@ public class ConfigureHomes implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        homeFile = new File(pl.getDataFolder() + File.separator  + "homes", File.separator + ((Player) sender).getUniqueId().toString() + ".yml");
-        homeYaml = YamlConfiguration.loadConfiguration(homeFile);
-        boolean found = false;
+        if (!pl.getConfig().getBoolean("disabledCommands.configurehomes")) {
+            homeFile = new File(pl.getDataFolder() + File.separator + "homes", File.separator + ((Player) sender).getUniqueId().toString() + ".yml");
+            homeYaml = YamlConfiguration.loadConfiguration(homeFile);
+            boolean found = false;
 
-        if(args.length > 2){
-            if(args[0].equalsIgnoreCase("set")){
-                if(args[2].equalsIgnoreCase("colour") || args[2].equalsIgnoreCase("color") || args[2].equalsIgnoreCase("icon")){
-                    if(args[2].equalsIgnoreCase("colour") || args[2].equalsIgnoreCase("color")){
-                        for(String item : homeYaml.getConfigurationSection("homes").getKeys(false)){
-                            if(item.equalsIgnoreCase(args[1])){
-                                found = true;
-                                try{
-                                    ChatColor newColour = ChatColor.valueOf(args[3].toUpperCase());
-                                    setYml(item, "colour", args[3].toUpperCase(), sender);
+            if (args.length > 2) {
+                if (args[0].equalsIgnoreCase("set")) {
+                    if (args[2].equalsIgnoreCase("colour") || args[2].equalsIgnoreCase("color") || args[2].equalsIgnoreCase("icon")) {
+                        if (args[2].equalsIgnoreCase("colour") || args[2].equalsIgnoreCase("color")) {
+                            for (String item : homeYaml.getConfigurationSection("homes").getKeys(false)) {
+                                if (item.equalsIgnoreCase(args[1])) {
+                                    found = true;
+                                    try {
+                                        ChatColor newColour = ChatColor.valueOf(args[3].toUpperCase());
+                                        setYml(item, "colour", args[3].toUpperCase(), sender);
+                                    } catch (IllegalArgumentException e) {
+                                        sender.sendMessage("Unknown colour: '" + args[3].toUpperCase() + "'");
+                                    }
                                 }
-                                catch (IllegalArgumentException e){
-                                    sender.sendMessage("Unknown colour: '" + args[3].toUpperCase() + "'");
+                            }
+                        } else if (args[2].equalsIgnoreCase("icon")) {
+                            for (String item : homeYaml.getConfigurationSection("homes").getKeys(false)) {
+                                if (item.equalsIgnoreCase(args[1])) {
+                                    found = true;
+                                    if (Material.getMaterial(args[3].toUpperCase()) != null) {
+                                        setYml(item, "icon", args[3].toUpperCase(), sender);
+                                    } else {
+                                        sender.sendMessage(pl.err + "Unknown Item: '" + args[3].toUpperCase() + "'");
+                                    }
                                 }
                             }
                         }
-                    }
-                    else if (args[2].equalsIgnoreCase("icon")) {
-                        for (String item : homeYaml.getConfigurationSection("homes").getKeys(false)) {
-                            if (item.equalsIgnoreCase(args[1])) {
-                                found = true;
-                                if(Material.getMaterial(args[3].toUpperCase()) != null){
-                                    setYml(item, "icon", args[3].toUpperCase(), sender);
-                                }
-                                else{
-                                    sender.sendMessage(pl.err + "Unknown Item: '" + args[3].toUpperCase() + "'");
-                                }
-                            }
+                        if (!found) {
+                            sender.sendMessage(pl.err + "");
                         }
+                    } else {
+                        sender.sendMessage(pl.err + "Unknown argument '" + args[2] + "'");
                     }
-                    if(!found){
-                        sender.sendMessage(pl.err + "");
-                    }
+                } else {
+                    sender.sendMessage(pl.err + "Unknown argument '" + args[0] + "'");
                 }
-                else {
-                    sender.sendMessage(pl.err + "Unknown argument '" + args[2] + "'");
-                }
+            } else {
+                sender.sendMessage(pl.err + "Insufficient arguments");
+                doHelp(sender);
             }
-            else{
-                sender.sendMessage(pl.err + "Unknown argument '" + args[0] + "'");
-            }
+            pl.saveFile(homeFile, homeYaml, sender);
         }
-        else{
-            sender.sendMessage(pl.err + "Insufficient arguments");
-            doHelp(sender);
+        else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
         }
-        pl.saveFile(homeFile, homeYaml, sender);
         return true;
     }
 

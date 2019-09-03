@@ -18,17 +18,22 @@ public class Back implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
+        if (!pl.getConfig().getBoolean("disabledCommands.back")) {
 
-            if (pl.lastLocConf.containsKey(p.getUniqueId())) {
-                p.sendMessage(pl.badge + "Sending you to your previous location");
-                p.teleport((Location) pl.lastLocConf.get(p.getUniqueId()));
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+
+                if (pl.lastLocConf.containsKey(p.getUniqueId())) {
+                    p.sendMessage(pl.badge + "Sending you to your previous location");
+                    p.teleport((Location) pl.lastLocConf.get(p.getUniqueId()));
+                } else {
+                    p.sendMessage(pl.err + "Could not find previous location");
+                }
             } else {
-                p.sendMessage(pl.err + "Could not find previous location");
+                sender.sendMessage(pl.badge + "This command can only be run by a player");
             }
-        } else {
-            sender.sendMessage(pl.badge + "This command can only be run by a player");
+        }else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
         }
         return true;
     }

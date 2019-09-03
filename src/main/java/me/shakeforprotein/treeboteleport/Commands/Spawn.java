@@ -28,47 +28,51 @@ public class Spawn implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (spawnsHash.isEmpty()) {
-            File spawnsYml = new File(pl.getDataFolder(), File.separator + "spawns.yml");
+        if (!pl.getConfig().getBoolean("disabledCommands.spawn")) {
+            if (spawnsHash.isEmpty()) {
+                File spawnsYml = new File(pl.getDataFolder(), File.separator + "spawns.yml");
 
-            if (!spawnsYml.exists()) {
-                sender.sendMessage(pl.err + "Failed to load Spawns data. Attempting to recover");
-                try {
-                    spawnsYml.createNewFile();
-                    FileConfiguration spawns = YamlConfiguration.loadConfiguration(spawnsYml);
+                if (!spawnsYml.exists()) {
+                    sender.sendMessage(pl.err + "Failed to load Spawns data. Attempting to recover");
                     try {
-                        spawns.options().copyDefaults();
-                        spawns.save(spawnsYml);
-                    } catch (FileNotFoundException e) {
+                        spawnsYml.createNewFile();
+                        FileConfiguration spawns = YamlConfiguration.loadConfiguration(spawnsYml);
+                        try {
+                            spawns.options().copyDefaults();
+                            spawns.save(spawnsYml);
+                        } catch (FileNotFoundException e) {
+                            pl.makeLog(e);
+                        }
+                    } catch (IOException e) {
                         pl.makeLog(e);
+                        sender.sendMessage(pl.err + "Loading Spawns Data Unsuccessful");
                     }
-                } catch (IOException e) {
-                    pl.makeLog(e);
-                    sender.sendMessage(pl.err + "Loading Spawns Data Unsuccessful");
+                }
+                FileConfiguration spawns = YamlConfiguration.loadConfiguration(spawnsYml);
+
+                for (String key : spawns.getConfigurationSection("spawns").getKeys(false)) {
+                    String world = spawns.getString("spawns." + key + ".world");
+                    int x = spawns.getInt("spawns." + key + ".x");
+                    int y = spawns.getInt("spawns." + key + ".y");
+                    int z = spawns.getInt("spawns." + key + ".z");
+                    float yaw = (float) spawns.getDouble("spawns." + key + ".yaw");
+                    float pitch = (float) spawns.getDouble("spawns." + key + ".pitch");
+                    Location worldSpawn = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+                    spawnsHash.putIfAbsent(key, worldSpawn);
                 }
             }
-            FileConfiguration spawns = YamlConfiguration.loadConfiguration(spawnsYml);
+            Player p = (Player) sender;
 
-            for(String key : spawns.getConfigurationSection("spawns").getKeys(false)){
-                String world = spawns.getString("spawns." + key + ".world");
-                int x = spawns.getInt("spawns." + key + ".x");
-                int y = spawns.getInt("spawns." + key + ".y");
-                int z = spawns.getInt("spawns." + key + ".z");
-                float yaw = (float) spawns.getDouble("spawns." + key + ".yaw");
-                float pitch = (float) spawns.getDouble("spawns." + key + ".pitch");
-                Location worldSpawn = new Location(Bukkit.getWorld(world), x,y,z,yaw,pitch);
-                spawnsHash.putIfAbsent(key, worldSpawn);
+
+            if (spawnsHash.containsKey(p.getWorld().getName())) {
+                Location loc = (Location) spawnsHash.get(p.getWorld().getName());
+                p.sendMessage(pl.badge + "Returning you to Spawn");
+                p.teleport(loc);
+            } else {
+                p.sendMessage(pl.err + "No spawn found for this world");
             }
-        }
-        Player p = (Player) sender;
-
-
-        if (spawnsHash.containsKey(p.getWorld().getName())) {
-            Location loc = (Location) spawnsHash.get(p.getWorld().getName());
-            p.sendMessage(pl.badge + "Returning you to Spawn");
-            p.teleport(loc);
-        } else {
-            p.sendMessage(pl.err + "No spawn found for this world");
+        }else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
         }
         return true;
     }

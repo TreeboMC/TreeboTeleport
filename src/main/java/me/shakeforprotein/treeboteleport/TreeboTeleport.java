@@ -71,53 +71,55 @@ public final class TreeboTeleport extends JavaPlugin {
         }
         */
         /*Set Command Executors*/
-        this.getCommand("hub").setExecutor(new Hub(this));
-        this.getCommand("wild").setExecutor(new Wild(this));
-        this.getCommand("gws").setExecutor(new GetWorldSpawn(this));
-        this.getCommand("sws").setExecutor(new SetVanillaWorldSpawn(this));
-        this.getCommand("tp").setExecutor(new Tp(this));
-        this.getCommand("tpahere").setExecutor(new Tp2MePls(this));
-        this.getCommand("tpa").setExecutor(new MayITp(this));
-        this.getCommand("tpask").setExecutor(new MayITp(this));
-        this.getCommand("tpok").setExecutor(new TpOk(this));
-        this.getCommand("tpaccept").setExecutor(new TpOk(this));
-        this.getCommand("tpyes").setExecutor(new TpOk(this));
-        this.getCommand("givehubitem").setExecutor(new GiveHubItem(this));
-        this.getCommand("setwarp").setExecutor(new SetWarp(this));
-        this.getCommand("deletewarp").setExecutor(new DeleteWarp(this));
-        this.getCommand("delwarp").setExecutor(new DeleteWarp(this));
-        this.getCommand("warp").setExecutor(new WarpTo(this));
-        this.getCommand("warps").setExecutor(new WarpTo(this));
-        this.getCommand("sethome").setExecutor(new SetHome(this));
-        this.getCommand("delhome").setExecutor(new DeleteHome(this));
-        this.getCommand("home").setExecutor(new Home(this));
-        this.getCommand("homes").setExecutor(new Homes(this));
-        this.getCommand("bed").setExecutor(new Bed(this));
-        this.getCommand("setworldspawn").setExecutor(new SetWorldSpawn(this));
-        this.getCommand("spawn").setExecutor(new Spawn(this));
-        this.getCommand("sendspawn").setExecutor(new SendSpawn(this));
-        this.getCommand("ttelereload").setExecutor(new Reload(this));
-        this.getCommand("configurehub").setExecutor(new ConfigureHubMenu(this));
-        this.getCommand("configurewarps").setExecutor(new ConfigureWarps(this));
-        this.getCommand("configurehomes").setExecutor(new ConfigureHomes(this));
-        this.getCommand("clearmychat").setExecutor(new ClearMyChat(this));
-        this.getCommand("ttelesaveconfig").setExecutor(new SaveConfig(this));
-        this.getCommand("tteleversion").setExecutor(new Version(this));
-        this.getCommand("nameit").setExecutor(new NameIt(this));
-        this.getCommand("tptoggle").setExecutor(new TpToggle(this));
-        this.getCommand("disabletpsafety").setExecutor(new DisableTpSafety(this));
-        this.getCommand("tpno").setExecutor(new TpNo(this));
-        this.getCommand("tpdeny").setExecutor(new TpNo(this));
-        this.getCommand("tpcancel").setExecutor(new TpNo(this));
-        this.getCommand("back").setExecutor(new Back(this));
-        this.getCommand("addmaxhomes").setExecutor(new AddMaxHomes(this));
-        this.getCommand("showmaxhomes").setExecutor(new ShowMaxHomes(this));
-        this.getCommand("shop").setExecutor(new Shop(this));
-        this.getCommand("setshop").setExecutor(new SetShop(this));
-        this.getCommand("setttelecooldown").setExecutor(new SetTTeleCooldown(this));
-        this.getCommand("fixskygridhomes").setExecutor(new FixSkyGridHomes(this));
-        this.getCommand("restoreplayerinventory").setExecutor(new RestorePlayerInventory(this));
-        this.getCommand("toggledeathdocket").setExecutor(new ToggleDeathDocket(this));
+
+        
+            this.getCommand("hub").setExecutor(new Hub(this));
+            this.getCommand("wild").setExecutor(new Wild(this));
+            this.getCommand("gws").setExecutor(new GetWorldSpawn(this));
+            this.getCommand("sws").setExecutor(new SetVanillaWorldSpawn(this));
+            this.getCommand("tp").setExecutor(new Tp(this));
+            this.getCommand("tpahere").setExecutor(new Tp2MePls(this));
+            this.getCommand("tpa").setExecutor(new MayITp(this));  //TODO: MAY HAVE ISSUES
+            this.getCommand("tpask").setExecutor(new MayITp(this)); //TODO: MAY HAVE ISSUES
+            this.getCommand("tpok").setExecutor(new TpOk(this));  //TODO: MAY HAVE ISSUES
+            this.getCommand("tpaccept").setExecutor(new TpOk(this));  //TODO: MAY HAVE ISSUES
+            this.getCommand("tpyes").setExecutor(new TpOk(this));  //TODO: MAY HAVE ISSUES
+            this.getCommand("givehubitem").setExecutor(new GiveHubItem(this));
+            this.getCommand("setwarp").setExecutor(new SetWarp(this));
+            this.getCommand("deletewarp").setExecutor(new DeleteWarp(this));  //TODO: MAY HAVE ISSUES
+            this.getCommand("delwarp").setExecutor(new DeleteWarp(this));  //TODO: MAY HAVE ISSUES
+            this.getCommand("warp").setExecutor(new WarpTo(this));
+            this.getCommand("warps").setExecutor(new WarpTo(this));
+            this.getCommand("sethome").setExecutor(new SetHome(this));
+            this.getCommand("delhome").setExecutor(new DeleteHome(this));
+            this.getCommand("home").setExecutor(new Home(this));
+            this.getCommand("homes").setExecutor(new Homes(this));
+            this.getCommand("bed").setExecutor(new Bed(this));
+            this.getCommand("setworldspawn").setExecutor(new SetWorldSpawn(this));
+            this.getCommand("spawn").setExecutor(new Spawn(this));
+            this.getCommand("sendspawn").setExecutor(new SendSpawn(this));
+            this.getCommand("ttelereload").setExecutor(new Reload(this));
+            this.getCommand("configurehub").setExecutor(new ConfigureHubMenu(this));
+            this.getCommand("configurewarps").setExecutor(new ConfigureWarps(this));
+            this.getCommand("configurehomes").setExecutor(new ConfigureHomes(this));
+            this.getCommand("clearmychat").setExecutor(new ClearMyChat(this));
+            this.getCommand("ttelesaveconfig").setExecutor(new SaveConfig(this));
+            this.getCommand("tteleversion").setExecutor(new Version(this));
+            this.getCommand("nameit").setExecutor(new NameIt(this));
+            this.getCommand("tptoggle").setExecutor(new TpToggle(this));
+            this.getCommand("disabletpsafety").setExecutor(new DisableTpSafety(this));
+            this.getCommand("tpno").setExecutor(new TpNo(this));   //TODO: MAY HAVE ISSUES
+            this.getCommand("tpdeny").setExecutor(new TpNo(this));  //TODO: MAY HAVE ISSUES
+            this.getCommand("tpcancel").setExecutor(new TpNo(this));  //TODO: MAY HAVE ISSUES
+            this.getCommand("back").setExecutor(new Back(this));
+            this.getCommand("addmaxhomes").setExecutor(new AddMaxHomes(this));
+            this.getCommand("showmaxhomes").setExecutor(new ShowMaxHomes(this));
+            this.getCommand("shop").setExecutor(new Shop(this));
+            this.getCommand("setshop").setExecutor(new SetShop(this));
+            this.getCommand("setttelecooldown").setExecutor(new SetTTeleCooldown(this));
+            this.getCommand("fixskygridhomes").setExecutor(new FixSkyGridHomes(this));
+            this.getCommand("restoreplayerinventory").setExecutor(new RestorePlayerInventory(this));
+            this.getCommand("toggledeathdocket").setExecutor(new ToggleDeathDocket(this));
 
 /*
         this.getCommand("mergeessdata").setExecutor(new MergeEssentialsData(this));

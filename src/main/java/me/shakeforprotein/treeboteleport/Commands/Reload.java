@@ -16,8 +16,12 @@ public class Reload implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!pl.getConfig().getBoolean("disabledCommands.ttelereload")) {
             pl.reloadConfig();
             sender.sendMessage(pl.badge + "Config Reloaded");
+        }else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+        }
         return true;
     }
 }

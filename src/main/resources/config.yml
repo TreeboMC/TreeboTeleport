@@ -24,6 +24,59 @@ general:
     badge: '&6[Treebo Teleport]&r'
     error: '&4ERROR:&r'
 
+disabledCommands:
+  AddMaxHomes: false
+  Back: false
+  Bed: false
+  ClearMyChat: false
+  hub: false
+  wild: false
+  gws: false
+  sws: false
+  tp: false
+  tpaherenew: false
+  tpa: false
+  tpask: false
+  tpok: false
+  tpaccept: false
+  tpyes: false
+  givehubitem: false
+  setwarp: false
+  deletewarp: false
+  delwarp: false
+  warp: false
+  warps: false
+  sethome: false
+  delhome: false
+  home: false
+  homes: false
+  bed: false
+  setworldspawn: false
+  spawn: false
+  sendspawn: false
+  ttelereload: false
+  configurehub: false
+  configurewarps: false
+  configurehomes: false
+  clearmychat: false
+  ttelesaveconfig: false
+  tteleversion: false
+  nameit: false
+  tptoggle: false
+  disabletpsafety: false
+  tpno: false
+  tpdeny: false
+  tpcancel: false
+  back: false
+  addmaxhomes: false
+  showmaxhomes: false
+  shop: false
+  setshop: false
+  setttelecooldown: false
+  fixskygridhomes: true
+  restoreplayerinventory: false
+  toggledeathdocket: false
+
 wild:
   messages:
     success: '&3&l[&3Treebo Teleport&3&l] &2Sending you to: &f{COORDS}'
@@ -34,3 +87,7 @@ wild:
   maxY: 150
   minZ: -500000
   maxZ: 500000
+
+deathDocket:
+  disable: false
+  toggle:

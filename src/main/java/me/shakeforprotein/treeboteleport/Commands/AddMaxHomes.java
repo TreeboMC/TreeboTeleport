@@ -18,19 +18,23 @@ public class AddMaxHomes implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (args.length != 2) {
-            sender.sendMessage(pl.err + "Incorrect usage. Correct usage is /addmaxhomes <player name> <amount>");
-        } else {
-            if (pl.isInteger(args[1])) {
-                Player p = Bukkit.getOfflinePlayer(args[0]).getPlayer();
-                int currentMaxHomes = getHomes(p);
-                int newHomes = currentMaxHomes + Integer.parseInt(args[1]);
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex user " + p.getName() + " add tbteleport.maxhomes." + newHomes);
-                sender.sendMessage(pl.badge + "Successfully set " + p.getName() + "'s maximum homes to " + getHomes(p));
+        if (!pl.getConfig().getBoolean("disabledCommands.addmaxhomes")) {
+
+            if (args.length != 2) {
+                sender.sendMessage(pl.err + "Incorrect usage. Correct usage is /addmaxhomes <player name> <amount>");
+            } else {
+                if (pl.isInteger(args[1])) {
+                    Player p = Bukkit.getOfflinePlayer(args[0]).getPlayer();
+                    int currentMaxHomes = getHomes(p);
+                    int newHomes = currentMaxHomes + Integer.parseInt(args[1]);
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex user " + p.getName() + " add tbteleport.maxhomes." + newHomes);
+                    sender.sendMessage(pl.badge + "Successfully set " + p.getName() + "'s maximum homes to " + getHomes(p));
+                } else {
+                    sender.sendMessage(pl.err + "Second argument must be a number");
+                }
             }
-            else{
-                sender.sendMessage(pl.err + "Second argument must be a number");
-            }
+        }else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
         }
         return true;
     }

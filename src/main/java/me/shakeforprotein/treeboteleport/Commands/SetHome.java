@@ -25,6 +25,7 @@ public class SetHome implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!pl.getConfig().getBoolean("disabledCommands.sethome")) {
             Player p = (Player) sender;
             File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId() + ".yml");
             if (!homesYml.exists()) {
@@ -86,7 +87,10 @@ public class SetHome implements CommandExecutor {
                     }
                 }
             }
-
+        }
+        else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+        }
         return true;
     }
 

@@ -13,13 +13,14 @@ public class Hub implements CommandExecutor {
     private TreeboTeleport pl;
     private OpenHubMenu openHubMenu;
 
-    public Hub(TreeboTeleport main){
+    public Hub(TreeboTeleport main) {
         this.pl = main;
         this.openHubMenu = new OpenHubMenu(pl);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!pl.getConfig().getBoolean("disabledCommands.hub")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 String w = player.getWorld().getName();
@@ -31,6 +32,9 @@ public class Hub implements CommandExecutor {
                     }
                 }
             }
+        } else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+        }
         return true;
     }
 }

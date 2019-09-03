@@ -23,7 +23,8 @@ public class DeleteHome implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        Player p = (Player) sender;
+        if (!pl.getConfig().getBoolean("disabledCommands.delhome")) {
+            Player p = (Player) sender;
             File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId() + ".yml");
             if (!homesYml.exists()) {
                 p.sendMessage(pl.err + "Homes file not found. Attempting to Recover.");
@@ -65,6 +66,9 @@ public class DeleteHome implements CommandExecutor {
                     p.sendMessage(pl.err + "Saving homes file failed");
                 }
             }
+        }else {
+            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+        }
         return true;
     }
 }
