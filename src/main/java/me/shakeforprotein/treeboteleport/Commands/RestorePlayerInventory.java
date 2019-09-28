@@ -43,6 +43,7 @@ public class RestorePlayerInventory implements CommandExecutor {
                                         p.getInventory().addItem(deathYaml.getItemStack("inventory.slot_" + i));
                                         i++;
                                     }
+                                    p.setTotalExperience(deathYaml.getInt("experience"));
                                     deathYaml.set("used", true);
                                     try {
                                         deathYaml.save(deathFile);

@@ -47,7 +47,7 @@ public class RespawnListener implements Listener {
 
             Player p = e.getEntity();
             Location loc = e.getEntity().getLocation();
-            int droppedXP = e.getDroppedExp();
+            int droppedXP = p.getTotalExperience();
             String deathMessage = e.getDeathMessage();
 
             List<ItemStack> itemList = e.getDrops();
