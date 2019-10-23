@@ -3,6 +3,7 @@ package me.shakeforprotein.treeboteleport;
 import io.github.leonardosnt.bungeechannelapi.BungeeChannelApi;
 import me.shakeforprotein.treeboteleport.Commands.*;
 import me.shakeforprotein.treeboteleport.Commands.NameIt;
+import me.shakeforprotein.treeboteleport.Commands.TabCompleters.TabCompleteWarp;
 import me.shakeforprotein.treeboteleport.Listeners.*;
 import me.shakeforprotein.treeboteleport.Methods.Teleports.ToWorld;
 import me.shakeforprotein.treeboteleport.UpdateChecker.UpdateChecker;
@@ -89,6 +90,7 @@ public final class TreeboTeleport extends JavaPlugin {
             this.getCommand("deletewarp").setExecutor(new DeleteWarp(this));  //TODO: MAY HAVE ISSUES
             this.getCommand("delwarp").setExecutor(new DeleteWarp(this));  //TODO: MAY HAVE ISSUES
             this.getCommand("warp").setExecutor(new WarpTo(this));
+            this.getCommand("warp").setTabCompleter(new TabCompleteWarp(this));
             this.getCommand("warps").setExecutor(new WarpTo(this));
             this.getCommand("sethome").setExecutor(new SetHome(this));
             this.getCommand("delhome").setExecutor(new DeleteHome(this));

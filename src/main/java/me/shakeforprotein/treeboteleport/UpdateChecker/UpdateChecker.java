@@ -1,6 +1,8 @@
 package me.shakeforprotein.treeboteleport.UpdateChecker;
 
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -16,15 +18,17 @@ public class UpdateChecker {
 
     private TreeboTeleport pl;
 
-    public UpdateChecker(TreeboTeleport main) {
-        this.pl = main;
-    }
-
     public String requiredPermission = "tbteleport.admin.updatechecker";
     public HashMap runningVersion = new HashMap<Integer, Integer>();
     public HashMap currentVersion = new HashMap<Integer, Integer>();
     public HashMap updateNotified = new HashMap<Player, Boolean>();
-    public boolean isOutOfDate = false;
+
+    public UpdateChecker(TreeboTeleport main) {
+        this.pl = main;
+    }
+
+    static public boolean isOutOfDate;
+    static public String gitVersion = "";
     public String newVersion = "";
 
     public Boolean getCheckDownloadURL() {
@@ -40,17 +44,13 @@ public class UpdateChecker {
                 conn.connect();
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String inputLine = in.readLine();
-                String gitVersion = "";
 
                 Boolean getLinkNow = false;
-                System.out.println(pl.badge + "Checking for Git Data");
                 while (inputLine != null) {
-                    System.out.println(pl.badge + "Git Data Found");
                     JSONParser parser = new JSONParser();
                     JSONObject json = (JSONObject) parser.parse(inputLine);
                     gitVersion = json.get("tag_name").toString();
                     String fullGitVersion = gitVersion;
-                    System.out.println(pl.badge + "Found Git Version - " + fullGitVersion);
                     gitVersion = gitVersion.split(" ")[0].split("-")[0];
                     currentVersion.put(0, Integer.parseInt(gitVersion.split("\\.")[0]));
                     currentVersion.put(1, Integer.parseInt(gitVersion.split("\\.")[1]));
@@ -99,21 +99,10 @@ public class UpdateChecker {
 
     public void checkUpdates(Player p) {
         if (isOutOfDate) {
-            newVersion = pl.badge + ChatColor.RED + "is out of date. Please update to version at " + pl.getConfig().getString("releasePage");
-            System.out.println(newVersion);}
-        else{
-            System.out.println(pl.badge +  "is up to date");
+            TextComponent updateMessage = new net.md_5.bungee.api.chat.TextComponent(pl.badge + ChatColor.RED + "is out of date." + ChatColor.BOLD +" [Update - " + gitVersion + "]");
+            ClickEvent updateClickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, pl.getConfig().getString("releasePage"));
+            updateMessage.setClickEvent(updateClickEvent);
+            p.spigot().sendMessage(updateMessage);
         }
     }
-
-
-    /*
-    if(e.getPlayer().hasPermission(uc.requiredPermission)){
-        if (!uc.updateNotified.containsKey(e.getPlayer())) {
-            uc.checkUpdates(e.getPlayer());
-            uc.updateNotfied.putIfAbsent(e.getPlayer(), true);
-        }
-    }
-    */
-
 }

@@ -1,8 +1,11 @@
 package me.shakeforprotein.treeboteleport.Listeners;
 
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.minecraft.server.v1_14_R1.EntityDamageSource;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -51,8 +54,7 @@ public class PlayerTeleportListener implements Listener {
                             }
                         }
                     }, tpProtection);
-                    e.getPlayer().sendMessage(pl.badge + "As a safety feature you have been locked in place for " + pl.getConfig().getInt("teleportProtection") + " seconds.");
-                    e.getPlayer().sendMessage("You can at your own risk disable this protection with /disabletpsafety");
+                    e.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(pl.badge + ChatColor.BOLD + "As a safety feature you have been locked in place for " + pl.getConfig().getInt("teleportProtection") + " seconds. You can disable this with /disabletpsafety").create());
                 }
             }
         }
