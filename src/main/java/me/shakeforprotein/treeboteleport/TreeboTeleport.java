@@ -16,6 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -44,6 +45,53 @@ public final class TreeboTeleport extends JavaPlugin {
     public HashMap lastLocConf = new HashMap<UUID, Location>();
     public HashMap tpSafetyOff = new HashMap<UUID, String>();
 
+    private AddMaxHomes addMaxHomes = new AddMaxHomes(this);
+    private Back back = new Back(this);
+    private Bed bed = new Bed(this);
+    private ClearMyChat clearMyChat = new ClearMyChat(this);
+    private ConfigureHomes configureHomes = new ConfigureHomes(this);
+    private ConfigureHubMenu configureHubMenu = new ConfigureHubMenu(this);
+    private ConfigureWarps configureWarps = new ConfigureWarps(this);
+    private DeleteHome deleteHome = new DeleteHome(this);
+    private DeleteWarp deleteWarp = new DeleteWarp(this);
+    private DisableTpSafety disableTpSafety = new DisableTpSafety(this);
+    private GetWorldSpawn getWorldSpawn = new GetWorldSpawn(this);
+    private GiveHubItem giveHubItem = new GiveHubItem(this);
+    private Home home = new Home(this);
+    private Homes homes = new Homes(this);
+    private Hub hub = new Hub(this);
+    private MayITp mayITp = new MayITp(this);
+    private NameIt nameIt = new NameIt(this);
+    private Reload reload = new Reload(this);
+    private RestorePlayerInventory restorePlayerInventory = new RestorePlayerInventory(this);
+    private SaveConfig saveConfig = new SaveConfig(this);
+    private SendSpawn sendSpawn = new SendSpawn(this);
+    private SetShop setShop = new SetShop(this);
+    private SetHome setHome = new SetHome(this);
+    private SetTTeleCooldown setTTeleCooldown = new SetTTeleCooldown(this);
+    private SetVanillaWorldSpawn setVanillaWorldSpawn = new SetVanillaWorldSpawn(this);
+    private SetWarp setWarp = new SetWarp(this);
+    private SetWorldSpawn setWorldSpawn = new SetWorldSpawn(this);
+    private Shop shop = new Shop(this);
+    private ShowMaxHomes showMaxHomes = new ShowMaxHomes(this);
+    private Spawn spawn = new Spawn(this);
+    private ToggleDeathDocket toggleDeathDocket = new ToggleDeathDocket(this);
+    private Tp tp = new Tp(this);
+    private Top top = new Top(this);
+    private Tp2Me tp2Me = new Tp2Me(this);
+    private Tp2MePls tp2MePls = new Tp2MePls(this);
+    private Tp2Player tp2Player = new Tp2Player(this);
+    private Tp2Pos tp2Pos = new Tp2Pos(this);
+    private Tp2WorldAt tp2WorldAt = new Tp2WorldAt(this);
+    private TpNo tpNo = new TpNo(this);
+    private TpOk tpOk = new TpOk(this);
+    private TpToggle tpToggle = new TpToggle(this);
+    private Version version = new Version(this);
+    private WarpTo warpTo = new WarpTo(this);
+    private Wild wild = new Wild(this);
+
+
+
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -57,7 +105,6 @@ public final class TreeboTeleport extends JavaPlugin {
         username = getConfig().getString("username");
         password = getConfig().getString("password");
         table = getConfig().getString("transferTable");
-
         //createTable(table);
 
 
@@ -73,7 +120,7 @@ public final class TreeboTeleport extends JavaPlugin {
         */
         /*Set Command Executors*/
 
-        
+        /*
             this.getCommand("hub").setExecutor(new Hub(this));
             this.getCommand("wild").setExecutor(new Wild(this));
             this.getCommand("gws").setExecutor(new GetWorldSpawn(this));
@@ -122,11 +169,65 @@ public final class TreeboTeleport extends JavaPlugin {
             this.getCommand("fixskygridhomes").setExecutor(new FixSkyGridHomes(this));
             this.getCommand("restoreplayerinventory").setExecutor(new RestorePlayerInventory(this));
             this.getCommand("toggledeathdocket").setExecutor(new ToggleDeathDocket(this));
-
+            */
 /*
         this.getCommand("mergeessdata").setExecutor(new MergeEssentialsData(this));
         this.getCommand("fixtthomes").setExecutor(new FixTTHomes(this));
         */
+
+        addMaxHomes.register("AddMaxHomes");
+        back.register("Back");
+        bed.register("Bed");
+        clearMyChat.register("ClearMyChat");
+        configureHomes.register("ConfigureHomes");
+        configureHubMenu.register("ConfigureHubMenu");
+        configureWarps.register("ConfigureWarps");
+        deleteHome.register("DeleteHome");
+        deleteHome.register("DelHome");
+        deleteWarp.register("DeleteWarp");
+        deleteWarp.register("DelWarp");
+        disableTpSafety.register("DisableTpSafety");
+        disableTpSafety.register("ToggleTpSafety");
+        getWorldSpawn.register("gws");
+        getWorldSpawn.register("GetWorldSpawn");
+        giveHubItem.register("GiveHubItem");
+        home.register("Home");
+        homes.register("Homes");
+        hub.register("Hub");
+        mayITp.register("MayITp");
+        mayITp.register("tpa");
+        mayITp.register("tpask");
+        nameIt.register("NameIt");
+        reload.register("ttelereload");
+        restorePlayerInventory.register("RestorePlayerInventory");
+        saveConfig.register("ttelesaveconfig");
+        sendSpawn.register("SendSpawn");
+        setHome.register("SetHome");
+        setShop.register("SetShop");
+        setTTeleCooldown.register("SetTTeleCoolDown");
+        setVanillaWorldSpawn.register("SetVanillaWorldSpawn");
+        setWarp.register("SetWarp");
+        setWorldSpawn.register("SetWorldSpawn");
+        shop.register("Shop");
+        showMaxHomes.register("ShowMaxHomes");
+        spawn.register("Spawn");
+        toggleDeathDocket.register("ToggleDeathDocket");
+        tp.register("Tp");
+        tp2Me.register("tp2me");
+        tp2Me.register("tphere");
+        tp2MePls.register("tp2mePls");
+        tp2MePls.register("tpahere");
+        tpNo.register("tpno");
+        tpNo.register("tpdeny");
+        tpOk.register("tpok");
+        tpOk.register("tpyes");
+        tpToggle.register("tptoggle");
+        version.register("tteleversion");
+        warpTo.register("warp");
+        warpTo.register("warps");
+        wild.register("wild");
+        top.register("top");
+        //tp2Player.register
 
         getServer().getPluginManager().registerEvents(new HubItemListener(this), this);
         getServer().getPluginManager().registerEvents(new HubMenuInventoryListener(this), this);
@@ -168,7 +269,6 @@ public final class TreeboTeleport extends JavaPlugin {
                 makeLog(e);
             }
         }
-
         for (String item : serverList.getConfigurationSection("servers").getKeys(false)) {
             BukkitCommand item2 = new BukkitCommand(item.toLowerCase()) {
                 @Override
@@ -181,8 +281,8 @@ public final class TreeboTeleport extends JavaPlugin {
                 }
             };
             registerNewCommand(this.getDescription().getName(), item2);
-            //this.getCommand(item.toLowerCase()).setPermission("tbteleport.servers." + item);
         }
+
 
         UpdateChecker uc = new UpdateChecker(this);
         uc.getCheckDownloadURL();
@@ -293,7 +393,7 @@ public final class TreeboTeleport extends JavaPlugin {
         return configItem;
     }
 
-    private void registerNewCommand(String fallback, BukkitCommand command) {
+    public void registerNewCommand(String fallback, BukkitCommand command) {
         try {
             Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             bukkitCommandMap.setAccessible(true);
@@ -303,7 +403,6 @@ public final class TreeboTeleport extends JavaPlugin {
             e.printStackTrace();
         }
     }
-
 
     public void createDefaultFile(String path, String file, boolean isFolder) {
 

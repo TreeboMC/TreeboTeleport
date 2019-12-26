@@ -6,12 +6,13 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
 
-public class ConfigureHubMenu implements CommandExecutor {
+public class ConfigureHubMenu {
 
     private TreeboTeleport pl;
     private File hubFile;
@@ -22,66 +23,78 @@ public class ConfigureHubMenu implements CommandExecutor {
     }
 
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!pl.getConfig().getBoolean("disabledCommands.configurehub")) {
-            if (args.length == 0) {
-                sender.sendMessage(pl.err + "This command requires multiple inputs");
-                doHelp(sender);
-            } else if (args[0].equalsIgnoreCase("set")) {
-                if (args[2] != null) {
-                    if (pl.isInteger(args[2])) {
-                        if (args[1].equalsIgnoreCase("icon")) {
-                            if (Material.getMaterial(args[3].toUpperCase()) != null) {
-                                setYml(args[2], "icon", args[3].toUpperCase(), sender);
-                            } else {
-                                sender.sendMessage(pl.err + "Unknown Material -->" + args[3] + "<--");
-                            }
-                        } else if (args[1].equalsIgnoreCase("label")) {
-                            int i;
-                            StringBuilder labelText = new StringBuilder();
-                            for (i = 3; i < args.length; i++) {
-                                labelText.append(args[i] + " ");
-                            }
-                            setYml(args[2], "label", labelText.toString(), sender);
-                        } else if (args[1].equalsIgnoreCase("position")) {
+    public boolean register(String command) {
+        if (!pl.getConfig().getBoolean("disabledCommands." + command)) {
+            BukkitCommand item2 = new BukkitCommand(command.toLowerCase()) {
+                @Override
+                public boolean execute(CommandSender sender, String label, String[] args) {
+                    this.setDescription("Allows player to configure the hub menu gui");
+                    this.setUsage("/ConfigureHubMenu - requires tbteleport.admin.hub.configure");
+                    this.setPermission("tbteleport.admin.hub.configure");
+                    if (sender.hasPermission(this.getPermission())) {
 
-                            setYml(args[2], "position", args[3], sender);
-                        } else if (args[1].equalsIgnoreCase("command")) {
-                            int i;
-                            StringBuilder commandText = new StringBuilder();
-                            for (i = 3; i < args.length; i++) {
-                                commandText.append(args[i] + " ");
+
+                        if (args.length == 0) {
+                            sender.sendMessage(pl.err + "This command requires multiple inputs");
+                            doHelp(sender);
+                        } else if (args[0].equalsIgnoreCase("set")) {
+                            if (args[2] != null) {
+                                if (pl.isInteger(args[2])) {
+                                    if (args[1].equalsIgnoreCase("icon")) {
+                                        if (Material.getMaterial(args[3].toUpperCase()) != null) {
+                                            setYml(args[2], "icon", args[3].toUpperCase(), sender);
+                                        } else {
+                                            sender.sendMessage(pl.err + "Unknown Material -->" + args[3] + "<--");
+                                        }
+                                    } else if (args[1].equalsIgnoreCase("label")) {
+                                        int i;
+                                        StringBuilder labelText = new StringBuilder();
+                                        for (i = 3; i < args.length; i++) {
+                                            labelText.append(args[i] + " ");
+                                        }
+                                        setYml(args[2], "label", labelText.toString(), sender);
+                                    } else if (args[1].equalsIgnoreCase("position")) {
+
+                                        setYml(args[2], "position", args[3], sender);
+                                    } else if (args[1].equalsIgnoreCase("command")) {
+                                        int i;
+                                        StringBuilder commandText = new StringBuilder();
+                                        for (i = 3; i < args.length; i++) {
+                                            commandText.append(args[i] + " ");
+                                        }
+                                        setYml(args[2], "command", commandText.toString(), sender);
+                                    } else if (args[1].equalsIgnoreCase("colour") || args[1].equalsIgnoreCase("color")) {
+                                        if (args[1].equalsIgnoreCase("color")) {
+                                            sender.sendMessage("You seem to have dropped your U. Don't worry, I've made sure to include it with your other letters.");
+                                        }
+                                        setYml(args[2], "color", args[3], sender);
+                                    } else if (args[1].equalsIgnoreCase("rows")) {
+                                        setRows(args[2], sender);
+                                    }
+
+
+                                } else {
+                                    sender.sendMessage(pl.err + "Expected integer at -->" + args[2] + "<--");
+                                }
+                            } else {
+                                sender.sendMessage(pl.err + "Insufficient arguments");
+                                doHelp(sender);
                             }
-                            setYml(args[2], "command", commandText.toString(), sender);
-                        } else if (args[1].equalsIgnoreCase("colour") || args[1].equalsIgnoreCase("color")) {
-                            if (args[1].equalsIgnoreCase("color")) {
-                                sender.sendMessage("You seem to have dropped your U. Don't worry, I've made sure to include it with your other letters.");
-                            }
-                            setYml(args[2], "color", args[3], sender);
-                        } else if (args[1].equalsIgnoreCase("rows")) {
-                            setRows(args[2], sender);
                         }
+                        pl.saveFile(hubFile, hubYaml, sender);
 
 
                     } else {
-                        sender.sendMessage(pl.err + "Expected integer at -->" + args[2] + "<--");
+                        sender.sendMessage(ChatColor.RED + "You do not have access to this command. You require permission node " + ChatColor.GOLD + this.getPermission());
                     }
-                } else {
-                    sender.sendMessage(pl.err + "Insufficient arguments");
-                    doHelp(sender);
+
+                    return true;
                 }
-            }
-
-
-            pl.saveFile(hubFile, hubYaml, sender);
-        }
-        else {
-            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+            };
+            pl.registerNewCommand(pl.getDescription().getName(), item2);
         }
         return true;
     }
-
 
     public void notFound(String str, CommandSender s) {
         s.sendMessage(pl.err + "No menu item found at position " + str + ".");
@@ -93,10 +106,9 @@ public class ConfigureHubMenu implements CommandExecutor {
         boolean found = false;
         for (String menuItem : hubYaml.getConfigurationSection("hubmenu.menuItems").getKeys(false)) {
             if (hubYaml.getInt("hubmenu.menuItems." + menuItem + ".position") == Integer.parseInt(pos)) {
-                if(selector.equalsIgnoreCase("position")){
+                if (selector.equalsIgnoreCase("position")) {
                     hubYaml.set("hubmenu.menuItems." + menuItem + "." + selector, Integer.parseInt(newVal));
-                }
-                else{
+                } else {
                     hubYaml.set("hubmenu.menuItems." + menuItem + "." + selector, newVal);
                 }
                 pl.saveFile(hubFile, hubYaml, s);

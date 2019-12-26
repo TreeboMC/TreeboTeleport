@@ -6,59 +6,69 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
 import java.util.Iterator;
 
 
-public class TpOk implements CommandExecutor {
+public class TpOk {
 
     private TreeboTeleport pl;
 
-    public TpOk(TreeboTeleport main){
+    public TpOk(TreeboTeleport main) {
         this.pl = main;
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        //TODO: Rewrite TPA Functionality to use Hashmap instead of File.
-        if ((label.equalsIgnoreCase("tpok") && !pl.getConfig().getBoolean("disabledCommands.tpok")) ||
-                (label.equalsIgnoreCase("tpaccept") && !pl.getConfig().getBoolean("disabledCommands.tpaccept")) ||
-                (label.equalsIgnoreCase("tpyes") && !pl.getConfig().getBoolean("disabledCommands.tpyes"))) {
-            if (args.length == 0) {
-                Player targetPlayer = null;
+    public boolean register(String command) {
+        if (!pl.getConfig().getBoolean("disabledCommands." + command)) {
+            BukkitCommand item2 = new BukkitCommand(command.toLowerCase()) {
+                @Override
+                public boolean execute(CommandSender sender, String label, String[] args) {
+                    this.setDescription("Accepts a teleport request");
+                    this.setUsage("/tpok - requires tbteleport.player.tp");
+                    this.setPermission("tbteleport.player.tp");
+                    if (sender.hasPermission(this.getPermission())) {
 
-                if (pl.getConfig().get("tpRequest." + sender.getName()) != null && (System.currentTimeMillis() - 30000) < pl.getConfig().getLong("tpRequest." + sender.getName() + ".requestTime")) {
-                    String type = pl.getConfig().getString("tpRequest." + sender.getName() + ".type");
-                    String requester = pl.getConfig().getString("tpRequest." + sender.getName() + ".requester");
-                    Iterator iter = Bukkit.getOnlinePlayers().iterator();
-                    while (iter.hasNext()) {
-                        Player p = (Player) iter.next();
-                        if (p.getName().equalsIgnoreCase(requester)) {
-                            targetPlayer = p;
-                        }
-                    }
-                    if (targetPlayer != null) {
-                        if (type.equalsIgnoreCase("toPlayer")) {
-                            targetPlayer.teleport((Player) sender);
-                            pl.getConfig().set("tpRequest." + sender.getName() + ".requestTime", 0);
-                        } else if (type.equalsIgnoreCase("toSender")) {
-                            ((Player) sender).teleport(targetPlayer);
-                            pl.getConfig().set("tpRequest." + sender.getName() + ".requestTime", 0);
+                        if (args.length == 0) {
+                            Player targetPlayer = null;
+
+                            if (pl.getConfig().get("tpRequest." + sender.getName()) != null && (System.currentTimeMillis() - 30000) < pl.getConfig().getLong("tpRequest." + sender.getName() + ".requestTime")) {
+                                String type = pl.getConfig().getString("tpRequest." + sender.getName() + ".type");
+                                String requester = pl.getConfig().getString("tpRequest." + sender.getName() + ".requester");
+                                Iterator iter = Bukkit.getOnlinePlayers().iterator();
+                                while (iter.hasNext()) {
+                                    Player p = (Player) iter.next();
+                                    if (p.getName().equalsIgnoreCase(requester)) {
+                                        targetPlayer = p;
+                                    }
+                                }
+                                if (targetPlayer != null) {
+                                    if (type.equalsIgnoreCase("toPlayer")) {
+                                        targetPlayer.teleport((Player) sender);
+                                        pl.getConfig().set("tpRequest." + sender.getName() + ".requestTime", 0);
+                                    } else if (type.equalsIgnoreCase("toSender")) {
+                                        ((Player) sender).teleport(targetPlayer);
+                                        pl.getConfig().set("tpRequest." + sender.getName() + ".requestTime", 0);
+                                    } else {
+                                        sender.sendMessage(pl.err + "Invalid teleport Type");
+                                    }
+                                } else {
+                                    sender.sendMessage(pl.err + "Requesting player is not online");
+                                }
+                            } else {
+                                sender.sendMessage(pl.err + "Cannot find teleport request");
+                            }
                         } else {
-                            sender.sendMessage(pl.err + "Invalid teleport Type");
+                            sender.sendMessage(pl.err + "Incorrect usage. This command does not accept any arguments");
                         }
                     } else {
-                        sender.sendMessage(pl.err + "Requesting player is not online");
+                        sender.sendMessage(ChatColor.RED + "You do not have access to this command. You require permission node " + ChatColor.GOLD + this.getPermission());
                     }
-                } else {
-                    sender.sendMessage(pl.err + "Cannot find teleport request");
+                    return true;
                 }
-            } else {
-                sender.sendMessage(pl.err + "Incorrect usage. This command does not accept any arguments");
-            }
-        } else {
-            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+            };
+            pl.registerNewCommand(pl.getDescription().getName(), item2);
         }
         return true;
     }
