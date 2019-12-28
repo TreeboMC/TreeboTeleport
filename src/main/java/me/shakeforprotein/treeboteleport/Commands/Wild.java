@@ -54,7 +54,7 @@ public class Wild {
                                 OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[0]);
                                 World w = ((Player) targetPlayer).getWorld();
                                 if (targetPlayer.isOnline()) {
-                                    Location targetLocation = findSafeBlock(w, ((Player) targetPlayer), true, 0);
+                                    Location targetLocation = findSafeBlock(w, ((Player) targetPlayer), false, 0);
                                     if(targetLocation != null) {
                                         ((Player) targetPlayer).teleport(targetLocation);
                                     }
@@ -71,7 +71,7 @@ public class Wild {
                                 World w = player.getWorld();
 
                                 if (args.length == 0) {
-                                    Location targetLocation = findSafeBlock(w, ((Player) sender), true, 0);
+                                    Location targetLocation = findSafeBlock(w, ((Player) sender), false, 0);
                                     if(targetLocation != null) {
                                         ((Player) sender).teleport(targetLocation);
                                     }
