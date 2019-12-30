@@ -7,6 +7,7 @@ import me.shakeforprotein.treeboteleport.Commands.TabCompleters.TabCompleteWarp;
 import me.shakeforprotein.treeboteleport.Listeners.*;
 import me.shakeforprotein.treeboteleport.Methods.Teleports.ToWorld;
 import me.shakeforprotein.treeboteleport.UpdateChecker.UpdateChecker;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -98,7 +99,11 @@ public final class TreeboTeleport extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         getConfig().set("version", this.getDescription().getVersion());
         saveConfig();
-
+        if(getConfig().get("bstatsIntegration") != null) {
+            if (getConfig().getBoolean("bstatsIntegration")) {
+                Metrics metrics = new Metrics(this);
+            }
+        }
         host = getConfig().getString("host");
         port = getConfig().getInt("port");
         database = getConfig().getString("database");
