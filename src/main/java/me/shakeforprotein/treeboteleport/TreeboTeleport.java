@@ -1,9 +1,10 @@
 package me.shakeforprotein.treeboteleport;
 
 import io.github.leonardosnt.bungeechannelapi.BungeeChannelApi;
+import me.shakeforprotein.treeboteleport.Bungee.BungeeRecieve;
+import me.shakeforprotein.treeboteleport.Bungee.BungeeSend;
 import me.shakeforprotein.treeboteleport.Commands.*;
 import me.shakeforprotein.treeboteleport.Commands.NameIt;
-import me.shakeforprotein.treeboteleport.Commands.TabCompleters.TabCompleteWarp;
 import me.shakeforprotein.treeboteleport.Listeners.*;
 import me.shakeforprotein.treeboteleport.Methods.Teleports.ToWorld;
 import me.shakeforprotein.treeboteleport.UpdateChecker.UpdateChecker;
@@ -17,7 +18,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -89,12 +89,14 @@ public final class TreeboTeleport extends JavaPlugin {
     private TpToggle tpToggle = new TpToggle(this);
     private Version version = new Version(this);
     private WarpTo warpTo = new WarpTo(this);
-    private Wild wild = new Wild(this);
-
+    private Wild2 wild = new Wild2(this);
 
 
     @Override
     public void onEnable() {
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeRecieve(this));
+
         // Plugin startup logic
         getConfig().options().copyDefaults(true);
         getConfig().set("version", this.getDescription().getVersion());

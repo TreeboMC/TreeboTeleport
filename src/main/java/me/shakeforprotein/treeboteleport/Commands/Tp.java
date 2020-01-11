@@ -1,25 +1,24 @@
 package me.shakeforprotein.treeboteleport.Commands;
 
+import me.shakeforprotein.treeboteleport.Bungee.BungeeRecieve;
+import me.shakeforprotein.treeboteleport.Bungee.BungeeSend;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-
-public class Tp {
+public class Tp{
 
     private TreeboTeleport pl;
+    private BungeeSend bungeeSend;
+    private BungeeRecieve bungeeRecieve;
 
     public Tp(TreeboTeleport main) {
         this.pl = main;
+        this.bungeeSend = new BungeeSend(pl);
     }
 
 
@@ -33,8 +32,8 @@ public class Tp {
                     this.setPermission("tbteleport.staff.tp");
                     if (sender.hasPermission(this.getPermission())) {
 
-                        File homesYml = new File(pl.getDataFolder(), "lastLocation.yml");
-                        FileConfiguration homes = YamlConfiguration.loadConfiguration(homesYml);
+                        // File homesYml = new File(pl.getDataFolder(), "lastLocation.yml");
+                        // FileConfiguration homes = YamlConfiguration.loadConfiguration(homesYml);
                         if (args.length == 3 && (pl.isInteger(args[0]) && pl.isInteger(args[1]) && pl.isInteger(args[2]))) {
 
                             String a1 = args[0];
@@ -101,7 +100,9 @@ public class Tp {
                                 sender.sendMessage(pl.badge + "Sending you to " + target.getName());
                                 ((Player) sender).teleport(target.getLocation());
                             } else {
-                                sender.sendMessage(pl.err + "Could not find player '" + args[0] + "' on this server");
+                                sender.sendMessage(pl.err + "Could not find player '" + args[0] + "' on this server, trying other servers.");
+                                bungeeSend.sendPluginMessage("CrossServerTeleport", "ALL", sender.getName() + "," + args[0]);
+                                sender.sendMessage("You will not receive a fail message for this.");
                             }
                         }
                     } else {

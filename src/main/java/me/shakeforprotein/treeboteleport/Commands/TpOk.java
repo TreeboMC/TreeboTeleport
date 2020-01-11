@@ -1,5 +1,6 @@
 package me.shakeforprotein.treeboteleport.Commands;
 
+import me.shakeforprotein.treeboteleport.Bungee.BungeeSend;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,9 +16,11 @@ import java.util.Iterator;
 public class TpOk {
 
     private TreeboTeleport pl;
+    private BungeeSend bungeeSend;
 
     public TpOk(TreeboTeleport main) {
         this.pl = main;
+        bungeeSend = new BungeeSend(pl);
     }
 
     public boolean register(String command) {
@@ -54,7 +57,25 @@ public class TpOk {
                                         sender.sendMessage(pl.err + "Invalid teleport Type");
                                     }
                                 } else {
-                                    sender.sendMessage(pl.err + "Requesting player is not online");
+                                    sender.sendMessage(pl.err + "Requesting player is not on this server. Attempting to locate.");
+                                    sender.sendMessage("You will not receive a fail message.");
+                                    if(type.equalsIgnoreCase("toPlayer")){
+
+
+                                        bungeeSend.sendConnectOther(pl.getConfig().getString("general.serverName"), requester);
+                                        Bukkit.getScheduler().runTaskLater(pl, new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Player telporter = Bukkit.getPlayer(requester);
+                                                Player reciever = (Player) sender;
+
+                                                telporter.teleport(reciever);
+                                            }
+                                        }, 40L);
+                                    }
+                                    else if (type.equalsIgnoreCase("toSender")){
+                                        bungeeSend.sendPluginMessage("CrossServerTeleport", "ALL", sender.getName() + "," + requester);
+                                    }
                                 }
                             } else {
                                 sender.sendMessage(pl.err + "Cannot find teleport request");

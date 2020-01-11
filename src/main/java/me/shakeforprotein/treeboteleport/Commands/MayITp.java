@@ -1,5 +1,6 @@
 package me.shakeforprotein.treeboteleport.Commands;
 
+import me.shakeforprotein.treeboteleport.Bungee.BungeeSend;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,9 +15,11 @@ import java.time.Instant;
 public class MayITp {
 
     private TreeboTeleport pl;
+    private BungeeSend bungeeSend;
 
     public MayITp(TreeboTeleport main) {
         this.pl = main;
+        this.bungeeSend = new BungeeSend(pl);
     }
 
 
@@ -54,7 +57,9 @@ public class MayITp {
                                 }
                             }
                             if (!foundPlayer) {
-                                sender.sendMessage(pl.err + "Player " + ChatColor.GOLD + args[0] + ChatColor.RESET + " is not online on this server. Please check spelling");
+                                sender.sendMessage(pl.err + "Player " + ChatColor.GOLD + args[0] + ChatColor.RESET + " is not online on this server. Attempting to locate on other servers");
+                                bungeeSend.sendPluginMessage("CrossServerTPA", "ALL", "toPlayer," + sender.getName() + "," + args[0]);
+
                             }
                         } else {
                             sender.sendMessage(pl.err + "Incorrect usage. This command requires a single player argument");

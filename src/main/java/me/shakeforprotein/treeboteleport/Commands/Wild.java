@@ -3,11 +3,8 @@ package me.shakeforprotein.treeboteleport.Commands;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.entity.Player;
 
 import java.util.Random;
@@ -185,6 +182,7 @@ public class Wild {
                 String failMessage = ChatColor.translateAlternateColorCodes('&', pl.getConfig().getString("wild.messages.failure")).replace("{COORDS}", X + "," + Y + "," + Z);
                 sender.sendMessage(failMessage);
                 notSafe = true;
+                break;
             }
         }
 
@@ -210,4 +208,5 @@ public class Wild {
     public static boolean isNumeric(String strNum) {
         return strNum.matches("-?\\d+(\\.\\d+)?");
     }
+
 }
