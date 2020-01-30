@@ -1,23 +1,24 @@
 package me.shakeforprotein.treeboteleport.Commands;
 
+import me.shakeforprotein.treeboteleport.Bungee.BungeeSend;
 import me.shakeforprotein.treeboteleport.Methods.Guis.OpenHubMenu;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
+import org.apache.commons.lang.ObjectUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-
-public class Hub {
+public class JoinServerAtWorld {
 
     private TreeboTeleport pl;
-    private OpenHubMenu openHubMenu;
+    private BungeeSend bungeeSend;
 
-    public Hub(TreeboTeleport main) {
+    public JoinServerAtWorld(TreeboTeleport main) {
         this.pl = main;
-        this.openHubMenu = new OpenHubMenu(pl);
+        this.bungeeSend = new BungeeSend(pl);
     }
 
     public boolean register(String command) {
@@ -25,18 +26,24 @@ public class Hub {
             BukkitCommand item2 = new BukkitCommand(command.toLowerCase()) {
                 @Override
                 public boolean execute(CommandSender sender, String label, String[] args) {
-                    this.setDescription("Opens the hub gui");
-                    this.setUsage("/Hub - requires tbteleport.player.hub");
-                    this.setPermission("tbteleport.player.hub");
+                    this.setDescription("Super secret command");
+                    this.setUsage("/jsaw - requires tbteleport.player.jsaw");
+                    this.setPermission("tbteleport.player.jsaw");
                     if (sender.hasPermission(this.getPermission())) {
 
                         if (sender instanceof Player) {
                             Player player = (Player) sender;
-                            String w = player.getWorld().getName();
-                            if (args.length == 0) {
-                                openHubMenu.openHubMenu((Player) sender);
+                            if (args.length == 2) {
+                                String server = args[0];
+                                String world = args[1];
+                                if (pl.getConfig().getString("general.serverName") != null && pl.getConfig().getString("general.serverName").equalsIgnoreCase(server)) {
+                                    ((Player) sender).teleport(Bukkit.getWorld(world).getSpawnLocation());
+                                } else {
+                                    bungeeSend.sendConnectOther(server, sender.getName());
+                                    bungeeSend.sendPluginMessage("Jsaw", server, world + "," + sender.getName());
+                                }
                             } else {
-                                sender.sendMessage(pl.err + "The HUB command does not support additional arguments");
+                                sender.sendMessage(pl.badge + ChatColor.RED + "ERROR: " + ChatColor.RESET + "No Help is available for this command");
                             }
                         }
                     } else {

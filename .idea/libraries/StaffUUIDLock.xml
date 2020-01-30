@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="StaffUUIDLock">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../StaffUUIDLock" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../StaffUUIDLock/src/main/java" />
+    </SOURCES>
+  </library>
+</component>

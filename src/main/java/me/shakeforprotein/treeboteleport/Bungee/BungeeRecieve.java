@@ -43,7 +43,6 @@ public class BungeeRecieve implements PluginMessageListener {
                 if (subchannel.endsWith("CrossServerTeleport")) {
                     for (Player targetPlayer : Bukkit.getOnlinePlayers()) {
                         if (targetPlayer.getName().equalsIgnoreCase(msgData.split(",")[1])) {
-                            System.out.println("Okater  found");
                             bungeeSend.sendConnectOther(pl.getConfig().getString("general.serverName"), msgData.split(",")[0]);
                             Bukkit.getScheduler().runTaskLater(pl, new Runnable() {
                                 @Override
@@ -75,13 +74,23 @@ public class BungeeRecieve implements PluginMessageListener {
 
                 } else if (subchannel.endsWith("CrossServerTPA")) {
                     for (Player p : Bukkit.getOnlinePlayers()) {
-                        p.sendMessage(pl.badge + "Player " + ChatColor.GOLD + msgData.split(",")[1] + ChatColor.RESET + " would like to teleport " + ChatColor.GOLD + "TO YOU");
-                        String command = "tellraw " + p.getName() + " [\"\",{\"text\":\"Please type \"},{\"text\":\"/tpok\",\"color\":\"green\"},{\"text\":\" or click \"},{\"text\":\"[HERE]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/tpok\"}},{\"text\":\" in the next \"},{\"text\":\"30 Seconds\",\"color\":\"green\"},{\"text\":\" to Accept\"}]";
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-                        pl.getConfig().set("tpRequest." + p.getName() + ".type", "toPlayer");
-                        pl.getConfig().set("tpRequest." + p.getName() + ".requestTime", System.currentTimeMillis());
-                        pl.getConfig().set("tpRequest." + p.getName() + ".requester", msgData.split(",")[1]);
+                        if (p.getName().equalsIgnoreCase(msgData.split(",")[2])) {
+                            p.sendMessage(pl.badge + "Player " + ChatColor.GOLD + msgData.split(",")[1] + ChatColor.RESET + " would like to teleport " + ChatColor.GOLD + "TO YOU");
+                            String command = "tellraw " + p.getName() + " [\"\",{\"text\":\"Please type \"},{\"text\":\"/tpok\",\"color\":\"green\"},{\"text\":\" or click \"},{\"text\":\"[HERE]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/tpok\"}},{\"text\":\" in the next \"},{\"text\":\"30 Seconds\",\"color\":\"green\"},{\"text\":\" to Accept\"}]";
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+                            pl.getConfig().set("tpRequest." + p.getName() + ".type", "toPlayer");
+                            pl.getConfig().set("tpRequest." + p.getName() + ".requestTime", System.currentTimeMillis());
+                            pl.getConfig().set("tpRequest." + p.getName() + ".requester", msgData.split(",")[1]);
+                        }
                     }
+                }
+                else if (subchannel.endsWith("Jsaw")) {
+                    Bukkit.getScheduler().runTaskLater(pl, new Runnable() {
+                        @Override
+                        public void run() {
+                            Bukkit.getPlayer(msgData.split(",")[1]).teleport(Bukkit.getWorld(msgData.split(",")[0]).getSpawnLocation());
+                        }
+                    },40L);
                 }
             } catch (IOException exception) {
                 exception.printStackTrace();

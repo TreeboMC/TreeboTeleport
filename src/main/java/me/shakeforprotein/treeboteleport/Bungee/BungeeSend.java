@@ -34,7 +34,7 @@ public class BungeeSend{
         DataOutputStream msgout = new DataOutputStream(msgbytes);
         try {
             String message = "";
-            if(type.equalsIgnoreCase("CrossServerTeleport") || type.equalsIgnoreCase("CrossServerTPAHere") || type.equalsIgnoreCase("CrossServerTPA") ){
+            if(type.equalsIgnoreCase("CrossServerTeleport") || type.equalsIgnoreCase("CrossServerTPAHere") || type.equalsIgnoreCase("CrossServerTPA") || type.equalsIgnoreCase("Jsaw")){
                 message = cmd;
             }
             msgout.writeUTF(message);
@@ -61,5 +61,6 @@ public class BungeeSend{
         Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
         player.sendPluginMessage(pl,"BungeeCord", out.toByteArray());
     }
+
 
 }

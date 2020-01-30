@@ -90,6 +90,7 @@ public final class TreeboTeleport extends JavaPlugin {
     private Version version = new Version(this);
     private WarpTo warpTo = new WarpTo(this);
     private Wild2 wild = new Wild2(this);
+    private JoinServerAtWorld jsaw = new JoinServerAtWorld(this);
 
 
     @Override
@@ -234,6 +235,7 @@ public final class TreeboTeleport extends JavaPlugin {
         warpTo.register("warps");
         wild.register("wild");
         top.register("top");
+        jsaw.register("jsaw");
         //tp2Player.register
 
         getServer().getPluginManager().registerEvents(new HubItemListener(this), this);
@@ -245,15 +247,12 @@ public final class TreeboTeleport extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerTeleportListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
-        /*
-        if (Double.parseDouble(Bukkit.getVersion().split(" ")[2].split("\\.")[1].replace(")", "")) > 13) {
-            getServer().getPluginManager().registerEvents(new KillZombies(this), this);
-        }
-        */
 
         File serverFile = new File(getDataFolder(), File.separator + "servers.yml");
         FileConfiguration serverList = YamlConfiguration.loadConfiguration(serverFile);
 
+        getConfig().set("KillZombies", null);
+        getConfig().set("ReplacePhantomsWithPissedOffWolves", null);
 
         //createDefaultFile("", "homes", true);
         //createDefaultFile("", "servers.yml", false);

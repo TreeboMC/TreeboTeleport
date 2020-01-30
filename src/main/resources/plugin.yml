@@ -6,7 +6,7 @@ prefix: TreeboTeleport
 authors: [ShakeforProtein]
 description: Teleport and Hub functions
 website: treebo.games
-
+softdepend: [StaffUUIDLock]
 #commands:
 #  spawn:
 #    description: 'Allows a player to return to spawn as defined in spawns.yml'
@@ -205,6 +205,8 @@ permissions:
   tbteleport.maxhomes.3:
     default: true
   tbteleport.player.bed:
+    default: true
+  tbteleport.player.jsaw:
     default: true
   tbteleport.player.spawn:
     default: true
