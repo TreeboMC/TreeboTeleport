@@ -12,6 +12,8 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import static me.shakeforprotein.treeboteleport.TreeboTeleport.fullPlayerList;
+
 public class BungeeRecieve implements PluginMessageListener {
 
     TreeboTeleport pl;
@@ -31,7 +33,7 @@ public class BungeeRecieve implements PluginMessageListener {
         }
         ByteArrayDataInput in = ByteStreams.newDataInput(message);
         String subchannel = in.readUTF();
-
+        //System.out.println("Recieved message on 'subchannel' :" + subchannel);
         if (subchannel.startsWith(pl.getName() + "Channel-")) {
             Short len = in.readShort();
             byte[] msgbytes = new byte[len];
@@ -92,8 +94,19 @@ public class BungeeRecieve implements PluginMessageListener {
                         }
                     },40L);
                 }
+
             } catch (IOException exception) {
                 exception.printStackTrace();
+            }
+        }
+        else if(subchannel.contains("PlayerList")){
+            String server = in.readUTF();
+            String[] playerList = in.readUTF().split(", ");
+            fullPlayerList.clear();
+            for(String playa : playerList){
+                if(playa != null) {
+                    fullPlayerList.add(playa);
+                }
             }
         }
     }

@@ -62,5 +62,19 @@ public class BungeeSend{
         player.sendPluginMessage(pl,"BungeeCord", out.toByteArray());
     }
 
+    public void getPlayerList(String server){
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("PlayerList");  //Type of message
+        out.writeUTF(server);             //server
+
+        // If you don't care about the player
+        // Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
+        // Else, specify them
+        if(!Bukkit.getOnlinePlayers().isEmpty()) {
+            Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
+            player.sendPluginMessage(pl, "BungeeCord", out.toByteArray());
+        }
+    }
+
 
 }

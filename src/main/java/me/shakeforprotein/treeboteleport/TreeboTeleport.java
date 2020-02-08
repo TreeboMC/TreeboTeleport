@@ -5,6 +5,7 @@ import me.shakeforprotein.treeboteleport.Bungee.BungeeRecieve;
 import me.shakeforprotein.treeboteleport.Bungee.BungeeSend;
 import me.shakeforprotein.treeboteleport.Commands.*;
 import me.shakeforprotein.treeboteleport.Commands.NameIt;
+import me.shakeforprotein.treeboteleport.Commands.TabCompleters.TabCompleterTp;
 import me.shakeforprotein.treeboteleport.Listeners.*;
 import me.shakeforprotein.treeboteleport.Methods.Teleports.ToWorld;
 import me.shakeforprotein.treeboteleport.UpdateChecker.UpdateChecker;
@@ -13,8 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.command.CommandMap;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.*;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -91,6 +91,8 @@ public final class TreeboTeleport extends JavaPlugin {
     private WarpTo warpTo = new WarpTo(this);
     private Wild2 wild = new Wild2(this);
     private JoinServerAtWorld jsaw = new JoinServerAtWorld(this);
+    public static List<String> fullPlayerList = new ArrayList<>();
+    private BungeeSend bungeeSend = new BungeeSend(this);
 
 
     @Override
@@ -102,7 +104,7 @@ public final class TreeboTeleport extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         getConfig().set("version", this.getDescription().getVersion());
         saveConfig();
-        if(getConfig().get("bstatsIntegration") != null) {
+        if (getConfig().get("bstatsIntegration") != null) {
             if (getConfig().getBoolean("bstatsIntegration")) {
                 Metrics metrics = new Metrics(this);
             }
@@ -220,7 +222,11 @@ public final class TreeboTeleport extends JavaPlugin {
         showMaxHomes.register("ShowMaxHomes");
         spawn.register("Spawn");
         toggleDeathDocket.register("ToggleDeathDocket");
-        tp.register("Tp");
+        getCommand("tp").setExecutor(tp);
+        getCommand("tp").setTabCompleter(new TabCompleterTp());
+        if(getConfig().getBoolean("disabledCommands.tp")){
+           unRegisterBukkitCommand(getCommand("tp"));
+        }
         tp2Me.register("tp2me");
         tp2Me.register("tphere");
         tp2MePls.register("tp2mePls");
@@ -253,6 +259,14 @@ public final class TreeboTeleport extends JavaPlugin {
 
         getConfig().set("KillZombies", null);
         getConfig().set("ReplacePhantomsWithPissedOffWolves", null);
+
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+            @Override
+            public void run() {
+                bungeeSend.getPlayerList("ALL");
+            }
+        }, 200, 40);
 
         //createDefaultFile("", "homes", true);
         //createDefaultFile("", "servers.yml", false);
@@ -292,6 +306,7 @@ public final class TreeboTeleport extends JavaPlugin {
 
         UpdateChecker uc = new UpdateChecker(this);
         uc.getCheckDownloadURL();
+
     }
 
 
@@ -379,10 +394,9 @@ public final class TreeboTeleport extends JavaPlugin {
         }
     }
 
-    public boolean setCooldown(Player p) {
+    public void setCooldown(Player p) {
         commCooldown.putIfAbsent(p, System.currentTimeMillis());
         commCooldown.replace(p, System.currentTimeMillis());
-        return true;
     }
 
     public ItemStack getHubItem() {
@@ -469,6 +483,33 @@ public final class TreeboTeleport extends JavaPlugin {
         }*/
         //loc = loc.add(0,0.5,0);
         p.teleport(loc);
+    }
+
+    private static Object getPrivateField(Object object, String field)throws SecurityException,
+            NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        Class<?> clazz = object.getClass();
+        Field objectField = clazz.getDeclaredField(field);
+        objectField.setAccessible(true);
+        Object result = objectField.get(object);
+        objectField.setAccessible(false);
+        return result;
+    }
+    public static void unRegisterBukkitCommand(PluginCommand cmd) {
+        try {
+            Object result = getPrivateField(Bukkit.getServer().getPluginManager(), "commandMap");
+            SimpleCommandMap commandMap = (SimpleCommandMap) result;
+            Object map = getPrivateField(commandMap, "knownCommands");
+            @SuppressWarnings("unchecked")
+            HashMap<String, Command> knownCommands = (HashMap<String, Command>) map;
+            knownCommands.remove(cmd.getName());
+            for (String alias : cmd.getAliases()){
+                if(knownCommands.containsKey(alias) && knownCommands.get(alias).toString().contains(cmd.getName())){
+                    knownCommands.remove(alias);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

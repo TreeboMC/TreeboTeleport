@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.server.TabCompleteEvent;
 
 
 public class PlayerTeleportListener implements Listener {
@@ -71,4 +72,5 @@ public class PlayerTeleportListener implements Listener {
         pl.lastLocConf.replace(p.getUniqueId(), from);
 
     }
+
 }

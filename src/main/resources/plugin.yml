@@ -7,7 +7,7 @@ authors: [ShakeforProtein]
 description: Teleport and Hub functions
 website: treebo.games
 softdepend: [StaffUUIDLock]
-#commands:
+commands:
 #  spawn:
 #    description: 'Allows a player to return to spawn as defined in spawns.yml'
 #    usage: <command>
@@ -81,10 +81,10 @@ softdepend: [StaffUUIDLock]
 #    description: 'Accepts Teleport Request'
 #    usage: <command>
 #    permission: tbteleport.player.tp
-#  tp:
-#    description: 'Multiple force teleport commands'
-#    usage: ''
-#    permission: tbteleport.staff.tp
+  tp:
+    description: 'Multiple force teleport commands'
+    usage: ''
+    permission: tbteleport.staff.tp
 #  setwarp:
 #    description: 'Allows a player to create a warp point'
 #    usage: <command> <warp name> <(Optional) permission>
@@ -182,6 +182,8 @@ softdepend: [StaffUUIDLock]
 
 #Permissions
 permissions:
+  tbteleport.admin.blocktp:
+    default: false
   tbteleport.player.tptoggle:
     default: true
   tbteleport.player.hub:

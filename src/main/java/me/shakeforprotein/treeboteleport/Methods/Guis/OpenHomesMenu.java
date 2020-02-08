@@ -48,6 +48,25 @@ public class OpenHomesMenu {
 
             String menuName = "Homes - " + p.getName();
             int invSize = 2 * 9;
+            if(homesMenu.getConfigurationSection("homes") != null && homesMenu.getConfigurationSection("homes").getKeys(false).size() > 0){
+                int totalHomes = homesMenu.getConfigurationSection("homes").getKeys(false).size();
+                invSize = 9;
+                if(totalHomes > 9){
+                    invSize = 18;
+                }
+                if(totalHomes > 18){
+                    invSize = 27;
+                }
+                if(totalHomes > 27){
+                    invSize = 36;
+                }
+                if(totalHomes > 36){
+                    invSize = 45;
+                }
+                if(totalHomes > 45){
+                    invSize = 54;
+                }
+            }
             Inventory HomesMenu = Bukkit.createInventory(null, invSize, menuName);
             if (homesMenu.getConfigurationSection("homes") != null && !(homesMenu.getConfigurationSection("homes").getKeys(false).isEmpty())) {
                 for (String item : homesMenu.getConfigurationSection("homes").getKeys(false)) {
