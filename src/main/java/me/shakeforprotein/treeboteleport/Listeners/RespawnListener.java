@@ -106,7 +106,8 @@ public class RespawnListener implements Listener {
     @EventHandler
     public boolean onRespawnEvent(PlayerRespawnEvent e) {
         Player p = e.getPlayer();
-        if(!pl.getConfig().getBoolean("deathDocket.disable")) {
+       /* if(pl.getConfig().get("deathDocket.disable") == null || !pl.getConfig().getString("deathDocket.disable").equalsIgnoreCase("true")){
+            p.sendMessage("Issuing docket");
             if (docketMap.containsKey(p.getUniqueId().toString())) {
                 if (pl.getConfig().get("deathDocket.toggle." + p.getUniqueId()) == null || pl.getConfig().get("deathDocket.toggle." + p.getUniqueId().toString()).equals("false")) {
 
@@ -117,6 +118,7 @@ public class RespawnListener implements Listener {
                 }
             }
         }
+        */
 
         if (p.getBedSpawnLocation() != null) {
             //p.sendMessage(pl.badge + "Sending you to your bed");

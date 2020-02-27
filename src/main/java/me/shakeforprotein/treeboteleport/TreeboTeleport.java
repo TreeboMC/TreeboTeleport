@@ -76,7 +76,7 @@ public final class TreeboTeleport extends JavaPlugin {
     private Shop shop = new Shop(this);
     private ShowMaxHomes showMaxHomes = new ShowMaxHomes(this);
     private Spawn spawn = new Spawn(this);
-    private ToggleDeathDocket toggleDeathDocket = new ToggleDeathDocket(this);
+    //private ToggleDeathDocket toggleDeathDocket = new ToggleDeathDocket(this);
     private Tp tp = new Tp(this);
     private Top top = new Top(this);
     private Tp2Me tp2Me = new Tp2Me(this);
@@ -221,7 +221,7 @@ public final class TreeboTeleport extends JavaPlugin {
         shop.register("Shop");
         showMaxHomes.register("ShowMaxHomes");
         spawn.register("Spawn");
-        toggleDeathDocket.register("ToggleDeathDocket");
+        //toggleDeathDocket.register("ToggleDeathDocket");
         getCommand("tp").setExecutor(tp);
         getCommand("tp").setTabCompleter(new TabCompleterTp());
         if(getConfig().getBoolean("disabledCommands.tp")){
