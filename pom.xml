@@ -6,12 +6,12 @@
 
     <groupId>me.ShakeforProtein</groupId>
     <artifactId>TreeboTeleport</artifactId>
-    <version>0.3.6</version>
+    <version>0.3.7</version>
     <packaging>jar</packaging>
 
     <name>TreeboTeleport</name>
 
-    <description>Teleport and Hub functions</description>
+    <description>Teleport and Hub functions for Treebo Minecraft</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

@@ -3,7 +3,7 @@ version: ${project.version}
 main: me.shakeforprotein.treeboteleport.TreeboTeleport
 api-version: 1.13
 prefix: TreeboTeleport
-authors: [ShakeforProtein]
+authors: [ShakeforProtein RobertBeckley]
 description: Teleport and Hub functions
 website: treebo.games
 softdepend: [StaffUUIDLock]
@@ -208,11 +208,7 @@ permissions:
     default: true
   tbteleport.player.spawn:
     default: true
-  tbteleport.vip.nameit:
-    default: op
   tbteleport.vipplus.back:
-    default: op
-  tbteleport.staff.clearmychat:
     default: op
   tbteleport.admin.warps.setwarp:
     default: op

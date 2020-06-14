@@ -49,7 +49,6 @@ public final class TreeboTeleport extends JavaPlugin {
     private AddMaxHomes addMaxHomes = new AddMaxHomes(this);
     private Back back = new Back(this);
     private Bed bed = new Bed(this);
-    private ClearMyChat clearMyChat = new ClearMyChat(this);
     private ConfigureHomes configureHomes = new ConfigureHomes(this);
     private ConfigureHubMenu configureHubMenu = new ConfigureHubMenu(this);
     private ConfigureWarps configureWarps = new ConfigureWarps(this);
@@ -160,7 +159,6 @@ public final class TreeboTeleport extends JavaPlugin {
             this.getCommand("configurehub").setExecutor(new ConfigureHubMenu(this));
             this.getCommand("configurewarps").setExecutor(new ConfigureWarps(this));
             this.getCommand("configurehomes").setExecutor(new ConfigureHomes(this));
-            this.getCommand("clearmychat").setExecutor(new ClearMyChat(this));
             this.getCommand("ttelesaveconfig").setExecutor(new SaveConfig(this));
             this.getCommand("tteleversion").setExecutor(new Version(this));
             this.getCommand("nameit").setExecutor(new NameIt(this));
@@ -187,7 +185,6 @@ public final class TreeboTeleport extends JavaPlugin {
         addMaxHomes.register("AddMaxHomes");
         back.register("Back");
         bed.register("Bed");
-        clearMyChat.register("ClearMyChat");
         configureHomes.register("ConfigureHomes");
         configureHubMenu.register("ConfigureHubMenu");
         configureWarps.register("ConfigureWarps");

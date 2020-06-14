@@ -7,23 +7,24 @@ Teleport Plugin For The Treebo Minecraft Network
 
   Server Transfers: (Are entirely customizable in the servers.yml)
   /skyblock - Teleport you to Sky Server
-  /skygrid - Teleport you to Sky Server
-  /acisislands - Teleport you to Sky Server
+  /skygrid - Teleport you to Skygrid Server
+  /acisisland - Teleport you to Sky Server
   /prison - Teleport you to Prison Server
   /survial - Teleport you to Survival Server
   /hardcore - Teleport you to Hardcore Server
   /creative - Teleport you to Creative Server
   /plots - Teleport you to Creative Server
   /comp - Teleports you to the Creative Competition Plots world.
-  /test- Teleport you to Test Server
   /lobby - Teleport you to Hub Server
   /games - Teleport you to Games Server
+  /uhc - Teleport you to UHC Server
+  /factions - Teleport you to Server
   ```
 
 
 ## Commands:
-```
 Players:
+```
   /spawn -  Allows a player to return to spawn as defined in spawns.yml
     permission: tbteleport.player.spawn
 
@@ -65,9 +66,10 @@ Players:
   /tpaccept - Accepts a teleport request
   /tpyes - Accepts a teleport request
     permission: tbteleport.player.tp
-
+```
 
 Staff:
+```
   /tp <x coord> <y coord> <z coord> - 'Force TP to location'
   /tp <world name> <x coord> <y coord> <z coord> - Force tp to world at location
   /tp <player name> - Force teleport sender to player.
@@ -93,8 +95,10 @@ Staff:
 
   /clearmychat - Spams 30 blank lines into your personal chat box.
     permission: tbteleport.staff.clearmychat
+```
 
 Admin:
+```
   /setworldspawn - Set a worlds spawn location in spawns.yml
   /sws - Sets the VANILLA world spawn
   /gws - Returns the VANILLA world spawn
@@ -107,8 +111,8 @@ Admin:
 ```
 
 ##Permissions:
-```
 Player:
+```
   tbteleport.player.hub: - Use /hub
   tbteleport.player.wild: - Use /wild
   tbteleport.player.tp: - Use /tpa, /tpahere, /tpok, /tpyes, /tpaccept
@@ -121,17 +125,20 @@ Player:
   tbteleport.player.spawn: Use /spawn
   tbteleport.maxhomes.3: Sets the maximum number of homes a player can have.
     default: true
+```
 
  Staff:
-  tbteleport.staff.clearmychat: Use /clearMyChat
+````
   tbteleport.staff.setwarp: Use /setwarp
   tbteleport.staff.deletewarp: Use /deletewarp
   tbteleport.staff.sendspawn: Use /sendspawn
   tbteleport.staff.homes.others: Use /homes <player>
   tbteleport.staff.wild.other: Use /wild <player>
     default: op
+```
 
 Admin:
+```
   tbteleport.updatechecker: Notifies player of plugin updates.
   tbteleport.admin: Use /sws, /gws, /setworldspawn, tteleReload, tteleSaveConfig
     default: op
