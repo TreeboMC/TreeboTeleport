@@ -62,7 +62,6 @@ public final class TreeboTeleport extends JavaPlugin {
     private Homes homes = new Homes(this);
     private Hub hub = new Hub(this);
     private MayITp mayITp = new MayITp(this);
-    private NameIt nameIt = new NameIt(this);
     private Reload reload = new Reload(this);
     private RestorePlayerInventory restorePlayerInventory = new RestorePlayerInventory(this);
     private SaveConfig saveConfig = new SaveConfig(this);
@@ -207,7 +206,6 @@ public final class TreeboTeleport extends JavaPlugin {
         mayITp.register("MayITp");
         mayITp.register("tpa");
         mayITp.register("tpask");
-        nameIt.register("NameIt");
         reload.register("ttelereload");
         restorePlayerInventory.register("RestorePlayerInventory");
         saveConfig.register("ttelesaveconfig");

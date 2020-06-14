@@ -6,7 +6,7 @@
 
     <groupId>me.ShakeforProtein</groupId>
     <artifactId>TreeboTeleport</artifactId>
-    <version>0.3.5</version>
+    <version>0.3.6</version>
     <packaging>jar</packaging>
 
     <name>TreeboTeleport</name>
@@ -15,7 +15,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <url>play.treebomc.com</url>
+    <url>treebo.games</url>
 
     <build>
         <defaultGoal>clean package</defaultGoal>

@@ -1,8 +1,9 @@
 # TreeboTeleport
+Teleport Plugin For The Treebo Minecraft Network
 
 ## Commands:
 ```
-  /hub - Open hub GUI
+  /hub - Opens hub GUI
 
   Server Transfers: (Are entirely customizable in the servers.yml)
   /skyblock - Teleport you to Sky Server
@@ -93,9 +94,6 @@ Staff:
   /clearmychat - Spams 30 blank lines into your personal chat box.
     permission: tbteleport.staff.clearmychat
 
-  /nameit <new name> - Sets display name of item in main hand (Accepts colour codes with &)
-    permission: tbteleport.staff.nameit
-
 Admin:
   /setworldspawn - Set a worlds spawn location in spawns.yml
   /sws - Sets the VANILLA world spawn
@@ -125,7 +123,6 @@ Player:
     default: true
 
  Staff:
-  tbteleport.staff.nameit: Use /nameit
   tbteleport.staff.clearmychat: Use /clearMyChat
   tbteleport.staff.setwarp: Use /setwarp
   tbteleport.staff.deletewarp: Use /deletewarp
