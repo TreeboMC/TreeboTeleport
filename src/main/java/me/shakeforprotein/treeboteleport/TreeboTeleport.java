@@ -9,6 +9,7 @@ import me.shakeforprotein.treeboteleport.Commands.TabCompleters.TabCompleterTp;
 import me.shakeforprotein.treeboteleport.Listeners.*;
 import me.shakeforprotein.treeboteleport.Methods.Teleports.ToWorld;
 import me.shakeforprotein.treeboteleport.UpdateChecker.UpdateChecker;
+import net.minecraft.server.v1_15_R1.MinecraftServer;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -268,6 +269,21 @@ public final class TreeboTeleport extends JavaPlugin {
             }
         }, 200, 40);
 
+        Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
+            @Override
+            public void run() {
+
+                    double[] tps = MinecraftServer.getServer().recentTps;
+                    if (tps[0] < 5) {
+                        for(Player p : Bukkit.getOnlinePlayers()){
+                            p.sendMessage(badge + " Relocating you to hub due to unexplained server performance spike");
+                            bungeeSend.sendConnectOther("hub", p.getName());
+                        }
+                    }
+
+            }
+        }, 200, 2);
+
         //createDefaultFile("", "homes", true);
         //createDefaultFile("", "servers.yml", false);
         //createDefaultFile("", "spawns.yml", false);
@@ -309,10 +325,14 @@ public final class TreeboTeleport extends JavaPlugin {
 
     }
 
-
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.sendMessage(badge + " Relocating you to hub due to server restart");
+            bungeeSend.sendConnectOther("hub", p.getName());
+        }
+    }
 
 /*
     try{
@@ -323,7 +343,6 @@ public final class TreeboTeleport extends JavaPlugin {
         int doesNothing = 1;
         }
 */
-    }
 
     public String badge = ChatColor.translateAlternateColorCodes('&', getConfig().getString("general.messages.badge") + " ");
     public String err = badge + ChatColor.translateAlternateColorCodes('&', getConfig().getString("general.messages.error") + " ");

@@ -3,17 +3,14 @@ package me.shakeforprotein.treeboteleport.Listeners;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.minecraft.server.v1_14_R1.EntityDamageSource;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.event.server.TabCompleteEvent;
 
 
 public class PlayerTeleportListener implements Listener {

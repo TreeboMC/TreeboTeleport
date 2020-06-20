@@ -3,14 +3,12 @@ package me.shakeforprotein.treeboteleport.Commands;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -84,6 +82,11 @@ public class Wild2 {
         for (int a = 0; a < 16; a++) {
             for (int b = 0; b < 16; b++) {
                 for (int c = 150; c > 50; c--) {
+                    if(targetPlayer.getWorld().getEnvironment() == World.Environment.NETHER){
+                        if(c > 126){
+                            c=110;
+                        }
+                    }
                     Block block = chunk.getBlock(a, c, b).getLocation().subtract(0, 1, 0).getBlock();
                     if (block.getType().isSolid() && block.getLocation().add(0, 1, 0).getBlock().getType() == Material.AIR && block.getLocation().add(0, 2, 0).getBlock().getType() == Material.AIR) {
                         if (!isDangerous(block.getType())) {
@@ -117,6 +120,11 @@ public class Wild2 {
             for (int a = 0; a < 16; a++) {
                 for (int b = 0; b < 16; b++) {
                     for (int c = 150; c > 50; c--) {
+                        if(targetPlayer.getWorld().getEnvironment() == World.Environment.NETHER){
+                            if(c > 126){
+                                c=110;
+                            }
+                        }
                         Block block = chunk.getBlock(a, c, b).getLocation().subtract(0, 1, 0).getBlock();
                         if (block.getType().isSolid() && block.getLocation().add(0, 1, 0).getBlock().getType() == Material.AIR && block.getLocation().add(0, 2, 0).getBlock().getType() == Material.AIR) {
                             if (!isDangerous(block.getType())) {
@@ -158,6 +166,11 @@ public class Wild2 {
                 for (int a = 0; a < 16; a++) {
                     for (int b = 0; b < 16; b++) {
                         for (int c = 150; c > 50; c--) {
+                            if(Bukkit.getPlayer(targetPlayer).getWorld().getEnvironment() == World.Environment.NETHER){
+                                if(c > 120){
+                                    c=110;
+                                }
+                            }
                             Block block = chunk.getBlock(a, c, b).getLocation().subtract(0, 1, 0).getBlock();
                             if (block.getType().isSolid() && block.getLocation().add(0, 1, 0).getBlock().getType() == Material.AIR && block.getLocation().add(0, 2, 0).getBlock().getType() == Material.AIR) {
                                 if (!isDangerous(block.getType())) {
@@ -195,6 +208,11 @@ public class Wild2 {
                     for (int a = 0; a < 16; a++) {
                         for (int b = 0; b < 16; b++) {
                             for (int c = 150; c > 50; c--) {
+                                if(targetPlayer.getWorld().getEnvironment() == World.Environment.NETHER){
+                                    if(c > 126){
+                                        c=110;
+                                    }
+                                }
                                 Block block = chunk.getBlock(a, c, b).getLocation().subtract(0, 1, 0).getBlock();
                                 if (block.getType().isSolid() && block.getLocation().add(0, 1, 0).getBlock().getType() == Material.AIR && block.getLocation().add(0, 2, 0).getBlock().getType() == Material.AIR) {
                                     if (!isDangerous(block.getType())) {
