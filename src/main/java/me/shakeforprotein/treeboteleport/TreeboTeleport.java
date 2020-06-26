@@ -9,7 +9,7 @@ import me.shakeforprotein.treeboteleport.Commands.TabCompleters.TabCompleterTp;
 import me.shakeforprotein.treeboteleport.Listeners.*;
 import me.shakeforprotein.treeboteleport.Methods.Teleports.ToWorld;
 import me.shakeforprotein.treeboteleport.UpdateChecker.UpdateChecker;
-import net.minecraft.server.v1_15_R1.MinecraftServer;
+import net.minecraft.server.v1_16_R1.MinecraftServer;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -46,6 +46,7 @@ public final class TreeboTeleport extends JavaPlugin {
     public HashMap commCooldown = new HashMap<Player, Long>();
     public HashMap lastLocConf = new HashMap<UUID, Location>();
     public HashMap tpSafetyOff = new HashMap<UUID, String>();
+    public List<String> serverListNew = new ArrayList<>();
 
     private AddMaxHomes addMaxHomes = new AddMaxHomes(this);
     private Back back = new Back(this);
@@ -101,9 +102,19 @@ public final class TreeboTeleport extends JavaPlugin {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeRecieve(this));
 
+        if(getConfig().getString("version") != null && !getConfig().getString("version").equalsIgnoreCase(this.getDescription().getVersion())){
+            File oldConfig = new File(getDataFolder(), "config-" + this.getDescription().getVersion() + "-" + LocalDateTime.now().toString().replace(":", "_").replace("T", "__") +".yml");
+            try{getConfig().save(oldConfig);}
+            catch(IOException e){
+                makeLog(e);
+            }
+            getConfig().options().copyDefaults(true);
+            getConfig().set("version", this.getDescription().getVersion());
+        }
+        else{
+            getConfig().options().copyDefaults(true);
+        }
         // Plugin startup logic
-        getConfig().options().copyDefaults(true);
-        getConfig().set("version", this.getDescription().getVersion());
         saveConfig();
         if (getConfig().get("bstatsIntegration") != null) {
             if (getConfig().getBoolean("bstatsIntegration")) {
@@ -260,7 +271,7 @@ public final class TreeboTeleport extends JavaPlugin {
 
         getConfig().set("KillZombies", null);
         getConfig().set("ReplacePhantomsWithPissedOffWolves", null);
-
+        saveConfig();
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
             @Override
@@ -305,13 +316,16 @@ public final class TreeboTeleport extends JavaPlugin {
                 makeLog(e);
             }
         }
-        for (String item : serverList.getConfigurationSection("servers").getKeys(false)) {
+
+
+            for (String item : serverList.getConfigurationSection("servers").getKeys(false)) {
             BukkitCommand item2 = new BukkitCommand(item.toLowerCase()) {
                 @Override
                 public boolean execute(CommandSender commandSender, String s, String[] strings) {
                     Player p = (Player) commandSender;
                     String serverTo = serverList.getString("servers." + item + ".server");
                     String worldTo = serverList.getString("servers." + item + ".world");
+
                     toWorld.toWorld(serverTo, worldTo, p);
                     return false;
                 }
@@ -328,10 +342,9 @@ public final class TreeboTeleport extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            p.sendMessage(badge + " Relocating you to hub due to server restart");
-            bungeeSend.sendConnectOther("hub", p.getName());
-        }
+        purgeFiles("logs");
+        purgeFiles("deaths");
+        saveConfig();
     }
 
 /*
@@ -528,6 +541,24 @@ public final class TreeboTeleport extends JavaPlugin {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void purgeFiles(String folder){
+        int i = 0;
+        File[] files = new File(this.getDataFolder() + File.separator + folder).listFiles();
+        if(files != null && files.length > 0) {
+            for (File file : files) {
+                long diff = new Date(System.currentTimeMillis()).getTime() - file.lastModified();
+
+                if (diff > 7 * 24 * 60 * 60 * 1000) {
+                    file.delete();
+                    i++;
+                }
+            }
+            if (i > 0) {
+                System.out.println(badge + "Purged " + i + " files of type " + folder);
+            }
         }
     }
 }

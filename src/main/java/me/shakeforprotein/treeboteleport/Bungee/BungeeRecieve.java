@@ -95,6 +95,12 @@ public class BungeeRecieve implements PluginMessageListener {
                     },40L);
                 }
 
+                else if(subchannel.equals("GetServers")) {
+                    String[] serverList = in.readUTF().split(", ");
+                    for(String servers : serverList) {
+                        pl.serverListNew.add(servers);
+                    }
+                }
             } catch (IOException exception) {
                 exception.printStackTrace();
             }

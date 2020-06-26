@@ -1,6 +1,7 @@
 package me.shakeforprotein.treeboteleport.Commands;
 
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,12 +30,17 @@ public class DisableTpSafety {
 
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
-                            //If hash contains player id then tp protection is currently disabled. As such, we remove the player id to re enable protection.
-                            if (pl.tpSafetyOff.containsKey(p.getUniqueId())) {
-                                pl.tpSafetyOff.remove(p.getUniqueId());
-                                p.sendMessage(pl.badge + "Teleport protection enabled.");
-                            } else {
-                                pl.tpSafetyOff.put(p.getUniqueId(), p.getName());
+
+                            if (pl.getConfig().getInt("tpSafetyToggle." + p.getName()) == 0) {
+                                pl.getConfig().set("tpSafetyToggle." + p.getName(), true);
+                                p.sendMessage(pl.badge + "Teleport Safeties disabled. TreeboMC takes no responsibility for any death as a result of this. Be safe out there.");
+                            }
+                            else if(pl.getConfig().getBoolean("tpSafetyToggle." + p.getName())) {
+                                pl.getConfig().set("tpSafetyToggle." + p.getName(), false);
+                                p.sendMessage(pl.badge + "Teleport protection disabled.");
+                            }
+                            else{
+                                pl.getConfig().set("tpSafetyToggle." + p.getName(), true);
                                 p.sendMessage(pl.badge + "Teleport Safeties disabled. TreeboMC takes no responsibility for any death as a result of this. Be safe out there.");
                             }
                         } else {

@@ -40,19 +40,23 @@ public class PlayerTeleportListener implements Listener {
 
             //LOCK PLAYERS IN PLACE IF TELEPORTED BY PLUGIN
             if (!pl.getConfig().getBoolean("general.disableTPSafety")) {
-                if (pl.getConfig().get("teleportProtection") != null && pl.getConfig().getInt("teleportProtection") > 0 && !(pl.tpSafetyOff.containsKey(e.getPlayer().getUniqueId()))) {
-                    int tpProtection = pl.getConfig().getInt("teleportProtection") * 20;
-                    pl.lockMove.putIfAbsent(e.getPlayer().getUniqueId(), e.getPlayer().getName());
-                    e.getPlayer().setInvulnerable(true);
-                    Bukkit.getScheduler().runTaskLater(pl, new Runnable() {
-                        public void run() {
-                            e.getPlayer().setInvulnerable(false);
-                            if (pl.lockMove.containsKey(e.getPlayer().getUniqueId())) {
-                                pl.lockMove.remove(e.getPlayer().getUniqueId());
+                if (pl.getConfig().getConfigurationSection("tpSafetyToggle") == null
+                        || !pl.getConfig().getConfigurationSection("tpSafetyToggle").getKeys(false).contains(p.getName())
+                        || !pl.getConfig().getConfigurationSection("tpSafetyToggle").getBoolean(p.getName())) {
+                    if (pl.getConfig().get("teleportProtection") != null && pl.getConfig().getInt("teleportProtection") > 0) {
+                        int tpProtection = pl.getConfig().getInt("teleportProtection") * 20;
+                        pl.lockMove.putIfAbsent(e.getPlayer().getUniqueId(), e.getPlayer().getName());
+                        e.getPlayer().setInvulnerable(true);
+                        Bukkit.getScheduler().runTaskLater(pl, new Runnable() {
+                            public void run() {
+                                e.getPlayer().setInvulnerable(false);
+                                if (pl.lockMove.containsKey(e.getPlayer().getUniqueId())) {
+                                    pl.lockMove.remove(e.getPlayer().getUniqueId());
+                                }
                             }
-                        }
-                    }, tpProtection);
-                    e.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(pl.badge + ChatColor.BOLD + "As a safety feature you have been locked in place for " + pl.getConfig().getInt("teleportProtection") + " seconds. You can disable this with /disabletpsafety").create());
+                        }, tpProtection);
+                        e.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(pl.badge + ChatColor.BOLD + "As a safety feature you have been locked in place for " + pl.getConfig().getInt("teleportProtection") + " seconds. You can disable this with /disabletpsafety").create());
+                    }
                 }
             }
         }

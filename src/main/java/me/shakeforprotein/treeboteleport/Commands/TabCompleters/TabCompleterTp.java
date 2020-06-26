@@ -31,6 +31,18 @@ public class TabCompleterTp implements TabCompleter {
             }
             return outputStrings;
         }
+
+        else if (args.length == 2){
+            ArrayList<String> outputStrings = new ArrayList<>();
+
+            for(String player : pl.fullPlayerList){
+                if(player.toLowerCase().startsWith(args[1].toLowerCase())){
+                    outputStrings.add(player);
+                }
+            }
+            return outputStrings;
+
+        }
         return null;
     }
 }
