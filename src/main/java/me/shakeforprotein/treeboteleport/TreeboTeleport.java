@@ -49,7 +49,6 @@ public final class TreeboTeleport extends JavaPlugin {
     public List<String> serverListNew = new ArrayList<>();
 
     private AddMaxHomes addMaxHomes = new AddMaxHomes(this);
-    private Back back = new Back(this);
     private Bed bed = new Bed(this);
     private ClearMyChat clearMyChat = new ClearMyChat(this);
     private ConfigureHomes configureHomes = new ConfigureHomes(this);
@@ -59,18 +58,14 @@ public final class TreeboTeleport extends JavaPlugin {
     private DeleteWarp deleteWarp = new DeleteWarp(this);
     private DisableTpSafety disableTpSafety = new DisableTpSafety(this);
     private GetWorldSpawn getWorldSpawn = new GetWorldSpawn(this);
-    private GiveHubItem giveHubItem = new GiveHubItem(this);
-    private Home home = new Home(this);
-    private Homes homes = new Homes(this);
     private Hub hub = new Hub(this);
-    private MayITp mayITp = new MayITp(this);
     private NameIt nameIt = new NameIt(this);
     private Reload reload = new Reload(this);
     private RestorePlayerInventory restorePlayerInventory = new RestorePlayerInventory(this);
     private SaveConfig saveConfig = new SaveConfig(this);
     private SendSpawn sendSpawn = new SendSpawn(this);
     private SetShop setShop = new SetShop(this);
-    private SetHome setHome = new SetHome(this);
+
     private SetTTeleCooldown setTTeleCooldown = new SetTTeleCooldown(this);
     private SetVanillaWorldSpawn setVanillaWorldSpawn = new SetVanillaWorldSpawn(this);
     private SetWarp setWarp = new SetWarp(this);
@@ -80,19 +75,28 @@ public final class TreeboTeleport extends JavaPlugin {
     private Spawn spawn = new Spawn(this);
     //private ToggleDeathDocket toggleDeathDocket = new ToggleDeathDocket(this);
     private Tp tp = new Tp(this);
-    private Top top = new Top(this);
     private Tp2Me tp2Me = new Tp2Me(this);
-    private Tp2MePls tp2MePls = new Tp2MePls(this);
+
     private Tp2Player tp2Player = new Tp2Player(this);
     private Tp2Pos tp2Pos = new Tp2Pos(this);
     private Tp2WorldAt tp2WorldAt = new Tp2WorldAt(this);
-    private TpNo tpNo = new TpNo(this);
-    private TpOk tpOk = new TpOk(this);
-    private TpToggle tpToggle = new TpToggle(this);
     private Version version = new Version(this);
     private WarpTo warpTo = new WarpTo(this);
     private Wild2 wild = new Wild2(this);
     private JoinServerAtWorld jsaw = new JoinServerAtWorld(this);
+    //Remove these for hardcore
+    private TpNo tpNo = new TpNo(this);
+    private TpOk tpOk = new TpOk(this);
+    private TpToggle tpToggle = new TpToggle(this);
+    private Top top = new Top(this);
+    private Tp2MePls tp2MePls = new Tp2MePls(this);
+    private Back back = new Back(this);
+    private GiveHubItem giveHubItem = new GiveHubItem(this);
+    private Home home = new Home(this);
+    private Homes homes = new Homes(this);
+    private MayITp mayITp = new MayITp(this);
+    private SetHome setHome = new SetHome(this);
+    //remove above for hardcore
     public static List<String> fullPlayerList = new ArrayList<>();
     private BungeeSend bungeeSend = new BungeeSend(this);
 
@@ -198,7 +202,6 @@ public final class TreeboTeleport extends JavaPlugin {
         */
 
         addMaxHomes.register("AddMaxHomes");
-        back.register("Back");
         bed.register("Bed");
         clearMyChat.register("ClearMyChat");
         configureHomes.register("ConfigureHomes");
@@ -212,19 +215,12 @@ public final class TreeboTeleport extends JavaPlugin {
         disableTpSafety.register("ToggleTpSafety");
         getWorldSpawn.register("gws");
         getWorldSpawn.register("GetWorldSpawn");
-        giveHubItem.register("GiveHubItem");
-        home.register("Home");
-        homes.register("Homes");
         hub.register("Hub");
-        mayITp.register("MayITp");
-        mayITp.register("tpa");
-        mayITp.register("tpask");
         nameIt.register("NameIt");
         reload.register("ttelereload");
         restorePlayerInventory.register("RestorePlayerInventory");
         saveConfig.register("ttelesaveconfig");
         sendSpawn.register("SendSpawn");
-        setHome.register("SetHome");
         setShop.register("SetShop");
         setTTeleCooldown.register("SetTTeleCoolDown");
         setVanillaWorldSpawn.register("SetVanillaWorldSpawn");
@@ -241,6 +237,15 @@ public final class TreeboTeleport extends JavaPlugin {
         }
         tp2Me.register("tp2me");
         tp2Me.register("tphere");
+        //disable these for hardcore
+        back.register("Back");
+        giveHubItem.register("GiveHubItem");
+        home.register("Home");
+        homes.register("Homes");
+        mayITp.register("MayITp");
+        mayITp.register("tpa");
+        mayITp.register("tpask");
+        setHome.register("SetHome");
         tp2MePls.register("tp2mePls");
         tp2MePls.register("tpahere");
         tpNo.register("tpno");
@@ -248,11 +253,12 @@ public final class TreeboTeleport extends JavaPlugin {
         tpOk.register("tpok");
         tpOk.register("tpyes");
         tpToggle.register("tptoggle");
+        top.register("top");
+        //disable above for hardcore
         version.register("tteleversion");
         warpTo.register("warp");
         warpTo.register("warps");
         wild.register("wild");
-        top.register("top");
         jsaw.register("jsaw");
         //tp2Player.register
 

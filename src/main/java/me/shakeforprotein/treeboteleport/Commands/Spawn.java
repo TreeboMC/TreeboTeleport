@@ -37,7 +37,7 @@ public class Spawn {
                     this.setPermission("tbteleport.player.spawn");
                     if (sender.hasPermission(this.getPermission())) {
 
-                        if (spawnsHash.isEmpty()) {
+                        //if (spawnsHash.isEmpty()) {
                             File spawnsYml = new File(pl.getDataFolder(), File.separator + "spawns.yml");
 
                             if (!spawnsYml.exists()) {
@@ -68,7 +68,7 @@ public class Spawn {
                                 Location worldSpawn = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
                                 spawnsHash.putIfAbsent(key, worldSpawn);
                             }
-                        }
+                        //}
                         Player p = (Player) sender;
 
 

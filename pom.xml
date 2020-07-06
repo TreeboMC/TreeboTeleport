@@ -6,7 +6,7 @@
 
     <groupId>me.ShakeforProtein</groupId>
     <artifactId>TreeboTeleport</artifactId>
-    <version>1.0.0 - SpMc1.16.1</version>
+    <version>1.0.1 - SpMc1.16.1</version>
     <packaging>jar</packaging>
 
     <name>TreeboTeleport</name>
