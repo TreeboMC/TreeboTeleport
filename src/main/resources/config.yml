@@ -16,8 +16,8 @@ useCooldown: false
 
 isHubServer: false
 
-KillZombies: false
-ReplacePhantomsWithPissedOffWolves: true
+afkKickTimer: 120
+doAfkKick: true
 
 general:
   serverName: 'Test'
@@ -92,4 +92,15 @@ wild:
 
 deathDocket:
   disable: false
-  toggle:
+
+ServerList:
+  - Hub
+  - Survival
+  - Creative
+  - Sky
+  - Prison
+  - Hardcore
+  - Games
+  - SkyGrid
+  - Test
+  - Factions

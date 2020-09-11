@@ -196,7 +196,11 @@ permissions:
     default: true
   tbteleport.player.givehubitem:
     default: true
-  tbteleport.player.warp:
+  tbteleport.player.warps.useserverwarps:
+    default: true
+  tbteleport.player.warps.useplayerwarps:
+    default: true
+  tbteleport.player.warps.setpersonalwarp:
     default: true
   tbteleport.player.home:
     default: true

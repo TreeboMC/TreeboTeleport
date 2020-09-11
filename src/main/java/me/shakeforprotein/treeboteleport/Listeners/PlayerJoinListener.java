@@ -1,5 +1,6 @@
 package me.shakeforprotein.treeboteleport.Listeners;
 
+import me.shakeforprotein.treeboteleport.Bungee.BungeeSend;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import me.shakeforprotein.treeboteleport.UpdateChecker.UpdateChecker;
 import org.bukkit.Bukkit;
@@ -12,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -22,10 +24,12 @@ public class PlayerJoinListener implements Listener {
 
     private TreeboTeleport pl;
     private UpdateChecker uc;
+    private BungeeSend bungeeSend;
 
     public PlayerJoinListener(TreeboTeleport main) {
         this.pl = main;
         this.uc = new UpdateChecker(main);
+        this.bungeeSend = new BungeeSend(pl);
     }
 
     @EventHandler
@@ -96,4 +100,5 @@ public class PlayerJoinListener implements Listener {
         }
         return true;
     }
+
 }

@@ -13,6 +13,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 import static me.shakeforprotein.treeboteleport.TreeboTeleport.fullPlayerList;
+import static me.shakeforprotein.treeboteleport.TreeboTeleport.playerCounts;
 
 public class BungeeRecieve implements PluginMessageListener {
 
@@ -35,6 +36,7 @@ public class BungeeRecieve implements PluginMessageListener {
         String subchannel = in.readUTF();
         //System.out.println("Recieved message on 'subchannel' :" + subchannel);
         if (subchannel.startsWith(pl.getName() + "Channel-")) {
+            //Bukkit.broadcastMessage("Channel started with Channel-");
             Short len = in.readShort();
             byte[] msgbytes = new byte[len];
             in.readFully(msgbytes);
@@ -42,6 +44,7 @@ public class BungeeRecieve implements PluginMessageListener {
             DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
             try {
                 String msgData = msgin.readUTF(); // Read the data in the same way you wrote it
+                //Bukkit.broadcastMessage(msgData);
                 if (subchannel.endsWith("CrossServerTeleport")) {
                     for (Player targetPlayer : Bukkit.getOnlinePlayers()) {
                         if (targetPlayer.getName().equalsIgnoreCase(msgData.split(",")[1])) {
@@ -86,6 +89,45 @@ public class BungeeRecieve implements PluginMessageListener {
                         }
                     }
                 }
+                else if (subchannel.contains("perWorldPlayersList")) {
+                    String[] str = msgData.split("\\|");
+                    int totalPlayers = 0;
+                        if(str.length > 0) {
+                            if (str[0].equalsIgnoreCase("Sky")) {
+                                int sb, ai, cb, ob;
+                                sb = 0;
+                                ai = 0;
+                                cb = 0;
+                                ob = 0;
+                                for (int i = 1; i < str.length; i++) {
+                                    if (!str[0].equalsIgnoreCase("")) {
+                                        if (str[i].toLowerCase().startsWith("sky")){
+                                            sb++;
+                                        } else if (str[i].toLowerCase().startsWith("one")){
+                                            ob++;
+                                        } else if (str[i].toLowerCase().startsWith("cave")){
+                                            cb++;
+                                        } else if (str[i].toLowerCase().startsWith("acid")){
+                                            ai++;
+                                        }
+                                    }
+                                }
+                                playerCounts.put("Sky", (sb+ob+cb+ai)-1);
+                                playerCounts.put("SkyBlock", (sb)-1);
+                                playerCounts.put("OneBlock", (ob)-1);
+                                playerCounts.put("CaveBlock", (cb)-1);
+                                playerCounts.put("AcidIsland", (ai)-1);
+
+                            } else {
+                                for (int i = 1; i < str.length; i++) {
+                                    if (!str[i].equalsIgnoreCase("")) {
+                                        totalPlayers++;
+                                    }
+                                }
+                                playerCounts.put(str[0].trim(), totalPlayers);
+                            }
+                    }
+                }
                 else if (subchannel.endsWith("Jsaw")) {
                     Bukkit.getScheduler().runTaskLater(pl, new Runnable() {
                         @Override
@@ -94,7 +136,6 @@ public class BungeeRecieve implements PluginMessageListener {
                         }
                     },40L);
                 }
-
                 else if(subchannel.equals("GetServers")) {
                     String[] serverList = in.readUTF().split(", ");
                     for(String servers : serverList) {
@@ -108,11 +149,17 @@ public class BungeeRecieve implements PluginMessageListener {
         else if(subchannel.contains("PlayerList")){
             String server = in.readUTF();
             String[] playerList = in.readUTF().split(", ");
-            fullPlayerList.clear();
-            for(String playa : playerList){
-                if(playa != null) {
-                    fullPlayerList.add(playa);
+            if(server.equalsIgnoreCase("ALL")) {
+                fullPlayerList.clear();
+                for (String playa : playerList) {
+                    if (playa != null) {
+                        fullPlayerList.add(playa);
+                    }
                 }
+            } else {
+                if(!playerList[0].equalsIgnoreCase("")) {
+                    pl.playerCounts.put(server, playerList.length);
+                } else {pl.playerCounts.put(server, 0);}
             }
         }
     }

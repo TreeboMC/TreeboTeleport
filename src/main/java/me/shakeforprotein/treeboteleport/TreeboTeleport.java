@@ -9,12 +9,8 @@ import me.shakeforprotein.treeboteleport.Commands.TabCompleters.TabCompleterTp;
 import me.shakeforprotein.treeboteleport.Listeners.*;
 import me.shakeforprotein.treeboteleport.Methods.Teleports.ToWorld;
 import me.shakeforprotein.treeboteleport.UpdateChecker.UpdateChecker;
-import net.minecraft.server.v1_16_R1.MinecraftServer;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -47,6 +43,7 @@ public final class TreeboTeleport extends JavaPlugin {
     public HashMap lastLocConf = new HashMap<UUID, Location>();
     public HashMap tpSafetyOff = new HashMap<UUID, String>();
     public List<String> serverListNew = new ArrayList<>();
+    public static HashMap<String, Integer> playerCounts = new HashMap<>();
 
     private AddMaxHomes addMaxHomes = new AddMaxHomes(this);
     private Bed bed = new Bed(this);
@@ -275,31 +272,25 @@ public final class TreeboTeleport extends JavaPlugin {
         File serverFile = new File(getDataFolder(), File.separator + "servers.yml");
         FileConfiguration serverList = YamlConfiguration.loadConfiguration(serverFile);
 
-        getConfig().set("KillZombies", null);
-        getConfig().set("ReplacePhantomsWithPissedOffWolves", null);
         saveConfig();
+        for(String srv : getConfig().getStringList("ServerList")){
+            playerCounts.put(srv, 0);
+        }
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
             @Override
             public void run() {
                 bungeeSend.getPlayerList("ALL");
+
+                String playerString = "";
+                playerString = playerString + getConfig().getString("general.serverName") + "|";
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        playerString = playerString + p.getWorld().getName() + "|";
+                    }
+                bungeeSend.sendPerWorldPlayerList(playerString);
+                playerString = null;
             }
         }, 200, 40);
-
-        Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
-            @Override
-            public void run() {
-
-                    double[] tps = MinecraftServer.getServer().recentTps;
-                    if (tps[0] < 5) {
-                        for(Player p : Bukkit.getOnlinePlayers()){
-                            p.sendMessage(badge + " Relocating you to hub due to unexplained server performance spike");
-                            bungeeSend.sendConnectOther("hub", p.getName());
-                        }
-                    }
-
-            }
-        }, 200, 2);
 
         //createDefaultFile("", "homes", true);
         //createDefaultFile("", "servers.yml", false);

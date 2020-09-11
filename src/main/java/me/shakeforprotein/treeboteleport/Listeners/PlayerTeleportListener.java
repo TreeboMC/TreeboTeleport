@@ -6,7 +6,9 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -28,6 +30,17 @@ public class PlayerTeleportListener implements Listener {
         if (e.getCause().name().equalsIgnoreCase("PLUGIN")) {
 
             Player p = e.getPlayer();
+            if(p.isInsideVehicle()){
+                Entity v = p.getVehicle();
+                v.eject();
+                Bukkit.getScheduler().runTaskLater(pl, new Runnable() {
+                    @Override
+                    public void run() {
+                        v.teleport(p.getLocation());
+                        v.addPassenger(e.getPlayer());
+                    }
+                },20L);
+            }
 
             //SAVE LAST LOCATION TO HASHMAP
             if (!(pl.lockMove.containsKey(p.getUniqueId()))) {

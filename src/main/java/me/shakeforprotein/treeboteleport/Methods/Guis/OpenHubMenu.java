@@ -1,5 +1,6 @@
 package me.shakeforprotein.treeboteleport.Methods.Guis;
 
+import me.shakeforprotein.treeboteleport.Bungee.BungeeRecieve;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -22,13 +23,14 @@ import java.util.Set;
 public class OpenHubMenu {
 
     private TreeboTeleport pl;
+    private BungeeRecieve bungeeRecieve;
 
     public OpenHubMenu(TreeboTeleport main){
         this.pl = main;
+        this.bungeeRecieve = new BungeeRecieve(pl);
     }
 
     public boolean openHubMenu(Player p){
-
         File menuYml = new File(pl.getDataFolder(), File.separator + "hubMenu.yml");
         FileConfiguration hubMenu = YamlConfiguration.loadConfiguration(menuYml);
         if(!menuYml.exists()) {
@@ -72,6 +74,12 @@ public class OpenHubMenu {
                 if(hubMenu.getConfigurationSection("hubmenu.menuItems." + item + ".lore") != null){
                     for(String newLore: hubMenu.getConfigurationSection("hubmenu.menuItems." + item + ".lore").getKeys(false)){
                         itemLore.add(hubMenu.getString("hubmenu.menuItems." + item + ".lore." + newLore));
+                    }
+                }
+
+                for(String srv : pl.getConfig().getStringList("ServerList")){
+                    if(ChatColor.stripColor(displayName).equalsIgnoreCase(srv)){
+                        itemLore.add(ChatColor.RED + "" + ChatColor.BOLD + "Playing Now: " + ChatColor.GREEN + "" + ChatColor.BOLD + pl.playerCounts.get(srv));
                     }
                 }
                 itemMeta.setLore(itemLore);

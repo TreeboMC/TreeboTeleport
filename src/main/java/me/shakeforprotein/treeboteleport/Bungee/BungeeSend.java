@@ -34,7 +34,7 @@ public class BungeeSend{
         DataOutputStream msgout = new DataOutputStream(msgbytes);
         try {
             String message = "";
-            if(type.equalsIgnoreCase("CrossServerTeleport") || type.equalsIgnoreCase("CrossServerTPAHere") || type.equalsIgnoreCase("CrossServerTPA") || type.equalsIgnoreCase("Jsaw")){
+            if(type.equalsIgnoreCase("CrossServerTeleport") || type.equalsIgnoreCase("CrossServerTPAHere") || type.equalsIgnoreCase("CrossServerTPA") || type.equalsIgnoreCase("perWorldPlayersList") || type.equalsIgnoreCase("Jsaw")){
                 message = cmd;
             }
             msgout.writeUTF(message);
@@ -47,6 +47,36 @@ public class BungeeSend{
 
 
         player.sendPluginMessage(pl, "BungeeCord", out.toByteArray());
+    }
+
+    public void consoleSendPluginMessage(String type, String server, String cmd){
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("Forward");  //Type of message
+        out.writeUTF(server);       // Server to send to
+        out.writeUTF(pl.getName() + "Channel-" + type); //Receiver Channel
+
+        // If you don't care about the player
+        // Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
+        // Else, specify them
+        // Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
+
+        ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
+        DataOutputStream msgout = new DataOutputStream(msgbytes);
+        try {
+            String message = "";
+            if(type.equalsIgnoreCase("CrossServerTeleport") || type.equalsIgnoreCase("CrossServerTPAHere") || type.equalsIgnoreCase("CrossServerTPA") || type.equalsIgnoreCase("perWorldPlayersList") || type.equalsIgnoreCase("Jsaw")){
+                message = cmd;
+            }
+            msgout.writeUTF(message);
+        } catch (IOException exception){
+            exception.printStackTrace();
+        }
+
+        out.writeShort(msgbytes.toByteArray().length);
+        out.write(msgbytes.toByteArray());
+
+
+        Bukkit.getServer().sendPluginMessage(pl, "BungeeCord", out.toByteArray());
     }
 
     public void sendConnectOther(String server, String playerName){
@@ -75,6 +105,13 @@ public class BungeeSend{
             player.sendPluginMessage(pl, "BungeeCord", out.toByteArray());
         }
     }
+
+    public void sendPerWorldPlayerList(String list){
+        if(Bukkit.getOnlinePlayers().size() > 0) {
+            consoleSendPluginMessage("perWorldPlayersList", "ALL", list);
+        }
+    }
+
 
     public void getServers(){
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
