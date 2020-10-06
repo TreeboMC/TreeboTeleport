@@ -1,6 +1,7 @@
 package me.shakeforprotein.treeboteleport.Listeners;
 
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
+import net.minecraft.server.v1_16_R2.MinecraftServer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,9 +9,11 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -156,6 +159,14 @@ public class RespawnListener implements Listener {
 
         }
         return true;
+    }
+
+    @EventHandler
+    public void onEntitySpawn(EntitySpawnEvent e){
+        if(MinecraftServer.getServer().recentTps[0] < 12 && e.getEntity().getType() != EntityType.DROPPED_ITEM && e.getEntity().getType() != EntityType.FALLING_BLOCK){
+            //Bukkit.broadcastMessage("Cancelling spawn for entity: " +e.getEntity().getType());
+            e.setCancelled(true);
+        }
     }
 
 }
