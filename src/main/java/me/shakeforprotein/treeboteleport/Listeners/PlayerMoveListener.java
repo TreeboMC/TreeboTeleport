@@ -2,8 +2,6 @@ package me.shakeforprotein.treeboteleport.Listeners;
 
 import me.shakeforprotein.treeboteleport.Bungee.BungeeSend;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
-import net.minecraft.server.v1_16_R2.MinecraftServer;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,8 +11,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
-
 public class PlayerMoveListener implements Listener {
 
     public TreeboTeleport pl;

@@ -4,6 +4,7 @@ import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -31,7 +32,10 @@ public class Top {
                             Player p = (Player) sender;
                             Location bLoc = p.getLocation().getBlock().getLocation();
                             int i = 256;
-                            for (i = 256; i > 0; i--) {
+                            if(p.getWorld().getEnvironment() == World.Environment.NETHER){
+                                i = 127;
+                            }
+                            for (i = i; i > 0; i--) {
                                 Block block = bLoc.getWorld().getBlockAt((int) bLoc.getX(), i, (int) bLoc.getZ());
                                 Block buu = bLoc.getWorld().getBlockAt((int) bLoc.getX(), i + 2, (int) bLoc.getZ());
                                 Block buu2 = bLoc.getWorld().getBlockAt((int) bLoc.getX(), i + 1, (int) bLoc.getZ());

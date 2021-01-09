@@ -1,11 +1,9 @@
 package me.shakeforprotein.treeboteleport.Methods.Guis;
 
-import com.sun.org.apache.xerces.internal.xs.StringList;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
