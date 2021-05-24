@@ -55,8 +55,8 @@ public class DeleteWarp {
                             try {
                                 warps.save(warpsYml);
                                 p.sendMessage(pl.badge + "If a warp existed with name: " + ChatColor.GOLD + args[0] + ChatColor.RESET + " it has now been deleted.");
-                            } catch (IOException e) {
-                                pl.makeLog(e);
+                            } catch (IOException ex) {
+                                pl.roots.errorLogger.logError(pl, ex);
                                 p.sendMessage(pl.err + "Saving Warps file unsuccessful");
                             }
                         }

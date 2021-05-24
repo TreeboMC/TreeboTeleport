@@ -42,11 +42,11 @@ public class SetWorldSpawn implements CommandExecutor {
                                 try {
                                     spawns.options().copyDefaults();
                                     spawns.save(spawnsYml);
-                                } catch (FileNotFoundException e) {
-                                    pl.makeLog(e);
+                                } catch (FileNotFoundException ex) {
+                                    pl.roots.errorLogger.logError(pl, ex);
                                 }
-                            } catch (IOException e) {
-                                pl.makeLog(e);
+                            } catch (IOException ex) {
+                                pl.roots.errorLogger.logError(pl, ex);
                                 sender.sendMessage(pl.badge + ChatColor.RED + "ERROR:" + ChatColor.RESET + "Creating Spawns file failed");
                             }
                         }
@@ -84,8 +84,8 @@ public class SetWorldSpawn implements CommandExecutor {
                             try {
                                 spawns.save(spawnsYml);
                                 p.sendMessage(pl.badge + "World spawn saved for world: " + ChatColor.YELLOW + "[" + ChatColor.GOLD + name + ChatColor.YELLOW + "]");
-                            } catch (IOException e) {
-                                pl.makeLog(e);
+                            } catch (IOException ex) {
+                                pl.roots.errorLogger.logError(pl, ex);
                                 p.sendMessage(pl.err + "Saving spawns file Unsuccessful");
                             }
                         } else if (args.length > 1) {

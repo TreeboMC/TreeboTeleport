@@ -77,8 +77,8 @@ public class Tp2WorldAt {
                                     sender.sendMessage(pl.err + " Invalid coordinate format or world name");
                                 }
                             }
-                        } catch (NullPointerException e) {
-                            pl.makeLog(e);
+                        } catch (NullPointerException ex) {
+                            pl.roots.errorLogger.logError(pl, ex);
                             sender.sendMessage(pl.err + "Could not achieve teleport. Is the world loaded?");
                         }
                     } else {

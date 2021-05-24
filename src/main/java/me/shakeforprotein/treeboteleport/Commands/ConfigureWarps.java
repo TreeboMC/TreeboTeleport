@@ -3,12 +3,9 @@ package me.shakeforprotein.treeboteleport.Commands;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,8 +45,8 @@ public class ConfigureWarps {
                                             try {
                                                 warpsYaml.save(warpsFile);
                                                 sender.sendMessage("Warps file saved");
-                                            } catch (IOException err) {
-                                                pl.makeLog(err);
+                                            } catch (IOException ex) {
+                                                pl.roots.errorLogger.logError(pl, ex);
                                                 sender.sendMessage(pl.err + "Failed to save warps file");
                                             }
                                         } else {
@@ -66,8 +63,8 @@ public class ConfigureWarps {
                                         try {
                                             warpsYaml.save(warpsFile);
                                             sender.sendMessage("Warps file saved");
-                                        } catch (IOException err) {
-                                            pl.makeLog(err);
+                                        } catch (IOException ex) {
+                                            pl.roots.errorLogger.logError(pl, ex);
                                             sender.sendMessage(pl.err + "Failed to save warps file");
                                         }
                                     } else {

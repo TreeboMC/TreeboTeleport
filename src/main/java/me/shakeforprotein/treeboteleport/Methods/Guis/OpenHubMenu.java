@@ -40,9 +40,11 @@ public class OpenHubMenu {
                     hubMenu.options().copyDefaults();
                     hubMenu.save(menuYml);
                 }
-                catch (FileNotFoundException e){pl.makeLog(e);}
-            } catch (IOException e) {
-                pl.makeLog(e);
+                catch (FileNotFoundException ex){
+                    pl.roots.errorLogger.logError(pl, ex);
+                }
+            } catch (IOException ex) {
+                pl.roots.errorLogger.logError(pl, ex);
             }
         }
 
@@ -88,8 +90,8 @@ public class OpenHubMenu {
             }
             p.openInventory(HubMenu);
         }
-        catch(NullPointerException e){
-            pl.makeLog(e);
+        catch(NullPointerException ex){
+            pl.roots.errorLogger.logError(pl, ex);
         }
         return true;
     }

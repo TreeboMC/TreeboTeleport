@@ -2,33 +2,24 @@ package me.shakeforprotein.treeboteleport.Listeners;
 
 import me.shakeforprotein.treeboteleport.Bungee.BungeeSend;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
-import me.shakeforprotein.treeboteleport.UpdateChecker.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import java.io.File;
 
 
 public class PlayerJoinListener implements Listener {
 
     private TreeboTeleport pl;
-    private UpdateChecker uc;
     private BungeeSend bungeeSend;
 
     public PlayerJoinListener(TreeboTeleport main) {
         this.pl = main;
-        this.uc = new UpdateChecker(main);
         this.bungeeSend = new BungeeSend(pl);
     }
 
@@ -55,7 +46,7 @@ public class PlayerJoinListener implements Listener {
                 public void run() {
                     Player p = e.getPlayer();
                     Inventory inv = p.getInventory();
-                    ItemStack hubItem = pl.getHubItem();
+                    ItemStack hubItem = pl.getHubItemFromConfig();
                     if (!inv.contains(hubItem)) {
                         inv.addItem(hubItem);
                     }
@@ -63,19 +54,8 @@ public class PlayerJoinListener implements Listener {
             }, 30L);
         }
 
-        if (e.getPlayer().hasPermission(uc.requiredPermission)) {
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable() {
-                public void run() {
-
-                    if (!uc.updateNotified.containsKey(e.getPlayer())) {
-                        uc.checkUpdates(e.getPlayer());
-                        uc.updateNotified.putIfAbsent(e.getPlayer(), true);
-                    }
-                }
-            }, 30L);
-        }
         return true;
-    }
+}
 
     @EventHandler
     public boolean onPlayerChangeWorld(PlayerChangedWorldEvent e) {
@@ -84,7 +64,7 @@ public class PlayerJoinListener implements Listener {
         }
         if (pl.getConfig().isSet("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".world")) {
 
-            System.out.println("Send to spawn triggered");
+            //System.out.println("Send to spawn triggered");
             String world = pl.getConfig().getString("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".world");
             double x = pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".x");
             double y = pl.getConfig().getDouble("onJoinSpawn." + e.getPlayer().getWorld().getName() + ".y");

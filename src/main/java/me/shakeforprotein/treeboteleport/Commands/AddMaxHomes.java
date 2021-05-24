@@ -3,8 +3,6 @@ package me.shakeforprotein.treeboteleport.Commands;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;

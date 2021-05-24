@@ -46,11 +46,11 @@ public class SendSpawn {
                                         try {
                                             spawns.options().copyDefaults();
                                             spawns.save(spawnsYml);
-                                        } catch (FileNotFoundException e) {
-                                            pl.makeLog(e);
+                                        } catch (FileNotFoundException ex) {
+                                            pl.roots.errorLogger.logError(pl, ex);
                                         }
-                                    } catch (IOException e) {
-                                        pl.makeLog(e);
+                                    } catch (IOException ex) {
+                                        pl.roots.errorLogger.logError(pl, ex);
                                         sender.sendMessage(pl.err + "Loading Spawns Data Unsuccessful");
                                     }
                                 }

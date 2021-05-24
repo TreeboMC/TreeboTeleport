@@ -29,7 +29,7 @@ public class ConfigureMethods {
         for (String menuItem : hubYaml.getConfigurationSection("hubmenu.menuItems").getKeys(false)) {
             if (hubYaml.getInt("hubmenu.menuItems." + menuItem + ".position") == Integer.parseInt(pos)) {
                 hubYaml.set("hubmenu.menuItems." + menuItem + "." + selector, newVal);
-                pl.saveFile(hubFile, hubYaml, s);
+                pl.saveFileConfigurationToFile(hubFile, hubYaml, s);
                 found = true;
             }
         }
@@ -44,7 +44,7 @@ public class ConfigureMethods {
         hubFile = new File(pl.getDataFolder(), "hubMenu.yml");
         hubYaml = YamlConfiguration.loadConfiguration(hubFile);
         hubYaml.set("hubMenu.menuRows", Integer.parseInt(newRows));
-        pl.saveFile(hubFile, hubYaml, s);
+        pl.saveFileConfigurationToFile(hubFile, hubYaml, s);
         return true;
     }
 

@@ -37,8 +37,10 @@ public class RestorePlayerInventory {
 
                             if (Bukkit.getPlayer(args[0]) != null && Bukkit.getPlayer(args[0]).isOnline()) {
                                 Player p = Bukkit.getPlayer(args[0]);
-                                File deathFile = new File(pl.getDataFolder() + File.separator + "deaths", File.separator + p.getUniqueId().toString() + "_" + args[1] + ".yml");
-                                File deathFileUsed = new File(pl.getDataFolder() + File.separator + "deaths", File.separator + "USED_" + p.getUniqueId().toString() + "_" + args[1] + ".yml");
+                                //File deathFile = new File(pl.getDataFolder() + File.separator + "deaths", File.separator + p.getUniqueId().toString() + "_" + args[1] + ".yml");
+                                //File deathFileUsed = new File(pl.getDataFolder() + File.separator + "deaths", File.separator + "USED_" + p.getUniqueId().toString() + "_" + args[1] + ".yml");
+                                File deathFile = new File(pl.getPlayerDataFolder() + File.separator + p.getUniqueId().toString() + File.separator + "deaths", File.separator + p.getUniqueId().toString() + "_" + args[1] + ".yml");
+                                File deathFileUsed = new File(pl.getPlayerDataFolder() + File.separator + p.getUniqueId().toString() + File.separator + "deaths", File.separator + "USED_" +  p.getUniqueId().toString() + "_" + args[1] + ".yml");
 
                                 if (deathFile.exists()) {
                                     sender.sendMessage(pl.badge + "Death file found");
@@ -56,8 +58,8 @@ public class RestorePlayerInventory {
                                                 try {
                                                     deathYaml.save(deathFile);
                                                     deathFile.renameTo(deathFileUsed);
-                                                } catch (IOException err) {
-                                                    pl.makeLog(err);
+                                                } catch (IOException ex) {
+                                                    pl.roots.errorLogger.logError(pl, ex);
                                                     sender.sendMessage(pl.err + "Failed to update 'used' status on docket " + deathFile.toString());
                                                 }
                                             } else {

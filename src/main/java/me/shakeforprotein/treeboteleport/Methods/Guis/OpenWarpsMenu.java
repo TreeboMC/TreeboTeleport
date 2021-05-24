@@ -34,11 +34,11 @@ public class OpenWarpsMenu {
                 try {
                     warpsMenu.options().copyDefaults();
                     warpsMenu.save(menuYml);
-                } catch (FileNotFoundException e) {
-                    pl.makeLog(e);
+                } catch (FileNotFoundException ex) {
+                    pl.roots.errorLogger.logError(pl, ex);
                 }
-            } catch (IOException e) {
-                pl.makeLog(e);
+            } catch (IOException ex) {
+                pl.roots.errorLogger.logError(pl, ex);
             }
         }
 
@@ -77,8 +77,8 @@ public class OpenWarpsMenu {
                 warpsMenu.set("warps." + item + ".icon", icon);
             }
             try{warpsMenu.save(menuYml);}
-            catch (IOException err){
-                pl.makeLog(err);
+            catch (IOException ex){
+                pl.roots.errorLogger.logError(pl, ex);
                 System.out.println("Failed to update warps file");
             }
 

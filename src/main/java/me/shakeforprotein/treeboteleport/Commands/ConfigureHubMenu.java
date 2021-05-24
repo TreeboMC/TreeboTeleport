@@ -3,8 +3,6 @@ package me.shakeforprotein.treeboteleport.Commands;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -81,7 +79,7 @@ public class ConfigureHubMenu {
                                 doHelp(sender);
                             }
                         }
-                        pl.saveFile(hubFile, hubYaml, sender);
+                        pl.saveFileConfigurationToFile(hubFile, hubYaml, sender);
 
 
                     } else {
@@ -111,7 +109,7 @@ public class ConfigureHubMenu {
                 } else {
                     hubYaml.set("hubmenu.menuItems." + menuItem + "." + selector, newVal);
                 }
-                pl.saveFile(hubFile, hubYaml, s);
+                pl.saveFileConfigurationToFile(hubFile, hubYaml, s);
                 s.sendMessage("Changed " + selector + " to '" + newVal + "' successfully.");
                 found = true;
             }
@@ -127,7 +125,7 @@ public class ConfigureHubMenu {
         hubFile = new File(pl.getDataFolder(), "hubMenu.yml");
         hubYaml = YamlConfiguration.loadConfiguration(hubFile);
         hubYaml.set("hubmenu.menuRows", Integer.parseInt(newRows));
-        pl.saveFile(hubFile, hubYaml, s);
+        pl.saveFileConfigurationToFile(hubFile, hubYaml, s);
         return true;
     }
 

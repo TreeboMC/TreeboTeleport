@@ -28,7 +28,8 @@ public class OpenHomesMenu {
 
     public boolean openHomesMenu(Player p) {
         String uuid = p.getUniqueId().toString();
-        File menuYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + uuid + ".yml");
+        //File menuYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + uuid + ".yml");
+        File menuYml = new File(pl.getPlayerDataFolder() + File.separator + uuid, File.separator + "homes.yml");
         FileConfiguration homesMenu = YamlConfiguration.loadConfiguration(menuYml);
         if (!menuYml.exists()) {
             try {
@@ -36,11 +37,11 @@ public class OpenHomesMenu {
                 try {
                     homesMenu.options().copyDefaults();
                     homesMenu.save(menuYml);
-                } catch (FileNotFoundException e) {
-                    pl.makeLog(e);
+                } catch (FileNotFoundException ex) {
+                    pl.roots.errorLogger.logError(pl, ex);
                 }
-            } catch (IOException e) {
-                pl.makeLog(e);
+            } catch (IOException ex) {
+                pl.roots.errorLogger.logError(pl, ex);
             }
         }
 
@@ -125,15 +126,17 @@ public class OpenHomesMenu {
                 p.openInventory(HomesMenu);
             }
             else{p.sendMessage(pl.err + "No homes found");}
-        } catch (NullPointerException e) {
-            pl.makeLog(e);
+        } catch (NullPointerException ex) {
+            pl.roots.errorLogger.logError(pl, ex);
         }
         return true;
     }
 
     public boolean openOthersHomes(Player p, String uuid, String playerName) {
 
-        File menuYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + uuid + ".yml");
+        //File menuYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + uuid + ".yml");
+        File menuYml = new File(pl.getPlayerDataFolder() + File.separator + uuid, File.separator + "homes.yml");
+
         FileConfiguration homesMenu = YamlConfiguration.loadConfiguration(menuYml);
         if (!menuYml.exists()) {
             try {
@@ -141,11 +144,11 @@ public class OpenHomesMenu {
                 try {
                     homesMenu.options().copyDefaults();
                     homesMenu.save(menuYml);
-                } catch (FileNotFoundException e) {
-                    pl.makeLog(e);
+                } catch (FileNotFoundException ex) {
+                    pl.roots.errorLogger.logError(pl, ex);
                 }
-            } catch (IOException e) {
-                pl.makeLog(e);
+            } catch (IOException ex) {
+                pl.roots.errorLogger.logError(pl, ex);
             }
         }
 
@@ -208,8 +211,8 @@ public class OpenHomesMenu {
 
              */
             p.openInventory(HomesMenu);
-        } catch (NullPointerException e) {
-            pl.makeLog(e);
+        } catch (NullPointerException ex) {
+            pl.roots.errorLogger.logError(pl, ex);
         }
         return true;
     }

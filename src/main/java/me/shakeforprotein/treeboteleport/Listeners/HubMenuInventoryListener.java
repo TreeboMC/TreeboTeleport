@@ -73,13 +73,13 @@ public class HubMenuInventoryListener implements Listener {
                             Bukkit.dispatchCommand(e.getWhoClicked(), command);
                         }
                     }
-                } catch (Exception err) {
-                    pl.makeLog(err);
+                } catch (Exception ex) {
+                    pl.roots.errorLogger.logError(pl, ex);
                 }
                 e.setCancelled(true);
             }
-        } catch (IllegalStateException err) {
-            String error = err.getMessage();
+        } catch (IllegalStateException ex) {
+            pl.roots.errorLogger.logError(pl, ex);
         }
     }
 }

@@ -2,8 +2,6 @@ package me.shakeforprotein.treeboteleport.Commands;
 
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
@@ -33,7 +31,7 @@ public class GiveHubItem {
 
                         Player p = (Player) sender;
                         Inventory inv = p.getInventory();
-                        ItemStack hubItem = pl.getHubItem();
+                        ItemStack hubItem = pl.getHubItemFromConfig();
                         if (!inv.contains(hubItem)) {
                             inv.addItem(hubItem);
                         }

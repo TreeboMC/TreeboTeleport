@@ -37,7 +37,7 @@ public class Back {
 
                             if (pl.lastLocConf.containsKey(p.getUniqueId())) {
                                 p.sendMessage(pl.badge + "Sending you to your previous location");
-                                p.teleport((Location) pl.lastLocConf.get(p.getUniqueId()));
+                                p.teleport(pl.lastLocConf.get(p.getUniqueId()));
                             } else {
                                 p.sendMessage(pl.err + "Could not find previous location");
                             }

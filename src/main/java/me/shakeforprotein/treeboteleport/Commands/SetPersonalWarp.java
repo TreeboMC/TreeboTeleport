@@ -40,11 +40,11 @@ public class SetPersonalWarp {
                                 try {
                                     warps.options().copyDefaults();
                                     warps.save(warpsYml);
-                                } catch (FileNotFoundException e) {
-                                    pl.makeLog(e);
+                                } catch (FileNotFoundException ex) {
+                                    pl.roots.errorLogger.logError(pl, ex);
                                 }
-                            } catch (IOException e) {
-                                pl.makeLog(e);
+                            } catch (IOException ex) {
+                                pl.roots.errorLogger.logError(pl, ex);
                                 sender.sendMessage(pl.err + "Creating warps file failed");
                             }
                         }
@@ -76,8 +76,8 @@ public class SetPersonalWarp {
                                 warps.save(warpsYml);
                                 p.sendMessage(pl.badge + "Player Warp with name: " + ChatColor.GOLD + args[0] + ChatColor.RESET + " has been saved.");
                                 p.sendMessage("If you choose to set a new PWarp, this warp will be overwritten.");
-                            } catch (IOException e) {
-                                pl.makeLog(e);
+                            } catch (IOException ex) {
+                                pl.roots.errorLogger.logError(pl, ex);
                                 p.sendMessage(pl.err + "Saving warps file Unsuccessful");
                             }
                         }

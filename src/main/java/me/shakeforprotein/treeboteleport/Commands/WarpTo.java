@@ -48,11 +48,11 @@ public class WarpTo {
                             try {
                                 warps.options().copyDefaults();
                                 warps.save(warpsYml);
-                            } catch (FileNotFoundException e) {
-                                pl.makeLog(e);
+                            } catch (FileNotFoundException ex) {
+                                pl.roots.errorLogger.logError(pl, ex);
                             }
-                        } catch (IOException e) {
-                            pl.makeLog(e);
+                        } catch (IOException ex) {
+                            pl.roots.errorLogger.logError(pl, ex);
                             System.out.println(pl.err + "Creating warps file failed");
                         }
                     }

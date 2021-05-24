@@ -41,7 +41,8 @@ public class RespawnListener implements Listener {
             String key2 = UUID.randomUUID().toString();
             String key3 = key1 + "-" + key2;
 
-            File deathFile = new File(pl.getDataFolder() + File.separator + "deaths", File.separator + e.getEntity().getUniqueId().toString() + "_" + key3 + ".yml");
+            //File deathFile = new File(pl.getDataFolder() + File.separator + "deaths", File.separator + e.getEntity().getUniqueId().toString() + "_" + key3 + ".yml");
+            File deathFile = new File(pl.getPlayerDataFolder() + e.getEntity().getUniqueId().toString() +File.separator + "deaths", File.separator + e.getEntity().getUniqueId().toString() + "_" + key3 + ".yml");
             FileConfiguration deathYaml = YamlConfiguration.loadConfiguration(deathFile);
 
 
@@ -96,8 +97,8 @@ public class RespawnListener implements Listener {
             deathYaml.set("used", "false");
             try {
                 deathYaml.save(deathFile);
-            } catch (IOException err) {
-                pl.makeLog(err);
+            } catch (IOException ex) {
+                pl.roots.errorLogger.logError(pl, ex);
             }
         }
         return true;
@@ -132,11 +133,11 @@ public class RespawnListener implements Listener {
                     try {
                         spawns.options().copyDefaults();
                         spawns.save(spawnsYml);
-                    } catch (FileNotFoundException err) {
-                        pl.makeLog(err);
+                    } catch (FileNotFoundException ex) {
+                        pl.roots.errorLogger.logError(pl, ex);
                     }
-                } catch (IOException err) {
-                    pl.makeLog(err);
+                } catch (IOException ex) {
+                    pl.roots.errorLogger.logError(pl, ex);
                 }
             }
             FileConfiguration spawns = YamlConfiguration.loadConfiguration(spawnsYml);

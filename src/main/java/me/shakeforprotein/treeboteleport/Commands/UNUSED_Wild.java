@@ -9,13 +9,13 @@ import org.bukkit.entity.Player;
 
 import java.util.Random;
 
-public class Wild {
+public class UNUSED_Wild {
 
     private TreeboTeleport pl;
     private Random random = new Random();
     private int Y = 0;
 
-    public Wild(TreeboTeleport main) {
+    public UNUSED_Wild(TreeboTeleport main) {
         this.pl = main;
     }
 
@@ -62,7 +62,7 @@ public class Wild {
                                 sender.sendMessage(pl.err + "Argument must be a number.");
                             }
                         } else if (sender instanceof Player) {
-                            if (!pl.getCD((Player) sender)) {
+                            if (!pl.getCommandCooldown((Player) sender)) {
                                 sender.sendMessage(pl.badge + "Checking for safe location. This may take a moment.");
                                 Player player = (Player) sender;
                                 World w = player.getWorld();
@@ -175,7 +175,7 @@ public class Wild {
             X = getCoords(1, ((int) maxX - (int) minX)) + (int) minX;
             Z = getCoords(1, ((int) maxZ - (int) minZ)) + (int) minZ;
             if (attempts % 2 == 0) {
-                sender.sendMessage("Attempt " + attempts + " of " + maxAttempts);
+                //sender.sendMessage("Attempt " + attempts + " of " + maxAttempts);
             }
             attempts++;
             if (attempts >= maxAttempts) {

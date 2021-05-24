@@ -6,6 +6,7 @@ prefix: TreeboTeleport
 authors: [ShakeforProtein]
 description: Teleport and Hub functions
 website: treebo.games
+depend: [TreeboRoots]
 softdepend: [StaffUUIDLock]
 commands:
 #  spawn:

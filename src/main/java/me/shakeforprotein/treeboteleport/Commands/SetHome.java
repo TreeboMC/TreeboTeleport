@@ -35,7 +35,9 @@ public class SetHome {
                     if (sender.hasPermission(this.getPermission())) {
 
                         Player p = (Player) sender;
-                        File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId() + ".yml");
+                        //File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId().toString() + ".yml");
+                        File homesYml = new File(pl.getPlayerDataFolder() + File.separator + p.getUniqueId().toString(), File.separator + "homes.yml");
+
                         if (!homesYml.exists()) {
                             try {
                                 homesYml.createNewFile();
@@ -43,11 +45,11 @@ public class SetHome {
                                 try {
                                     homes.options().copyDefaults();
                                     homes.save(homesYml);
-                                } catch (FileNotFoundException e) {
-                                    pl.makeLog(e);
+                                } catch (FileNotFoundException ex) {
+                                    pl.roots.errorLogger.logError(pl, ex);
                                 }
-                            } catch (IOException e) {
-                                pl.makeLog(e);
+                            } catch (IOException ex) {
+                                pl.roots.errorLogger.logError(pl, ex);
                             }
                         }
                         FileConfiguration homes = YamlConfiguration.loadConfiguration(homesYml);
@@ -86,8 +88,8 @@ public class SetHome {
                                     try {
                                         homes.save(homesYml);
                                         p.sendMessage(pl.badge + "Home with name: " + ChatColor.GOLD + args[0] + ChatColor.RESET + " has been saved.");
-                                    } catch (IOException e) {
-                                        pl.makeLog(e);
+                                    } catch (IOException ex) {
+                                        pl.roots.errorLogger.logError(pl, ex);
                                         p.sendMessage(pl.err + "Saving Homes file Unsuccessful");
                                     }
                                 } else {

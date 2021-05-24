@@ -40,10 +40,15 @@ public class NameIt {
                         theText = ChatColor.translateAlternateColorCodes('&', theText);
 
                         ItemStack item = ((Player) sender).getInventory().getItemInMainHand();
-                        ItemMeta meta = item.getItemMeta();
-                        meta.setDisplayName(theText);
-                        item.setItemMeta(meta);
-                        ((Player) sender).getInventory().setItemInMainHand(item);
+                        if(item.getType() == Material.VILLAGER_SPAWN_EGG){
+                            sender.sendMessage(pl.badge + "Sorry, you cannot rename villager spawn eggs.");
+                        }
+                        else {
+                            ItemMeta meta = item.getItemMeta();
+                            meta.setDisplayName(theText);
+                            item.setItemMeta(meta);
+                            ((Player) sender).getInventory().setItemInMainHand(item);
+                        }
                     } else {
                         sender.sendMessage(ChatColor.RED + "You do not have access to this command. You require permission node " + ChatColor.GOLD + this.getPermission());
                     }

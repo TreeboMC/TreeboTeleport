@@ -6,7 +6,7 @@
 
     <groupId>me.ShakeforProtein</groupId>
     <artifactId>TreeboTeleport</artifactId>
-    <version>1.1.1 - SpMc1.16.4</version>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
 
     <name>TreeboTeleport</name>
@@ -106,6 +106,18 @@
             <artifactId>bstats-bukkit</artifactId>
             <version>1.5</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.ShakeforProtein</groupId>
+            <artifactId>TreeboRoots</artifactId>
+            <version>0.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vdurmont</groupId>
+            <artifactId>semver4j</artifactId>
+            <version>3.1.0</version>
         </dependency>
     </dependencies>
 </project>

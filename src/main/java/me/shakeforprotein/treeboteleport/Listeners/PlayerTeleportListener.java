@@ -58,7 +58,7 @@ public class PlayerTeleportListener implements Listener {
                         || !pl.getConfig().getConfigurationSection("tpSafetyToggle").getBoolean(p.getName())) {
                     if (pl.getConfig().get("teleportProtection") != null && pl.getConfig().getInt("teleportProtection") > 0) {
                         int tpProtection = pl.getConfig().getInt("teleportProtection") * 20;
-                        pl.lockMove.putIfAbsent(e.getPlayer().getUniqueId(), e.getPlayer().getName());
+                        pl.lockMove.putIfAbsent(e.getPlayer().getUniqueId(), 60L);
                         e.getPlayer().setInvulnerable(true);
                         Bukkit.getScheduler().runTaskLater(pl, new Runnable() {
                             public void run() {

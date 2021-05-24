@@ -167,7 +167,9 @@ public class HomeMenuInventoryListener implements Listener {
                     String identifier = e.getView().getTitle().split(" - ")[1].split(":")[1];
                     e.getWhoClicked().sendMessage(identifier);
 
-                    File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + owner + ".yml");
+                    //File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + owner + ".yml");
+                    File homesYml = new File(pl.getPlayerDataFolder() + File.separator + owner, File.separator + "homes.yml");
+
                     YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(homesYml);
                     Inventory inv = e.getInventory();
                     if (e.getInventory().getItem(e.getSlot()) != null && e.getInventory().getItem(e.getSlot()).getType() != Material.AIR) {
@@ -232,7 +234,8 @@ public class HomeMenuInventoryListener implements Listener {
             e.setCancelled(true);
             String owner = pl.getConfig().getString("ValuesFor." + p.getUniqueId().toString() + ".owner").toLowerCase();
             String identifier = pl.getConfig().getString("ValuesFor." + p.getUniqueId().toString() + ".identifier");
-            File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + owner + ".yml");
+            //File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + owner + ".yml");
+            File homesYml = new File(pl.getPlayerDataFolder() + owner, File.separator + "homes.yml");
             YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(homesYml);
             yamlConfiguration.set("homes." + identifier + ".name", e.getMessage().replace(" ", "_").replace("'", "").replace("/", "").replace("\"", ""));
             pl.getConfig().set("ListeningTo." + p.getUniqueId().toString(), null);

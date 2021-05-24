@@ -53,14 +53,14 @@ public class Homes {
                         Player p = (Player) sender;
                         String tempUUID = "0";
                         String tempName = "";
-                        File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId() + ".yml");
+                        File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId().toString() + ".yml");
                         if (args.length == 1 && !(args[0].equalsIgnoreCase("setDefault")) && sender.hasPermission("tbteleport.staff.homes.others")) {
                             for (OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
                                 if (offlinePlayer.getName().equalsIgnoreCase(args[0])) {
                                     found = true;
                                     tempName = offlinePlayer.getName();
                                     tempUUID = offlinePlayer.getUniqueId().toString();
-                                    File testFile = new File(pl.getDataFolder() + File.separator + "homes", File.separator + offlinePlayer.getUniqueId() + ".yml");
+                                    File testFile = new File(pl.getDataFolder() + File.separator + "homes", File.separator + offlinePlayer.getUniqueId().toString() + ".yml");
                                     if (testFile.exists()) {
                                         homesYml = testFile;
                                     }
@@ -154,9 +154,12 @@ public class Homes {
                         if (sender.hasPermission("treeboteleport.staff.homes.other")) {
                             staff = true;
                         }
-                        File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + ((Player) sender).getUniqueId() + ".yml");
+                        //File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + ((Player) sender).getUniqueId().toString() + ".yml");
+                        File homesYml = new File(pl.getPlayerDataFolder() + File.separator + ((Player) sender).getUniqueId().toString(), File.separator + "homes.yml");
+
                         if (args.length == 1 && staff) {
-                            homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + (Bukkit.getOfflinePlayer(args[0])).getUniqueId() + ".yml");
+                            //homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + (Bukkit.getOfflinePlayer(args[0])).getUniqueId().toString() + ".yml");
+                            homesYml = new File(pl.getDataFolder() + File.separator + Bukkit.getOfflinePlayer(args[0]).getUniqueId().toString(), File.separator + "homes.yml");
                             owner = args[0].toLowerCase();
                         }
 
@@ -224,7 +227,7 @@ public class Homes {
                 if (yamlConfiguration.getString("homes." + home + "colour") != null) {
                     homeItemMeta.setDisplayName(ChatColor.valueOf(yamlConfiguration.getString("homes." + home + ".colour")) + yamlConfiguration.getString("homes." + home + ".name"));
                 } else {
-                    homeItemMeta.setDisplayName(yamlConfiguration.getString("homes." + home + ".name"));
+                    homeItemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', yamlConfiguration.getString("homes." + home + ".name")));
                 }
             } else {
                 homeItemMeta.setDisplayName(home);

@@ -36,8 +36,10 @@ public class Home{
                     if(sender.hasPermission(this.getPermission())) {
 
                     Player p = (Player) sender;
-                    File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId() + ".yml");
-                    FileConfiguration homes = YamlConfiguration.loadConfiguration(homesYml);
+                    //File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId().toString() + ".yml");
+                        File homesYml = new File(pl.getPlayerDataFolder() + File.separator + p.getUniqueId().toString(), File.separator + "homes.yml");
+
+                        FileConfiguration homes = YamlConfiguration.loadConfiguration(homesYml);
 
                     if (!homesYml.exists()) {
                         sender.sendMessage(pl.err + "You do not appear to have any homes. Use '/sethome <home name>' to create a home at your current location.");

@@ -3,11 +3,8 @@ package me.shakeforprotein.treeboteleport.Commands;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -33,7 +30,7 @@ public class ConfigureHomes {
                     this.setPermission("tbteleport.player.configure.homes");
                     if (sender.hasPermission(this.getPermission())) {
 
-                        homeFile = new File(pl.getDataFolder() + File.separator + "homes", File.separator + ((Player) sender).getUniqueId().toString() + ".yml");
+                        homeFile = new File(pl.getPlayerDataFolder() + File.separator + ((Player) sender).getUniqueId(), File.separator + "homes"+ ".yml");
                         homeYaml = YamlConfiguration.loadConfiguration(homeFile);
                         boolean found = false;
 
@@ -77,7 +74,7 @@ public class ConfigureHomes {
                             sender.sendMessage(pl.err + "Insufficient arguments");
                             doHelp(sender);
                         }
-                        pl.saveFile(homeFile, homeYaml, sender);
+                        pl.saveFileConfigurationToFile(homeFile, homeYaml, sender);
 
 
                     } else {
@@ -100,7 +97,7 @@ public class ConfigureHomes {
 
     public boolean setYml(String name, String selector, String newVal, CommandSender s) {
         String uuid = ((Player) s).getUniqueId().toString();
-        homeFile = new File(pl.getDataFolder() + File.separator + "homes", File.separator + uuid + ".yml");
+        homeFile = new File(pl.getPlayerDataFolder() + File.separator + uuid, File.separator + "homes"+ ".yml");
         homeYaml = YamlConfiguration.loadConfiguration(homeFile);
         boolean found = false;
         for (String menuItem : homeYaml.getConfigurationSection("homes").getKeys(false)) {
@@ -109,7 +106,7 @@ public class ConfigureHomes {
                     newVal = newVal.toUpperCase();
                 }
                 homeYaml.set("homes." + menuItem + "." + selector, newVal);
-                pl.saveFile(homeFile, homeYaml, s);
+                pl.saveFileConfigurationToFile(homeFile, homeYaml, s);
                 s.sendMessage(pl.badge + "Changed " + selector + " of '" + name + "' to '" + newVal + "' successfully.");
                 found = true;
             }
@@ -124,7 +121,7 @@ public class ConfigureHomes {
 
     public void doHelp(CommandSender s) {
         s.sendMessage(pl.badge + ChatColor.GOLD + "Help for /configurehomes");
-        s.sendMessage("/configurehome set <current name> <icon |                    x  colour> <New Value>");
+        s.sendMessage("/configurehome set <current name> <icon | colour> <New Value>");
         s.sendMessage("/configurehome set default <CurrentName>");
     }
 }

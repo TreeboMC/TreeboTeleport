@@ -25,7 +25,7 @@ public class HubItemListener implements Listener {
     public void playerInteract(PlayerInteractEvent e) {
         ItemStack configItem = null;
         if(pl.getConfig().getBoolean("isHubServer")) {
-            configItem = pl.getHubItem();
+            configItem = pl.getHubItemFromConfig();
         }
         Player p = e.getPlayer();
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
