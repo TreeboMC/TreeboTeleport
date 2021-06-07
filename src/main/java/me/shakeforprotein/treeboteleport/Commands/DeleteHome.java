@@ -2,6 +2,8 @@ package me.shakeforprotein.treeboteleport.Commands;
 
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,7 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class DeleteHome {
+public class DeleteHome implements CommandExecutor {
 
     private TreeboTeleport pl;
 
@@ -28,11 +30,11 @@ public class DeleteHome {
                     this.setDescription("Allows player to delete their homes");
                     this.setUsage("/DeleteHome or /DelHome - requires tbteleport.player.delhome");
                     this.setPermission("tbteleport.player.delhome");
-                    if(sender.hasPermission(this.getPermission())) {
+                    if (sender.hasPermission(this.getPermission())) {
 
-                    Player p = (Player) sender;
+                        Player p = (Player) sender;
                         //File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId().toString() + ".yml");
-                        File homesYml =      new File(pl.getPlayerDataFolder() + File.separator + p.getUniqueId().toString(), File.separator + "homes"+ ".yml");
+                        File homesYml = new File(pl.getPlayerDataFolder() + File.separator + p.getUniqueId().toString(), File.separator + "homes" + ".yml");
 
                         if (!homesYml.exists()) {
                             p.sendMessage(pl.err + "Homes file not found. Attempting to Recover.");
@@ -75,8 +77,7 @@ public class DeleteHome {
                             }
                         }
 
-                    }
-                    else{
+                    } else {
                         sender.sendMessage(ChatColor.RED + "You do not have access to this command. You require permission node " + ChatColor.GOLD + this.getPermission());
                     }
 
@@ -84,6 +85,56 @@ public class DeleteHome {
                 }
             };
             pl.registerNewCommand(pl.getDescription().getName(), item2);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+        Player p = (Player) sender;
+        //File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + p.getUniqueId().toString() + ".yml");
+        File homesYml = new File(pl.getPlayerDataFolder() + File.separator + p.getUniqueId().toString(), File.separator + "homes" + ".yml");
+
+        if (!homesYml.exists()) {
+            p.sendMessage(pl.err + "Homes file not found. Attempting to Recover.");
+            try {
+                homesYml.createNewFile();
+                FileConfiguration homes = YamlConfiguration.loadConfiguration(homesYml);
+                try {
+                    homes.options().copyDefaults();
+                    homes.save(homesYml);
+                } catch (FileNotFoundException ex) {
+                    pl.roots.errorLogger.logError(pl, ex);
+                }
+            } catch (IOException ex) {
+                pl.roots.errorLogger.logError(pl, ex);
+                p.sendMessage(pl.err + "Creating Homes file failed");
+            }
+        }
+        FileConfiguration homes = YamlConfiguration.loadConfiguration(homesYml);
+
+        if (args.length == 0) {
+            p.sendMessage(pl.err + "You must provide the home name to delete");
+        } else if (args.length > 1) {
+            p.sendMessage(pl.err + "Too many arguments");
+        } else {
+            args[0] = args[0].toLowerCase();
+            homes.set("homes." + args[0] + ".name", null);
+            homes.set("homes." + args[0] + ".world", null);
+            homes.set("homes." + args[0] + ".x", null);
+            homes.set("homes." + args[0] + ".y", null);
+            homes.set("homes." + args[0] + ".z", null);
+            homes.set("homes." + args[0] + ".pitch", null);
+            homes.set("homes." + args[0] + ".yaw", null);
+            homes.set("homes." + args[0], null);
+            try {
+                homes.save(homesYml);
+                p.sendMessage(pl.badge + "If a home existed with name: " + ChatColor.GOLD + args[0] + ChatColor.RESET + " it has now been deleted.");
+            } catch (IOException ex) {
+                pl.roots.errorLogger.logError(pl, ex);
+                p.sendMessage(pl.err + "Saving homes file failed");
+            }
         }
         return true;
     }

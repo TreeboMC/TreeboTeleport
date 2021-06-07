@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class DisableTpSafety {
+public class DisableTpSafety implements CommandExecutor{
 
     private TreeboTeleport pl;
 
@@ -53,6 +53,29 @@ public class DisableTpSafety {
                 }
             };
             pl.registerNewCommand(pl.getDescription().getName(), item2);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+
+            if (pl.getConfig().getInt("tpSafetyToggle." + p.getName()) == 0) {
+                pl.getConfig().set("tpSafetyToggle." + p.getName(), true);
+                p.sendMessage(pl.badge + "Teleport Safeties disabled. TreeboMC takes no responsibility for any death as a result of this. Be safe out there.");
+            }
+            else if(pl.getConfig().getBoolean("tpSafetyToggle." + p.getName())) {
+                pl.getConfig().set("tpSafetyToggle." + p.getName(), false);
+                p.sendMessage(pl.badge + "Teleport protection disabled.");
+            }
+            else{
+                pl.getConfig().set("tpSafetyToggle." + p.getName(), true);
+                p.sendMessage(pl.badge + "Teleport Safeties disabled. TreeboMC takes no responsibility for any death as a result of this. Be safe out there.");
+            }
+        } else {
+            sender.sendMessage(pl.err + "Only players may disable their teleport protection.");
         }
         return true;
     }

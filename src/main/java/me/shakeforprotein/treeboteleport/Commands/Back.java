@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.Field;
 
 
-public class Back {
+public class Back implements CommandExecutor {
 
     private TreeboTeleport pl;
 
@@ -66,5 +66,23 @@ public class Back {
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+
+            if (pl.lastLocConf.containsKey(p.getUniqueId())) {
+                p.sendMessage(pl.badge + "Sending you to your previous location");
+                p.teleport(pl.lastLocConf.get(p.getUniqueId()));
+            } else {
+                p.sendMessage(pl.err + "Could not find previous location");
+            }
+        } else {
+            sender.sendMessage(pl.badge + "This command can only be run by a player");
+        }
+        return true;
     }
 }

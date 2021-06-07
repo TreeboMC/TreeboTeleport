@@ -11,7 +11,7 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
 
-public class TpNo {
+public class TpNo implements CommandExecutor{
 
     private TreeboTeleport pl;
 
@@ -49,6 +49,24 @@ public class TpNo {
                 }
             };
             pl.registerNewCommand(pl.getDescription().getName(), item2);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Player p = (Player) sender;
+        pl.getConfig().set("tpRequest." + p.getName() + ".type", "toSender");
+        pl.getConfig().set("tpRequest." + p.getName() + ".requestTime", 0);
+        pl.getConfig().set("tpRequest." + p.getName() + ".requester", sender.getName());
+        sender.sendMessage("Teleport request has been denied.");
+
+        for (OfflinePlayer offPlayer : Bukkit.getOfflinePlayers()) {
+            if (offPlayer.getName().equalsIgnoreCase(pl.getConfig().getString("tpRequest." + p.getName() + ".requester"))) {
+                if (offPlayer instanceof Player) {
+                    ((Player) offPlayer).sendMessage(pl.badge + p.getName() + "has denied your teleport request.");
+                }
+            }
         }
         return true;
     }

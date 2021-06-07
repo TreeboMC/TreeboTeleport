@@ -6,9 +6,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.entity.Player;
 
-public class ClearMyChat {
+public class ClearMyChat implements CommandExecutor {
 
     private TreeboTeleport pl;
 
@@ -39,6 +38,15 @@ public class ClearMyChat {
                 }
             };
             pl.registerNewCommand(pl.getDescription().getName(), item2);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        int i;
+        for (i = 0; i < 30; i++) {
+            sender.sendMessage("");
         }
         return true;
     }

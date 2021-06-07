@@ -3,6 +3,8 @@ package me.shakeforprotein.treeboteleport.Commands;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Wild2 {
+public class Wild2 implements CommandExecutor {
 
     public int minX;
     public int maxX;
@@ -386,5 +388,27 @@ public class Wild2 {
         return false;
     }
 
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        minX = (pl.getConfig().getString("wild.minX") != null) ? pl.getConfig().getInt("wild.minX") : -50000;
+        maxX = (pl.getConfig().getString("wild.maxX") != null) ? pl.getConfig().getInt("wild.maxX") : 50000;
+        minZ = (pl.getConfig().getString("wild.minZ") != null) ? pl.getConfig().getInt("wild.minZ") : -50000;
+        maxZ = (pl.getConfig().getString("wild.maxZ") != null) ? pl.getConfig().getInt("wild.maxZ") : 50000;
+
+
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (player.getWorld().getName().toLowerCase().contains("grid")) {
+                limit = 10;
+            }
+            if (args.length == 0) {
+                doWild(player);
+            } else if (args.length == 1 && !isNumeric(args[0])) {
+                doStaffWild(player, args[0]);
+            }
+        }
+
+        return true;
+    }
 }
 

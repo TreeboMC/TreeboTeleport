@@ -9,7 +9,7 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
 
-public class ToggleDeathDocket {
+public class ToggleDeathDocket implements CommandExecutor{
 
     private TreeboTeleport pl;
 
@@ -44,6 +44,21 @@ public class ToggleDeathDocket {
                 }
             };
             pl.registerNewCommand(pl.getDescription().getName(), item2);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            if (pl.getConfig().get("deathDocket.toggle." + p.getUniqueId()) == null || pl.getConfig().get("deathDocket.toggle." + p.getUniqueId()).equals("false")) {
+                pl.getConfig().set("deathDocket.toggle." + p.getUniqueId(), "true");
+            } else {
+                pl.getConfig().set("deathDocket.toggle." + p.getUniqueId(), "false");
+            }
+        } else {
+            sender.sendMessage(pl.err + "Only players can run this command");
         }
         return true;
     }

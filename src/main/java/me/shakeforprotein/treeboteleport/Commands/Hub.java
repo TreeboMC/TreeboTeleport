@@ -10,7 +10,7 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
 
-public class Hub {
+public class Hub implements CommandExecutor{
 
     private TreeboTeleport pl;
     private OpenHubMenu openHubMenu;
@@ -50,4 +50,18 @@ public class Hub {
         return true;
     }
 
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            String w = player.getWorld().getName();
+            if (args.length == 0) {
+                openHubMenu.openHubMenu((Player) sender);
+            } else {
+                sender.sendMessage(pl.err + "The HUB command does not support additional arguments");
+            }
+        }
+        return true;
+    }
 }

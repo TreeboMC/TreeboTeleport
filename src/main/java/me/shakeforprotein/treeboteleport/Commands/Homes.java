@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Homes {
+public class Homes implements CommandExecutor {
 
     private TreeboTeleport pl;
     private OpenHomesMenu openHomesMenu;
@@ -247,5 +247,37 @@ public class Homes {
             homesMenu.addItem(homeItem);
         }
         opener.openInventory(homesMenu);
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+        /*****************************************************************************************************/
+        /*ThoughtProcess: This section determines if the sender is staff, and if there is an Player argument */
+        /*ThoughtProcess: If there is a player argument, it attempts to get the players uuid which it uses   */
+        /*ThoughtProcess: to get the appropriate homes file. If there is no player argument, or the sender is*/
+        /*ThoughtProcess: not staff, it will get the senders personal homes file.                            */
+        /*****************************************************************************************************/
+        boolean staff = false;
+        String owner = sender.getName();
+        if (sender.hasPermission("treeboteleport.staff.homes.other")) {
+            staff = true;
+        }
+        //File homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + ((Player) sender).getUniqueId().toString() + ".yml");
+        File homesYml = new File(pl.getPlayerDataFolder() + File.separator + ((Player) sender).getUniqueId().toString(), File.separator + "homes.yml");
+
+        if (args.length == 1 && staff) {
+            //homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + (Bukkit.getOfflinePlayer(args[0])).getUniqueId().toString() + ".yml");
+            homesYml = new File(pl.getDataFolder() + File.separator + Bukkit.getOfflinePlayer(args[0]).getUniqueId().toString(), File.separator + "homes.yml");
+            owner = args[0].toLowerCase();
+        }
+
+        if (homesYml.exists()) {
+            YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(homesYml);
+            OpenHomesMenu((Player) sender, owner, yamlConfiguration);
+        } else {
+            sender.sendMessage(pl.err + "Homes file not found.");
+        }
+    return true;
     }
 }

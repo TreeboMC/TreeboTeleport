@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 
-public class TpToggle {
+public class TpToggle implements CommandExecutor{
 
     private TreeboTeleport pl;
 
@@ -47,4 +47,18 @@ public class TpToggle {
         return true;
     }
 
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (pl.getConfig().get("tptoggle." + pl.getName()) == null) {
+            pl.getConfig().set("tptoggle." + pl.getName(), 1);
+            sender.sendMessage(pl.badge + "Teleport requests have been toggled OFF");
+        } else if (pl.getConfig().getInt("tptoggle." + sender.getName()) == 1) {
+            pl.getConfig().set("tptoggle." + sender.getName(), 0);
+            sender.sendMessage(pl.badge + "Teleport requests have been toggled ON");
+        } else if (pl.getConfig().getInt("tptoggle." + sender.getName()) == 0) {
+            pl.getConfig().set("tptoggle." + sender.getName(), 1);
+            sender.sendMessage(pl.badge + "Teleport requests have been toggled OFF");
+        }
+        return true;
+    }
 }

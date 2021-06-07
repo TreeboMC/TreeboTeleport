@@ -6,12 +6,13 @@ import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.apache.commons.lang.ObjectUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class JoinServerAtWorld {
+public class JoinServerAtWorld implements CommandExecutor{
 
     private TreeboTeleport pl;
     private BungeeSend bungeeSend;
@@ -57,4 +58,23 @@ public class JoinServerAtWorld {
         return true;
     }
 
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (args.length == 2) {
+                String server = args[0];
+                String world = args[1];
+                if (pl.roots.getConfig().getString("General.ServerDetails.ServerName") != null && pl.roots.getConfig().getString("General.ServerDetails.ServerName").equalsIgnoreCase(server)) {
+                    ((Player) sender).teleport(Bukkit.getWorld(world).getSpawnLocation());
+                } else {
+                    bungeeSend.sendConnectOther(server, sender.getName());
+                    bungeeSend.sendPluginMessage("Jsaw", server, world + "," + sender.getName());
+                }
+            } else {
+                sender.sendMessage(pl.badge + ChatColor.RED + "ERROR: " + ChatColor.RESET + "No Help is available for this command");
+            }
+        }
+        return true;
+    }
 }

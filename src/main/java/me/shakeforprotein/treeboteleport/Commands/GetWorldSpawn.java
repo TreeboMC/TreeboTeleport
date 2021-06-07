@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class GetWorldSpawn {
+public class GetWorldSpawn implements CommandExecutor{
 
     private TreeboTeleport pl;
 
@@ -40,6 +40,17 @@ public class GetWorldSpawn {
                 }
             };
             pl.registerNewCommand(pl.getDescription().getName(), item2);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player) {
+            World w = ((Player) sender).getWorld();
+            System.out.println("Player has requested Spawn Location");
+            System.out.println(w.getSpawnLocation().toString());
+            sender.sendMessage(w.getSpawnLocation().toString());
         }
         return true;
     }

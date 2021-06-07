@@ -3,6 +3,8 @@ package me.shakeforprotein.treeboteleport.Commands;
 import me.shakeforprotein.treeboteleport.TreeboTeleport;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -11,7 +13,7 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.Field;
 
 
-public class AddMaxHomes {
+public class AddMaxHomes implements CommandExecutor {
 
     private TreeboTeleport pl;
 
@@ -78,5 +80,24 @@ public class AddMaxHomes {
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+            if (args.length != 2) {
+                sender.sendMessage(pl.err + "Incorrect usage. Correct usage is /addmaxhomes <player name> <amount>");
+            } else {
+                if (pl.isInteger(args[1])) {
+                    Player p = Bukkit.getOfflinePlayer(args[0]).getPlayer();
+                    int currentMaxHomes = getHomes(p);
+                    int newHomes = currentMaxHomes + Integer.parseInt(args[1]);
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex user " + p.getName() + " add tbteleport.maxhomes." + newHomes);
+                    sender.sendMessage(pl.badge + "Successfully set " + p.getName() + "'s maximum homes to " + getHomes(p));
+                } else {
+                    sender.sendMessage(pl.err + "Second argument must be a number");
+                }
+            }
+
+        return true;
     }
 }

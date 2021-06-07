@@ -8,178 +8,142 @@ description: Teleport and Hub functions
 website: treebo.games
 depend: [TreeboRoots]
 softdepend: [StaffUUIDLock]
+
 commands:
-#  spawn:
-#    description: 'Allows a player to return to spawn as defined in spawns.yml'
-#    usage: <command>
-#    permission: tbteleport.player.spawn
-#  hub:
-#    description: 'Opens Hub Gui as defined in hubmenu.yml'
-#    usage: <command>
-#    permission: tbteleport.player.hub
-#  givehubitem:
-#    description: 'Gives command sender the hub item'
-#    usage: <command>
-#    permission: tbteleport.player.givehubitem
-#  wild:
-#    description: 'Random Teleport in current world'
-#    usage: <command>
-#    permission: tbteleport.player.wild
-#  warp:
-#    description: 'Teleports player to a warp point. Conditions defined in config.yml'
-#    usage: <command> <warp name>
-#    permission: tbteleport.player.warp
-#  warps:
-#    description: 'Teleports player to a warp point. Conditions defined in config.yml'
-#    usage: <command> <warp name>
-#    permission: tbteleport.player.warp
-#  home:
-#    description: 'Allows a player to return to a home'
-#    usage: <command> <home name>
-#    permission: tbteleport.player.home
-#  homes:
-#    description: 'Opens the Homes Gui'
-#    usage: <command>
-#    permission: tbteleport.player.home
-#  sethome:
-#    description: 'Allows a player to set a home'
-#    usage: <command> <home name>
-#    permission: tbteleport.player.sethome
-#  tpahere:
-#    description: 'Requests a player teleports to the you'
-#    usage: <command> <player>
-#    permission: tbteleport.player.tp
-#  tpa:
-#    description: 'Requests permission to teleport to another player'
-#    usage: <command> <player>
-#    permission: tbteleport.player.tp
-#  tpask:
-#    description: 'Requests permission to teleport to another player'
-#    usage: <command> <player>
-#    permission: tbteleport.player.tp
-#  tpok:
-#    description: 'Accepts Teleport Request'
-#    usage: <command>
-#    permission: tbteleport.player.tp
-#  tpno:
-#    description: 'Denies Teleport Request'
-#    usage: <command>
-#    permission: tbteleport.player.tp
-#  tpcancel:
-#    description: 'Denies Teleport Request'
-#    usage: <command>
-#    permission: tbteleport.player.tp
-#  tpdeny:
-#    description: 'Denies Teleport Request'
-#    usage: <command>
-#    permission: tbteleport.player.tp
-#  tpaccept:
-#    description: 'Accepts Teleport Request'
-#    usage: <command>
-#    permission: tbteleport.player.tp
-#    permission-message: 'Accepts Teleport Request'
-#  tpyes:
-#    description: 'Accepts Teleport Request'
-#    usage: <command>
-#    permission: tbteleport.player.tp
+  addmaxhomes:
+    description: "Checks the players maximum home value stored in PEX and increases it."
+    permission: "tbteleport.admin"
+  back:
+    description: "Returns the player to the source location of the last teleport event fired."
+    permission: "tbteleport.vipplus.back"
+  bed:
+    description: "Returns the player to their bed location if it is valid."
+    permission: "tbteleport.vipplus.bed"
+  clearmychat:
+    description: "Adds 30 blank lines to your chat window. Useful for testing things that output to chat."
+  configurehomes:
+    description: "Opens the home configuration GUI"
+  configurehubmenu:
+    description: "Configuration command for the hub menu"
+    permission: "tbteleport.staff.configureinterfaces"
+  configurewarps:
+    description: "Configuration command for the warps menu"
+    permission: "tbteleport.staff.configureinterfaces"
+  deletehome:
+    description: "Deletes a home with the given name provided as the first argument."
+  deletewarp:
+    description: "Deletes a warp with the given name provided as the first argument."
+    permission: "tbteleport.staff.configureinterfaces."
+  delhome:
+    description: "Deletes a home with the given name provided as the first argument."
+  delwarp:
+    description: "Deletes a warp with the given name provided as the first argument."
+    permission: "tbteleport.staff.configureinterfaces."
+  getworldspawn:
+    description: "Returns the location of the saved world spawn."
+    permission: "tbteleport.staff.getsecretdetails"
+  givehubitem:
+    description: "Gives the player a new hub item if they do not already have one."
+    permission: "tbteleport.player.givehubitem"
+  gws:
+    description: "Returns the location of the saved world spawn."
+    permission: "tbteleport.staff.getsecretdetails"
+  home:
+    description: "Teleports the player to their default stored home location."
+    permission: "tbteleport.player.home"
+  homes:
+    description: "Opens the homes GUI."
+    permission: "tbteleport.player.home"
+  jsaw:
+    description: "Corrupts your player data."
+    permission: "tbteleport.player.jsaw"
+  restoreplayerinventory:
+    description: "Overwrites player inventory with items stored in a death docket."
+    permission: "tbteleport.staff.restoreinventory"
+  sendspawn:
+    description: "Sends a player to a worlds saved spawn."
+    permission: "tbteleport.staff.sendspawn"
+  sethome:
+    description: "Creates a new home with the name given in argument one if total homes is less than maximum homes."
+    permission: "tbteleport.player.home"
+  setshop:
+    description: "Sets the location for the shop command."
+    permission: "tbteleport.staff.configureinterfaces"
+  setttelecooldown:
+    description: "Configures the global locked in place delay for teleports where players have teleport safety active."
+    permission: "tbteleport.staff.configureinterfaces"
+  setvanillaworldspawn:
+    description: "Changes the vanilla spawn location."
+    permission: "tbteleport.admin"
+  setwarp:
+    description: "Creates a new warp location with the name given as the first argument."
+    permission: "tbteleport.staff.configureinterfaces"
+  setworldspawn:
+    description: "Sets the location for the spawn command,"
+    permission: "tbteleport.admin"
+  shop:
+    description: "Teleports a player to the stored shop location."
+    permission: "tbteleport.player.shop"
+  showmaxhomes:
+    description: "Returns the PEX permission value for a players maximum total homes."
+    permission: "tbteleport.staff.showmaxhomes"
+  spawn:
+    description: "Teleports the player to the worlds spawn location."
+    permission: "tbteleport.player.spawn"
+  toggletpsafety:
+    description: "Toggles the config value for the teleport safety."
+    permission: "tbteleport.player.toggletpsafety"
+  top:
+    description: "Teleports player to the highest block at their current x y coordinates if it is safe to do so."
+    permission: "tbteleport.vipplus.top"
   tp:
-    description: 'Multiple force teleport commands'
-    usage: ''
-    permission: tbteleport.staff.tp
-#  setwarp:
-#    description: 'Allows a player to create a warp point'
-#    usage: <command> <warp name> <(Optional) permission>
-#    permission: tbteleport.admin.warps.setwarp
-#  sendspawn:
-#    description: 'Allows a player to send other players to spawn'
-#    usage: <command>
-#    permission: tbteleport.staff.sendspawn
-#  nameit:
-#    description: 'Sets display name of item in main hand (Accepts colour codes with &) '
-#    usage: <command> <new name>
-#    permission: tbteleport.vip.nameit
-#  setworldspawn:
-#    description: 'Allows a player to set a worlds spawn location'
-#    usage: <command>
-#    permission: tbteleport.admin
-#  ttelereload:
-#    description: 'Allows a player to reload the config'
-#    usage: <command>
-#    permission: tbteleport.admin
-#  tteleversion:
-#    description: 'Allows a player to Check the plugin version'
-#    usage: <command>
-#    permission: tbteleport.admin
-#  gws:
-#    description: 'returns current world spawn coordinates'
-#    usage: <command>
-#    permission: tbteleport.admin
-#  sws:
-#    description: 'Sets world spawn to current location and bearing'
-#    usage: <command>
-#    permission: tbteleport.admin
-#  ttelesaveconfig:
-#    description: 'Debug command to write current config back to config.yml file'
-#    usage: <command>
-#    permission: tbteleport.admin
-#  tptoggle:
-#    description: 'Toggles receiving teleport requests'
-#    usage: <command>
-#    permission: tbteleport.player.tptoggle
-#  showmaxhomes:
-#    description: 'Shows how many homes a player is entitled to'
-#    usage: <command> <player>
-#    permission: tbteleport.setmaxhomes
-#  shop:
-#    description: 'Sends player to shop for their current world'
-#    usage: <command>
-#    permission: tbteleport.player.shop
-#  setshop:
-#    description: 'Allows a player to set world shop tp their current location'
-#    usage: <command>
-#    permission: tbteleport.admin.setshop
-#  setttelecooldown:
-#    usage: <command> <true|op|integer>
-#    permission: tbteleport.admin.cooldowns
-#  fixskygridhomes:
-#    usage: <command>
-#    permission: tbteleport.admin
-#  restoreplayerinventory:
-#    usage: <command>
-#    permission: tbteleport.admin.restoreinventory
-#  toggledeathdocket:
-#    usage: <command>
-  #Disabled
-  #tp2player:
-  #  description: 'Force Teleports Yourself to Player'
-  #  usage: <command> <player>
-  #  permission: tbteleport.tp2player
-  #  permission-message: 'You lack the required permissions'
-  #tp2me:
-  #  description: 'Force Teleports player to yourself'
-  #  usage: <command> <player>
-  #  permission: tbteleport.tp2me
-  #  permission-message: 'You lack the required permissions'
-  #tp2pos:
-  #  description: 'Teleports command sender to x,z or x,y,z or x z, or x y z'
-  #  usage: <command> <x> <y> <z>
-  #  permission: tbteleport.tp2pos
-  #  permission-message: 'You lack the required permissions'
-  #tp2worldat:
-  #  description: 'Teleports player to world at position'
-  #  usage: <command> <world> <x> <y> <z>
-  #  permission: tbteleport.tp2worldat
-  #  permission-message: 'You lack the required permissions'
-  #mergeessdata:
-  #  description: ''
-  #  usage: <command>
-  #  permission: tbteleport.mergeess
-  #fixtthomes:
-  #  description: ''
-  #  usage: <command>
-  #  permission: tbteleport.mergeess
-
-
+    description: "Teleports to a player, or one player to another player. In the event of player to player, both players are informed of the user who invoked the command."
+    permission: "tbteleport.staff.tp"
+  tp2mepls:
+    description: "Sends a request for a player to teleport to the user."
+    permission: "tbteleport.player.tpa"
+  tpa:
+    description: "Sends a request to teleport to a player."
+    permission: "tbteleport.player.tpa"
+  tpahere:
+    description: "Sends a request for a player to teleport to the user."
+    permission: "tbteleport.player.tpa"
+  tpask:
+    description: "Sends a request to teleport to a player."
+    permission: "tbteleport.player.tpa"
+  tpdeny:
+    description: "Denys a teleport request."
+    permission: "tbteleport.player.tpa"
+  tpno:
+    description: "Denys a teleport reques"
+    permission: "tbteleport.player.tpa"
+  tpok:
+    description: "Accepts a teleport request"
+    permission: "tbteleport.player.tpa"
+  tptoggle:
+    description: "Toggles the visibility of incoming teleport requests."
+    permission: "tbteleport.player.tpa"
+  tpyes:
+    description: "Accepts a teleport request."
+    permission: "tbteleport.player.tpa"
+  ttelereload:
+    description: "Reloads the config file for this plugin without saving."
+    permission: "tbteleport.admin"
+  ttelesaveconfig:
+    description: "Forces a save on current state of the config for this plugin."
+    permission: "tbteleport.admin"
+  version:
+    description: "Returns the version number of this plugin."
+    permission: "tbteleport.staff.version"
+  warp:
+    description: "Teleports player to the location of the warp named in the first argument."
+    permission: "tbteleport.player.warp"
+  warps:
+    description: "Opens the warps GUI"
+    permission: "tbteleport.player.warp"
+  wild:
+    description: "Teleports player to a random location within limits defined in the config."
+    permission: "tbteleport.player.wild"
 
 #Permissions
 permissions:

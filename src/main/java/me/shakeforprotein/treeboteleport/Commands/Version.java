@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 
-public class Version {
+public class Version implements CommandExecutor{
 
     private TreeboTeleport pl;
 
@@ -35,6 +35,13 @@ public class Version {
             };
             pl.registerNewCommand(pl.getDescription().getName(), item2);
         }
+        return true;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        sender.sendMessage(pl.badge + "Version - " + pl.getDescription().getVersion());
+
         return true;
     }
 }

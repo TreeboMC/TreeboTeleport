@@ -104,10 +104,63 @@ public class SetWorldSpawn implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!pl.getConfig().getBoolean("disabledCommands.setworldspawn")) {
+        File spawnsYml = new File(pl.getDataFolder(), "spawns.yml");
+        if (!spawnsYml.exists()) {
+            sender.sendMessage("Spawns file not found");
+            try {
+                spawnsYml.createNewFile();
+                FileConfiguration spawns = YamlConfiguration.loadConfiguration(spawnsYml);
+                try {
+                    spawns.options().copyDefaults();
+                    spawns.save(spawnsYml);
+                } catch (FileNotFoundException ex) {
+                    pl.roots.errorLogger.logError(pl, ex);
+                }
+            } catch (IOException ex) {
+                pl.roots.errorLogger.logError(pl, ex);
+                sender.sendMessage(pl.badge + ChatColor.RED + "ERROR:" + ChatColor.RESET + "Creating Spawns file failed");
+            }
+        }
+        FileConfiguration spawns = YamlConfiguration.loadConfiguration(spawnsYml);
+        Player p = (Player) sender;
+        Location loc = p.getLocation();
+        String world = loc.getWorld().getName();
+        double x = loc.getX();
+        double y = loc.getY();
+        double z = loc.getZ();
+        float pitch = loc.getPitch();
+        float yaw = loc.getYaw();
+        if (args.length < 2) {
+            String name = world;
+            spawns.set("spawns." + name + ".name", name);
+            spawns.set("spawns." + name + ".world", world);
+            spawns.set("spawns." + name + ".x", x);
+            spawns.set("spawns." + name + ".y", y);
+            spawns.set("spawns." + name + ".z", z);
+            spawns.set("spawns." + name + ".pitch", pitch);
+            spawns.set("spawns." + name + ".yaw", yaw);
+            sender.sendMessage(pl.badge + "Spawn location set");
+            if (args.length == 1 && args[0].equalsIgnoreCase("true")) {
+                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".world", world);
+                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".x", x);
+                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".y", y);
+                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".z", z);
+                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".pitch", pitch);
+                pl.getConfig().set("onJoinSpawn." + p.getWorld().getName() + ".yaw", yaw);
+                sender.sendMessage(pl.badge + "Enabled on join spawn for this world");
+            }
+            pl.saveConfig();
 
-        } else {
-            sender.sendMessage(pl.err + "The command /" + cmd + " has been disabled on this server");
+
+            try {
+                spawns.save(spawnsYml);
+                p.sendMessage(pl.badge + "World spawn saved for world: " + ChatColor.YELLOW + "[" + ChatColor.GOLD + name + ChatColor.YELLOW + "]");
+            } catch (IOException ex) {
+                pl.roots.errorLogger.logError(pl, ex);
+                p.sendMessage(pl.err + "Saving spawns file Unsuccessful");
+            }
+        } else if (args.length > 1) {
+            p.sendMessage(pl.err + "Too many arguments");
         }
 
         return true;

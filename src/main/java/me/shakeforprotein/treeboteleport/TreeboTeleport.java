@@ -24,7 +24,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.nio.file.Files;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -205,14 +204,22 @@ public final class TreeboTeleport extends JavaPlugin {
     }
 
     public void registerNewCommand(String fallback, BukkitCommand command) {
-        try {
+        /*try {
+
             Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             bukkitCommandMap.setAccessible(true);
             CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
+
+            if(commandMap.getCommand(command.getName()) != null){
+                System.out.println("Command: " + command.getName() + " - has already been registered by " + Bukkit.getPluginCommand(command.getName()).getPlugin().getDescription().getName());
+                Bukkit.broadcastMessage("Command: " + command.getName() + " - has already been registered by " + Bukkit.getPluginCommand(command.getName()).getPlugin().getDescription().getName());
+            }
             commandMap.register(fallback, command);
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e) {
             e.printStackTrace();
         }
+
+         */
     }
 
     public void saveFileConfigurationToFile(File file, FileConfiguration conf, CommandSender s) {
@@ -350,67 +357,115 @@ public final class TreeboTeleport extends JavaPlugin {
 
     @SuppressWarnings("ConstantConditions")
     private void registerCommands(){
-        addMaxHomes.register("AddMaxHomes");
-        bed.register("Bed");
-        clearMyChat.register("ClearMyChat");
-        configureHomes.register("ConfigureHomes");
-        configureHubMenu.register("ConfigureHubMenu");
-        configureWarps.register("ConfigureWarps");
-        deleteHome.register("DeleteHome");
-        deleteHome.register("DelHome");
-        deleteWarp.register("DeleteWarp");
-        deleteWarp.register("DelWarp");
-        disableTpSafety.register("DisableTpSafety");
-        disableTpSafety.register("ToggleTpSafety");
-        getWorldSpawn.register("gws");
-        getWorldSpawn.register("GetWorldSpawn");
-        hub.register("Hub");
-        nameIt.register("NameIt");
-        reload.register("ttelereload");
-        restorePlayerInventory.register("RestorePlayerInventory");
-        saveConfig.register("ttelesaveconfig");
-        sendSpawn.register("SendSpawn");
-        setShop.register("SetShop");
-        setTTeleCooldown.register("SetTTeleCoolDown");
-        setVanillaWorldSpawn.register("SetVanillaWorldSpawn");
-        setWarp.register("SetWarp");
-        setWorldSpawn.register("SetWorldSpawn");
-        shop.register("Shop");
-        showMaxHomes.register("ShowMaxHomes");
-        spawn.register("Spawn");
-        //toggleDeathDocket.register("ToggleDeathDocket");
-            getCommand("tp").setExecutor(tp);
-            getCommand("tp").setTabCompleter(new TabCompleterTp());
-            if (getConfig().getBoolean("disabledCommands.tp")) {
-                unRegisterBukkitCommand(getCommand("tp"));
-            }
+        try {
+            /*addMaxHomes.register("AddMaxHomes");
+            configureHubMenu.register("ConfigureHubMenu");
+            configureHomes.register("ConfigureHomes");
+            bed.register("Bed");
+            clearMyChat.register("ClearMyChat");
+            configureWarps.register("ConfigureWarps");
+            deleteHome.register("DeleteHome");
+            deleteHome.register("DelHome");
+            deleteWarp.register("DeleteWarp");
+            deleteWarp.register("DelWarp");
+            //disableTpSafety.register("DisableTpSafety");
+            disableTpSafety.register("ToggleTpSafety");
+            getWorldSpawn.register("gws");
+            getWorldSpawn.register("GetWorldSpawn");
+            //hub.register("Hub");
+            //nameIt.register("NameIt");
+            reload.register("ttelereload");
+            restorePlayerInventory.register("RestorePlayerInventory");
+            saveConfig.register("ttelesaveconfig");
+            sendSpawn.register("SendSpawn");
+            setShop.register("SetShop");
+            setTTeleCooldown.register("SetTTeleCoolDown");
+            setWarp.register("SetWarp");
+            setWorldSpawn.register("SetWorldSpawn");
+            shop.register("Shop");
+            showMaxHomes.register("ShowMaxHomes");
+            spawn.register("Spawn");
+            tp2Me.register("tp2me");
+            tp2Me.register("tphere");
+            //disable these for hardcore
+            back.register("Back");
+            giveHubItem.register("GiveHubItem");
+            home.register("Home");
+            homes.register("Homes");
+            mayITp.register("MayITp");
+            mayITp.register("tpa");
+            mayITp.register("tpask");
+            setHome.register("SetHome");
+            tp2MePls.register("tp2mePls");
+            tp2MePls.register("tpahere");
+            tpNo.register("tpno");
+            tpNo.register("tpdeny");
+            tpOk.register("tpok");
+            tpOk.register("tpyes");
+            tpToggle.register("tptoggle");
+            version.register("tteleversion");
+            warpTo.register("warp");
+            warpTo.register("warps");
+            wild.register("wild");
+            jsaw.register("jsaw");
+            setVanillaWorldSpawn.register("SetVanillaWorldSpawn");
+            top.register("top");
+            //toggleDeathDocket.register("ToggleDeathDocket");
+            Bukkit.broadcastMessage("registering commands");*/
 
-        tp2Me.register("tp2me");
-        tp2Me.register("tphere");
-        //disable these for hardcore
-        back.register("Back");
-        giveHubItem.register("GiveHubItem");
-        home.register("Home");
-        homes.register("Homes");
-        mayITp.register("MayITp");
-        mayITp.register("tpa");
-        mayITp.register("tpask");
-        setHome.register("SetHome");
-        tp2MePls.register("tp2mePls");
-        tp2MePls.register("tpahere");
-        tpNo.register("tpno");
-        tpNo.register("tpdeny");
-        tpOk.register("tpok");
-        tpOk.register("tpyes");
-        tpToggle.register("tptoggle");
-        top.register("top");
-        //disable above for hardcore
-        version.register("tteleversion");
-        warpTo.register("warp");
-        warpTo.register("warps");
-        wild.register("wild");
-        jsaw.register("jsaw");
-        //tp2Player.register
+
+            this.getCommand("addmaxhomes").setExecutor(new AddMaxHomes(this));
+            this.getCommand("back").setExecutor(new Back(this));
+            this.getCommand("bed").setExecutor(new Bed(this));
+            this.getCommand("clearmychat").setExecutor(new ClearMyChat(this));
+            this.getCommand("configurehomes").setExecutor(new ConfigureHubMenu(this));
+            this.getCommand("configurehubmenu").setExecutor(new ConfigureHubMenu(this));
+            this.getCommand("configurewarps").setExecutor(new ConfigureWarps(this));
+            this.getCommand("deletehome").setExecutor(new DeleteHome(this));
+            this.getCommand("deletewarp").setExecutor(new DeleteWarp(this));
+            this.getCommand("delhome").setExecutor(new DeleteHome(this));
+            this.getCommand("delwarp").setExecutor(new DeleteWarp(this));
+            this.getCommand("getworldspawn").setExecutor(new GetWorldSpawn(this));
+            this.getCommand("givehubitem").setExecutor(new GiveHubItem(this));
+            this.getCommand("gws").setExecutor(new GetWorldSpawn(this));
+            this.getCommand("home").setExecutor(new Home(this));
+            this.getCommand("homes").setExecutor(new Homes(this));
+            this.getCommand("jsaw").setExecutor(new JoinServerAtWorld(this));
+            this.getCommand("restoreplayerinventory").setExecutor(new RestorePlayerInventory(this));
+            this.getCommand("sendspawn").setExecutor(new SendSpawn(this));
+            this.getCommand("sethome").setExecutor(new SetHome(this));
+            this.getCommand("setshop").setExecutor(new SetShop(this));
+            this.getCommand("setttelecooldown").setExecutor(new SetTTeleCooldown(this));
+            this.getCommand("setvanillaworldspawn").setExecutor(new SetVanillaWorldSpawn(this));
+            this.getCommand("setwarp").setExecutor(new SetWarp(this));
+            this.getCommand("setworldspawn").setExecutor(new SetWorldSpawn(this));
+            this.getCommand("shop").setExecutor(new Shop(this));
+            this.getCommand("showmaxhomes").setExecutor(new ShowMaxHomes(this));
+            this.getCommand("spawn").setExecutor(new Spawn(this));
+            this.getCommand("toggletpsafety").setExecutor(new DisableTpSafety(this));
+            this.getCommand("top").setExecutor(new Top(this));
+            this.getCommand("tp").setExecutor(tp);
+            this.getCommand("tp").setTabCompleter(new TabCompleterTp());
+            this.getCommand("tp2mepls").setExecutor(new Tp2MePls(this));
+            this.getCommand("tpa").setExecutor(new MayITp(this));
+            this.getCommand("tpahere").setExecutor(new Tp2MePls(this));
+            this.getCommand("tpask").setExecutor(new MayITp(this));
+            this.getCommand("tpdeny").setExecutor(new TpNo(this));
+            this.getCommand("tpno").setExecutor(new TpNo(this));
+            this.getCommand("tpok").setExecutor(new TpOk(this));
+            this.getCommand("tptoggle").setExecutor(new TpToggle(this));
+            this.getCommand("tpyes").setExecutor(new TpOk(this));
+            this.getCommand("ttelereload").setExecutor(new Reload(this));
+            this.getCommand("ttelesaveconfig").setExecutor(new SaveConfig(this));
+            this.getCommand("version").setExecutor(new Version(this));
+            this.getCommand("warp").setExecutor(new WarpTo(this));
+            this.getCommand("warps").setExecutor(new WarpTo(this));
+            this.getCommand("wild").setExecutor(new Wild2(this));
+            Bukkit.broadcastMessage("done registering commands");
+        } catch (NullPointerException ex){
+
+            Bukkit.broadcastMessage(ex.getLocalizedMessage());
+        }
     }
 
     private void registerEventHandlers(){

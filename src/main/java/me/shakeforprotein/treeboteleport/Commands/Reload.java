@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class Reload {
+public class Reload implements CommandExecutor{
 
     private TreeboTeleport pl;
 
@@ -35,6 +35,13 @@ public class Reload {
             };
             pl.registerNewCommand(pl.getDescription().getName(), item2);
         }
+        return true;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        pl.reloadConfig();
+        sender.sendMessage(pl.badge + "Config Reloaded");
         return true;
     }
 }

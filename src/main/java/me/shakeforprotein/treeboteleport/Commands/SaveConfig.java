@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 
-public class SaveConfig {
+public class SaveConfig implements CommandExecutor{
 
     private TreeboTeleport pl;
 
@@ -35,6 +35,14 @@ public class SaveConfig {
             };
             pl.registerNewCommand(pl.getDescription().getName(), item2);
         }
+        return true;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+        pl.saveConfig();
+        sender.sendMessage(pl.badge + "Saved Config");
         return true;
     }
 }

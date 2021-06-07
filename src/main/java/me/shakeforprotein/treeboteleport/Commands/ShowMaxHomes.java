@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class ShowMaxHomes {
+public class ShowMaxHomes implements CommandExecutor{
 
     private TreeboTeleport pl;
 
@@ -58,5 +58,17 @@ public class ShowMaxHomes {
             }
         }
         return maxHomes;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (args.length != 1) {
+            sender.sendMessage(pl.err + "Incorrect usage. Correct usage is /showmaxhomes <player name>");
+        } else {
+            Player p = Bukkit.getOfflinePlayer(args[0]).getPlayer();
+            int currentMaxHomes = getHomes(p);
+            sender.sendMessage("Player: " + p + " has a maximum of " + currentMaxHomes + "Homes");
+        }
+        return true;
     }
 }

@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class SetVanillaWorldSpawn {
+public class SetVanillaWorldSpawn implements CommandExecutor{
 
     private TreeboTeleport pl;
 
@@ -46,4 +46,16 @@ public class SetVanillaWorldSpawn {
         return true;
     }
 
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player) {
+            World w = ((Player) sender).getWorld();
+            sender.sendMessage(pl.badge + "Current Vanilla World Spawn: " + w.getSpawnLocation().toString());
+            Location pLoc = ((Player) sender).getLocation();
+            w.setSpawnLocation(pLoc);
+            sender.sendMessage(pl.badge + "Set Vanilla World Spawn to: " + w.getSpawnLocation().toString());
+        }
+        return true;
+    }
 }
