@@ -26,7 +26,7 @@ public class HelpBook {
         pages.addAll(createOtherPages());
         pl.roots.helpHandler.registerHelpBook("TreeboTeleport", "TreeboMC", pages);
 
-        pl.roots.commandsGui.registerPlugin(pl, "openHelpBook-TreeboTeleport", new ItemStack(Material.WRITTEN_BOOK, 1), ChatColor.translateAlternateColorCodes('&', "Treebo Teleport Help"), getLoreList());
+        pl.roots.commandsGui.registerPlugin(pl, "openHelpBook-TreeboTeleport", new ItemStack(Material.ENDER_EYE, 1), ChatColor.translateAlternateColorCodes('&', "Treebo Teleport Help"), getLoreList());
     }
 
     private BaseComponent[] createTitlePage(String title){

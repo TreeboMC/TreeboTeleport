@@ -98,7 +98,7 @@ public final class TreeboTeleport extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        Semver requiredTreeboRootsVersion = new Semver("0.0.0");
+        Semver requiredTreeboRootsVersion = new Semver("0.0.7");
         if (this.getServer().getPluginManager().getPlugin("TreeboRoots") != null && new Semver(this.getServer().getPluginManager().getPlugin("TreeboRoots").getDescription().getVersion()).isGreaterThanOrEqualTo(requiredTreeboRootsVersion)) {
             roots = ((TreeboRoots) this.getServer().getPluginManager().getPlugin("TreeboRoots")).getInstance();
             this.setPlayerDataFolder(new File(roots.getDataFolder() + File.separator + "PlayerData"));
@@ -146,7 +146,7 @@ public final class TreeboTeleport extends JavaPlugin {
             registerServerShortcutCommands();
 
             Bukkit.getScheduler().runTaskLater(this, () -> {
-                roots.updateHandler.registerPlugin(instance, "TreeboMC", "TreeboTeleport");
+                roots.updateHandler.registerPlugin(instance, "TreeboMC", "TreeboTeleport", Material.ENDER_EYE);
                 roots.getInstance().updateHandler.registerPlugin(instance, "TreeboMC", "TreeboTeleport");
                 new HelpBook(instance);
                 recoverOldFormatHomes();
