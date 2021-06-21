@@ -42,7 +42,7 @@ public class RespawnListener implements Listener {
             String key3 = key1 + "-" + key2;
 
             //File deathFile = new File(pl.getDataFolder() + File.separator + "deaths", File.separator + e.getEntity().getUniqueId().toString() + "_" + key3 + ".yml");
-            File deathFile = new File(pl.getPlayerDataFolder() + e.getEntity().getUniqueId().toString() +File.separator + "deaths", File.separator + e.getEntity().getUniqueId().toString() + "_" + key3 + ".yml");
+            File deathFile = new File(pl.getPlayerDataFolder() + File.separator + e.getEntity().getUniqueId().toString() +File.separator + "deaths", File.separator + e.getEntity().getUniqueId().toString() + "_" + key3 + ".yml");
             FileConfiguration deathYaml = YamlConfiguration.loadConfiguration(deathFile);
 
 

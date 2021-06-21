@@ -109,6 +109,8 @@ public class WarpTo implements CommandExecutor{
         File warpsYml = new File(pl.getDataFolder(), "warps.yml");
         if (!warpsYml.exists()) {
             System.out.println(pl.err + "Warps data not found. Attempting to recover");
+            sender.sendMessage(pl.badge + "No warps are available on this server.");
+
             try {
                 warpsYml.createNewFile();
                 FileConfiguration warps = YamlConfiguration.loadConfiguration(warpsYml);
@@ -122,6 +124,7 @@ public class WarpTo implements CommandExecutor{
                 pl.roots.errorLogger.logError(pl, ex);
                 System.out.println(pl.err + "Creating warps file failed");
             }
+            return true;
         }
         FileConfiguration warps = YamlConfiguration.loadConfiguration(warpsYml);
 

@@ -3,6 +3,7 @@ package me.shakeforprotein.treeboteleport;
 import com.vdurmont.semver4j.Semver;
 import io.github.leonardosnt.bungeechannelapi.BungeeChannelApi;
 import me.shakeforprotein.treeboroots.*;
+import me.shakeforprotein.treeboroots.TreeboRoots;
 import me.shakeforprotein.treeboteleport.Bungee.BungeeRecieve;
 import me.shakeforprotein.treeboteleport.Bungee.BungeeSend;
 import me.shakeforprotein.treeboteleport.Commands.*;
@@ -428,6 +429,7 @@ public final class TreeboTeleport extends JavaPlugin {
             this.getCommand("getworldspawn").setExecutor(new GetWorldSpawn(this));
             this.getCommand("givehubitem").setExecutor(new GiveHubItem(this));
             this.getCommand("gws").setExecutor(new GetWorldSpawn(this));
+            this.getCommand("hub").setExecutor(new Hub(this));
             this.getCommand("home").setExecutor(new Home(this));
             this.getCommand("homes").setExecutor(new Homes(this));
             this.getCommand("jsaw").setExecutor(new JoinServerAtWorld(this));
@@ -461,7 +463,6 @@ public final class TreeboTeleport extends JavaPlugin {
             this.getCommand("warp").setExecutor(new WarpTo(this));
             this.getCommand("warps").setExecutor(new WarpTo(this));
             this.getCommand("wild").setExecutor(new Wild2(this));
-            Bukkit.broadcastMessage("done registering commands");
         } catch (NullPointerException ex){
 
             Bukkit.broadcastMessage(ex.getLocalizedMessage());
