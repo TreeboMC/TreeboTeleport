@@ -205,8 +205,7 @@ public final class TreeboTeleport extends JavaPlugin {
     }
 
     public void registerNewCommand(String fallback, BukkitCommand command) {
-        /*try {
-
+        try {
             Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             bukkitCommandMap.setAccessible(true);
             CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
@@ -220,7 +219,7 @@ public final class TreeboTeleport extends JavaPlugin {
             e.printStackTrace();
         }
 
-         */
+
     }
 
     public void saveFileConfigurationToFile(File file, FileConfiguration conf, CommandSender s) {

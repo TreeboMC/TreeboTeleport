@@ -54,6 +54,9 @@ commands:
   homes:
     description: "Opens the homes GUI."
     permission: "tbteleport.player.home"
+  hub:
+    description: "Opens the Hub GUI"
+    permission: "tbteleport.player.hub"
   jsaw:
     description: "Corrupts your player data."
     permission: "tbteleport.player.jsaw"
