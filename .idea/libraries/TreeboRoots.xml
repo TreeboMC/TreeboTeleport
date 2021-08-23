@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="TreeboRoots">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../TreeboRoots" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../TreeboRoots/src/main/java" />
+    </SOURCES>
+  </library>
+</component>
