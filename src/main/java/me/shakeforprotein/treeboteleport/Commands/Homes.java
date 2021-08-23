@@ -268,7 +268,7 @@ public class Homes implements CommandExecutor {
 
         if (args.length == 1 && staff) {
             //homesYml = new File(pl.getDataFolder() + File.separator + "homes", File.separator + (Bukkit.getOfflinePlayer(args[0])).getUniqueId().toString() + ".yml");
-            homesYml = new File(pl.getDataFolder() + File.separator + Bukkit.getOfflinePlayer(args[0]).getUniqueId().toString(), File.separator + "homes.yml");
+            homesYml = new File(pl.getPlayerDataFolder() + File.separator + Bukkit.getOfflinePlayer(args[0]).getUniqueId().toString(), File.separator + "homes.yml");
             owner = args[0].toLowerCase();
         }
 
