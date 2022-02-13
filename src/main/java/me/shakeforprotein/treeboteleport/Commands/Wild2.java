@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,6 +25,7 @@ public class Wild2 implements CommandExecutor {
     private Random random = new Random();
     private int Y = 0;
     private int limit = 10;
+    private List<Player> cooldownList = new ArrayList<>();
 
 
     public Wild2(TreeboTeleport main) {
@@ -49,10 +51,18 @@ public class Wild2 implements CommandExecutor {
                         maxZ = (pl.getConfig().getString("wild.maxZ") != null) ? pl.getConfig().getInt("wild.maxZ") : 50000;
 
 
+
                         if (sender instanceof Player) {
                             Player player = (Player) sender;
                             if (player.getWorld().getName().toLowerCase().contains("grid")) {
                                 limit = 10;
+                                if(!cooldownList.contains(player) && !player.hasPermission("treebo.staff")){
+                                    cooldownList.add(player);
+                                    Bukkit.getScheduler().runTaskLater(pl, ()->{}, 600L);
+                                } else if(cooldownList.contains(player)){
+                                    player.sendMessage(pl.badge + " Sorry, as Skygrid is very server intensive a 30 Second cooldown has been added to the /wild command.");
+                                    return true;
+                                }
                             }
                             if (args.length == 0) {
                                 doWild(player);
@@ -111,6 +121,7 @@ public class Wild2 implements CommandExecutor {
 
 
         Chunk chunk = w.getBlockAt(randX, 120, randZ).getChunk();
+
         String sending = "Was unable to find a safe block.";
         boolean teleported = false;
         for (int c = 150; c > 50; c--) {
@@ -130,6 +141,8 @@ public class Wild2 implements CommandExecutor {
                             targetPlayer.setFallDistance(0);
                             sending = "Safe block located at " + block.getX() + " " + block.getY() + " " + block.getZ();
                             break;
+                        } else {
+                            cooldownList.remove(targetPlayer);
                         }
                     }
                 }
@@ -407,7 +420,7 @@ public class Wild2 implements CommandExecutor {
                 doStaffWild(player, args[0]);
             }
         }
-
+//remove this line
         return true;
     }
 }
