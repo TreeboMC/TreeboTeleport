@@ -420,7 +420,7 @@ public class Wild2 implements CommandExecutor {
                 doStaffWild(player, args[0]);
             }
         }
-
+//remove this line
         return true;
     }
 }

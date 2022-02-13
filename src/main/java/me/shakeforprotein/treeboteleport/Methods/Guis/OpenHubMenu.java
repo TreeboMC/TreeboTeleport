@@ -24,7 +24,7 @@ public class OpenHubMenu {
 
     private TreeboTeleport pl;
     private BungeeRecieve bungeeRecieve;
-
+//remove this line
     public OpenHubMenu(TreeboTeleport main){
         this.pl = main;
         this.bungeeRecieve = new BungeeRecieve(pl);

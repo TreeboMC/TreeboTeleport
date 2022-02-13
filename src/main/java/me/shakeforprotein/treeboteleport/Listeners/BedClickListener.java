@@ -52,6 +52,7 @@ public class BedClickListener implements Listener {
                 catch (IOException err){
                     p.sendMessage(pl.err + "Failed to save home");
                 }
+                //remove this line
             }
         }
     }
