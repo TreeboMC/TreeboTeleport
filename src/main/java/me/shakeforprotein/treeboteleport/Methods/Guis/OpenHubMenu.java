@@ -75,7 +75,7 @@ public class OpenHubMenu {
 
                 if(hubMenu.getConfigurationSection("hubmenu.menuItems." + item + ".lore") != null){
                     for(String newLore: hubMenu.getConfigurationSection("hubmenu.menuItems." + item + ".lore").getKeys(false)){
-                        itemLore.add(hubMenu.getString("hubmenu.menuItems." + item + ".lore." + newLore));
+                        itemLore.add(ChatColor.translateAlternateColorCodes('&', hubMenu.getString("hubmenu.menuItems." + item + ".lore." + newLore)));
                     }
                 }
 
