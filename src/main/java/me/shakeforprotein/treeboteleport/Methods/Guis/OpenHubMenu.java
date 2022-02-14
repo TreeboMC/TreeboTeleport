@@ -62,11 +62,14 @@ public class OpenHubMenu {
             for(String item : menuItemStrings){
                 Material icon = Material.getMaterial(hubMenu.getString("hubmenu.menuItems." + item + ".icon"));
                 int position = hubMenu.getInt("hubmenu.menuItems." + item + ".position");
-                String colour = "WHITE";
-                if(hubMenu.getString("hubmenu.menuItems." + item + ".colour") != null){
+                String colour = "";
+                String displayName = "";
+                if(hubMenu.getString("hubmenu.menuItems." + item + ".colour") != null || hubMenu.getString("hubmenu.menuItems." + item + ".colour") == ""){
                     colour = hubMenu.getString("hubmenu.menuItems." + item + ".colour");
+                    displayName = ChatColor.valueOf(colour)+ hubMenu.getString("hubmenu.menuItems." + item + ".label");
+                } else {
+                    displayName = ChatColor.translateAlternateColorCodes('&',  hubMenu.getString("hubmenu.menuItems." + item + ".label"));
                 }
-                String displayName = ChatColor.valueOf(colour)+ hubMenu.getString("hubmenu.menuItems." + item + ".label");
                 ItemStack newItem = new ItemStack(icon, 1);
                 ItemMeta itemMeta = newItem.getItemMeta();
                 itemMeta.setDisplayName(displayName);
